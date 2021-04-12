@@ -14,6 +14,6 @@ public interface ITicketBookingService {
 
 	public List<TicketBooking> viewAllTicketsOfCustomer(int customerId);
 
-	public TicketBooking calculateBill(int customerId);
+	public float calculateBill(int customerId);
 
 }

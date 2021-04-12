@@ -50,12 +50,12 @@ public class TicketBookingService implements ITicketBookingService {
 
 	@Override
 	public List<TicketBooking> viewAllTicketsOfCustomer(int customerId) {
-		return null;
+		return ticketBookingRepository.viewAllTicketsOfCustomer(customerId);
 	}
 
 	@Override
-	public TicketBooking calculateBill(int customerId) {
-		return null;
+	public float calculateBill(int customerId) {
+		return 0.0f;
 	}
 
 }

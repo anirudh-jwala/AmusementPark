@@ -11,6 +11,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Positive;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "activity")
 public class Activity {
@@ -30,6 +32,7 @@ public class Activity {
 	@Positive(message = "Activity charges should be greater than 0")
 	private float charges;
 
+	@JsonBackReference
 	@ManyToMany(mappedBy = "activities")
 	private List<TicketBooking> ticketBooking;
 

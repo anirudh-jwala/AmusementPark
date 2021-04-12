@@ -13,6 +13,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "customer")
 public class Customer {
@@ -44,6 +46,7 @@ public class Customer {
 	@Column(name = "mobile_number")
 	private String mobileNumber;
 
+	@JsonManagedReference
 	@OneToMany(mappedBy = "customer", targetEntity = TicketBooking.class)
 	private List<TicketBooking> tickets;
 

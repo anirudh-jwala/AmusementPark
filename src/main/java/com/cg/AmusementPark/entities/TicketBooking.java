@@ -16,6 +16,9 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "ticket_booking")
 public class TicketBooking {
@@ -33,10 +36,12 @@ public class TicketBooking {
 	@Column(name = "bill_amount")
 	private float bill;
 
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
+	@JsonManagedReference
 	@ManyToMany
 	private List<Activity> activities;
 
