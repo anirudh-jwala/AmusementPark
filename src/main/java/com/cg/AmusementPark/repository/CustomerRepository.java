@@ -5,14 +5,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cg.AmusementPark.entities.Customer;
+import com.cg.AmusementPark.exception.CustomerNotFoundException;
 
 @Repository
 public interface CustomerRepository extends ICustomerRepository, JpaRepository<Customer, Integer> {
 
 	@Query("SELECT c FROM Customer c WHERE c.customerId = ?1")
-	public Customer viewCustomer(int customerId);
+	public Customer viewCustomer(int customerId) throws CustomerNotFoundException;
 
-	@Query("SELECT c FROM Customer c WHERE c.username = ?1 AND c.password = ?2")
-	public Customer validateCustomer(String username, String password);
+	@Query("SELECT c FROM Customer c WHERE c.email = ?1 AND c.password = ?2")
+	public Customer validateCustomer(String email, String password) throws CustomerNotFoundException;
 
 }

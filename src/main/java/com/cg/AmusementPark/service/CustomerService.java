@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.AmusementPark.entities.Customer;
+import com.cg.AmusementPark.exception.CustomerNotFoundException;
 import com.cg.AmusementPark.repository.CustomerRepository;
 
 @Service
@@ -23,9 +24,6 @@ public class CustomerService implements ICustomerService {
 		return customerRepository.save(customer);
 	}
 
-	/**
-	 * TODO: Add CustomerNotFoundException
-	 */
 	@Override
 	public Customer updateCustomer(Customer customer) {
 
@@ -39,9 +37,6 @@ public class CustomerService implements ICustomerService {
 
 	}
 
-	/**
-	 * TODO: Add CustomerNotFoundException
-	 */
 	@Override
 	public Customer deleteCustomer(int customerId) {
 
@@ -59,11 +54,16 @@ public class CustomerService implements ICustomerService {
 
 	@Override
 	public List<Customer> viewCustomers() {
-		return customerRepository.findAll();
+		List<Customer> customers = customerRepository.findAll();
+
+		if (customers.size() == 0)
+			return null;
+
+		return customers;
 	}
 
 	@Override
-	public Customer viewCustomer(int customerId) {
+	public Customer viewCustomer(int customerId) throws CustomerNotFoundException {
 
 		Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
 
@@ -76,8 +76,13 @@ public class CustomerService implements ICustomerService {
 	}
 
 	@Override
-	public Customer validateCustomer(String username, String password) {
-		return customerRepository.validateCustomer(username, password);
+	public Customer validateCustomer(String email, String password) throws CustomerNotFoundException {
+		Customer customer = customerRepository.validateCustomer(email, password);
+
+		if (customer != null)
+			return customer;
+
+		return null;
 	}
 
 }

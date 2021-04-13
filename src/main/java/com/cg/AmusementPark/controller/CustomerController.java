@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.AmusementPark.entities.Customer;
+import com.cg.AmusementPark.exception.CustomerNotFoundException;
 import com.cg.AmusementPark.service.CustomerService;
 
 @RestController
@@ -26,28 +27,73 @@ public class CustomerController {
 	}
 
 	@PutMapping(path = "/customer")
-	public Customer updateCustomer(@RequestBody Customer customer) {
-		return customerService.updateCustomer(customer);
+	public Customer updateCustomer(@RequestBody Customer customer) throws CustomerNotFoundException {
+
+		Customer customerToUpdate = customerService.updateCustomer(customer);
+
+		if (customerToUpdate == null) {
+			CustomerNotFoundException customerException = new CustomerNotFoundException(
+					"Customer you are trying to update is not found or invalid");
+			throw customerException;
+		}
+
+		return customerToUpdate;
 	}
 
 	@DeleteMapping(path = "/customer/{id}")
-	public Customer deleteCustomer(@PathVariable("id") int customerId) {
-		return customerService.deleteCustomer(customerId);
+	public Customer deleteCustomer(@PathVariable("id") int customerId) throws CustomerNotFoundException {
+
+		Customer customerToDelete = customerService.deleteCustomer(customerId);
+
+		if (customerToDelete == null) {
+			CustomerNotFoundException customerException = new CustomerNotFoundException(
+					"Customer you are trying to delete is not found or invalid");
+			throw customerException;
+		}
+
+		return customerToDelete;
 	}
 
 	@GetMapping(path = "/customer")
-	public List<Customer> viewCustomers() {
-		return customerService.viewCustomers();
+	public List<Customer> viewCustomers() throws CustomerNotFoundException {
+
+		List<Customer> customers = customerService.viewCustomers();
+
+		if (customers == null) {
+			CustomerNotFoundException customerException = new CustomerNotFoundException("No customers are available");
+			throw customerException;
+		}
+
+		return customers;
 	}
 
 	@GetMapping(path = "/customer/{id}")
-	public Customer viewCustomer(@PathVariable("id") int customerId) {
-		return customerService.viewCustomer(customerId);
+	public Customer viewCustomer(@PathVariable("id") int customerId) throws CustomerNotFoundException {
+
+		Customer customer = customerService.viewCustomer(customerId);
+
+		if (customer == null) {
+			CustomerNotFoundException customerException = new CustomerNotFoundException(
+					"No customer is available with provided ID");
+			throw customerException;
+		}
+
+		return customer;
+
 	}
 
 	@PostMapping(path = "/customer/auth")
-	public Customer validateCustomer(@RequestBody Customer customer) {
-		return customerService.validateCustomer(customer.getUsername(), customer.getPassword());
+	public Customer validateCustomer(@RequestBody Customer customer) throws CustomerNotFoundException {
+
+		Customer customerToValidate = customerService.validateCustomer(customer.getEmail(), customer.getPassword());
+
+		if (customerToValidate == null) {
+			CustomerNotFoundException customerException = new CustomerNotFoundException(
+					"Customer details mentioned are not valid");
+			throw customerException;
+		}
+
+		return customerToValidate;
 	}
 
 }
