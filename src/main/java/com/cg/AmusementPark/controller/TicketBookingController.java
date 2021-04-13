@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,19 +25,24 @@ public class TicketBookingController {
 		return ticketBookingService.insertTicketBooking(ticketBooking);
 	}
 
-	@PostMapping
+	@PutMapping(path = "/ticket")
 	public TicketBooking updateTicketBooking(TicketBooking ticketBooking) {
 		return ticketBookingService.updateTicketBooking(ticketBooking);
 	}
 
-	@DeleteMapping
+	@DeleteMapping(path = "/ticket")
 	public TicketBooking deleteTicketBooking(int ticketId) {
 		return ticketBookingService.deleteTicketBooking(ticketId);
 	}
 
-	@GetMapping
-	public List<TicketBooking> viewAllTicketsOfCustomer(int customerId) {
+	@GetMapping(path = "/ticket/{id}")
+	public List<TicketBooking> viewAllTicketsOfCustomer(@PathVariable("id") int customerId) {
 		return ticketBookingService.viewAllTicketsOfCustomer(customerId);
+	}
+
+	@GetMapping(path = "/ticket/bill/{id}")
+	public float calculateBill(@PathVariable("id") int customerId) {
+		return ticketBookingService.calculateBill(customerId);
 	}
 
 }

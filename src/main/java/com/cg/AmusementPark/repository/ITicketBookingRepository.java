@@ -8,6 +8,6 @@ public interface ITicketBookingRepository {
 
 	public List<TicketBooking> viewAllTicketsOfCustomer(int customerId);
 
-//	public float calculateBill(int customerId);
+	 public float calculateBill(int customerId);
 
 }

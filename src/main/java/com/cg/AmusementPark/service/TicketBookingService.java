@@ -55,7 +55,7 @@ public class TicketBookingService implements ITicketBookingService {
 
 	@Override
 	public float calculateBill(int customerId) {
-		return 0.0f;
+		return ticketBookingRepository.calculateBill(customerId);
 	}
 
 }
