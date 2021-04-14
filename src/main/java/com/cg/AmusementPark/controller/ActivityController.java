@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.AmusementPark.entities.Activity;
+import com.cg.AmusementPark.exception.ActivityExistsException;
 import com.cg.AmusementPark.exception.ActivityNotFoundException;
+import com.cg.AmusementPark.exception.CustomerExistsException;
 import com.cg.AmusementPark.exception.CustomerNotFoundException;
 import com.cg.AmusementPark.service.ActivityService;
 
@@ -23,7 +25,12 @@ public class ActivityController {
 	private ActivityService activityService;
 
 	@PostMapping(path = "/activity")
-	public Activity insertActivity(@RequestBody Activity activity) {
+	public Activity insertActivity(@RequestBody Activity activity) throws ActivityExistsException {
+		if(activityService.insertActivity(activity)==null)
+		{
+			ActivityExistsException activityException = new ActivityExistsException("you are trying to insert is already exists");
+			throw activityException; 
+		}
 		return activityService.insertActivity(activity);
 	}
 
@@ -51,13 +58,23 @@ public class ActivityController {
 	}
 
 	@GetMapping(path = "/activity/{amount}")
-	public List<Activity> viewActivitiesOfCharges(@PathVariable("amount") float charges) {
-		return activityService.viewActivitiesOfCharges(charges);
+	public List<Activity> viewActivitiesOfCharges(@PathVariable("amount") float charges) throws ActivityNotFoundException{
+		
+		List<Activity> activities= activityService.viewActivitiesOfCharges(charges);
+		if(activities.size()==0){
+			throw new ActivityNotFoundException("No Activity Found for this charges");
+		}
+		return activities;
 	}
 
 	@GetMapping(path = "/activity/count/{amount}")
-	public int countActivitiesOfCharges(@PathVariable("amount") float charges) {
-		return activityService.countActivitiesOfCharges(charges);
+	public int countActivitiesOfCharges(@PathVariable("amount") float charges) throws ActivityNotFoundException {
+		
+		int activityCount= activityService.countActivitiesOfCharges(charges);
+		if(activityCount==0){
+			throw new ActivityNotFoundException("No Activity is Found for this charges");
+		}
+		return activityCount;
 	}
 
 }

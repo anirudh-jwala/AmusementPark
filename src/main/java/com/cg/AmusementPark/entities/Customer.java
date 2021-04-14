@@ -41,6 +41,7 @@ public class Customer {
 	@Column(nullable = true)
 	private String address;
 
+	@Pattern(regexp = "^[0-9]+$", message = "Phone must be numeric")
 	@Column(name = "mobile_number")
 	private String mobileNumber;
 
