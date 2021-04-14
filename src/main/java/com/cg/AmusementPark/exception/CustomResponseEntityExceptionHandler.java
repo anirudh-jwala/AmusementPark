@@ -90,15 +90,5 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
 	}
 
-	@ExceptionHandler({ TicketBookingNotFoundException.class })
-	public final ResponseEntity<Object> handleTicketBookingNotFoundException(TicketBookingNotFoundException exception,
-			WebRequest req) {
-
-		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(),
-				"The Ticket Booking which you are trying to perform operation is not present in the database",
-				new Date());
-		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
-
-	}
 
 }
