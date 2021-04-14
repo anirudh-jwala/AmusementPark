@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.cg.AmusementPark.entities.Customer;
 import com.cg.AmusementPark.entities.TicketBooking;
+import com.cg.AmusementPark.repository.CustomerRepository;
 import com.cg.AmusementPark.repository.TicketBookingRepository;
 
 @Service
@@ -14,6 +16,9 @@ public class TicketBookingService implements ITicketBookingService {
 
 	@Autowired
 	private TicketBookingRepository ticketBookingRepository;
+
+	@Autowired
+	private CustomerRepository customerRepository;
 
 	@Override
 	public TicketBooking insertTicketBooking(TicketBooking ticketBooking) {
@@ -27,9 +32,9 @@ public class TicketBookingService implements ITicketBookingService {
 
 		if (searchedTicket.isPresent()) {
 			return ticketBookingRepository.save(ticketBooking);
-		} else {
-			return null;
 		}
+
+		return null;
 
 	}
 
@@ -42,20 +47,36 @@ public class TicketBookingService implements ITicketBookingService {
 			TicketBooking ticket = searchedTicket.get();
 			ticketBookingRepository.delete(ticket);
 			return ticket;
-		} else {
-			return null;
 		}
+
+		return null;
 
 	}
 
 	@Override
 	public List<TicketBooking> viewAllTicketsOfCustomer(int customerId) {
-		return ticketBookingRepository.viewAllTicketsOfCustomer(customerId);
+
+		Optional<Customer> customer = customerRepository.findById(customerId);
+
+		if (customer.isPresent()) {
+			return ticketBookingRepository.viewAllTicketsOfCustomer(customerId);
+		}
+
+		return null;
+
 	}
 
 	@Override
 	public float calculateBill(int customerId) {
-		return ticketBookingRepository.calculateBill(customerId);
+
+		Optional<Customer> customer = customerRepository.findById(customerId);
+
+		if (customer.isPresent()) {
+			return ticketBookingRepository.calculateBill(customerId);
+		}
+
+		return 0.0f;
+
 	}
 
 }

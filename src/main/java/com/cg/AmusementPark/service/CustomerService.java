@@ -19,9 +19,9 @@ public class CustomerService implements ICustomerService {
 	@Override
 	public Customer insertCustomer(Customer customer) {
 
-		Optional<Customer> searchedCustomer = customerRepository.findById(customer.getCustomerId());
+		Customer searchedCustomer = customerRepository.findByCustomerEmail(customer.getEmail());
 
-		if (searchedCustomer.isPresent()) {
+		if (searchedCustomer != null && customer.getEmail().equals(searchedCustomer.getEmail())) {
 			return null;
 		}
 
@@ -36,9 +36,9 @@ public class CustomerService implements ICustomerService {
 
 		if (searchedCustomer.isPresent()) {
 			return customerRepository.save(customer);
-		} else {
-			return null;
 		}
+
+		return null;
 
 	}
 
@@ -51,9 +51,9 @@ public class CustomerService implements ICustomerService {
 			Customer deleteCustomer = searchedCustomer.get();
 			customerRepository.delete(deleteCustomer);
 			return deleteCustomer;
-		} else {
-			return null;
 		}
+
+		return null;
 
 	}
 
@@ -76,9 +76,9 @@ public class CustomerService implements ICustomerService {
 
 		if (searchedCustomer.isPresent()) {
 			return customerRepository.viewCustomer(customerId);
-		} else {
-			return null;
 		}
+
+		return null;
 
 	}
 
