@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.AmusementPark.entities.Activity;
+import com.cg.AmusementPark.entities.Customer;
 import com.cg.AmusementPark.repository.ActivityRepository;
 
 @Service
@@ -20,6 +21,12 @@ public class ActivityService implements IActivityService {
 	 */
 	@Override
 	public Activity insertActivity(Activity activity) {
+		
+		Optional<Activity> searchedActivity = activityRepository.findById(activity.getActivityId());
+		
+		if (searchedActivity.isPresent()) {
+			return null;
+		}
 		return activityRepository.save(activity);
 	}
 

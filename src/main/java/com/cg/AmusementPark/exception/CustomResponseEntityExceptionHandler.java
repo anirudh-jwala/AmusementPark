@@ -27,8 +27,28 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 			WebRequest req) {
 
 		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(),
-				"The customer which you are trying to insert  is already present in the database", new Date());
-		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+				"The customer which you are trying to perform operation is already present in the database", new Date());
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.CONFLICT);
+
+	}
+	
+	@ExceptionHandler({ ActivityNotFoundException.class })
+	public final ResponseEntity<Object> handleActivityNotFoundException(ActivityNotFoundException exception,
+			WebRequest req) {
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(),
+				"The Activity which you are trying to perform operation is not present in the database", new Date());
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
+
+	}
+	
+	@ExceptionHandler({ ActivityExistsException.class })
+	public final ResponseEntity<Object> handleActivityExistsException(ActivityExistsException exception,
+			WebRequest req) {
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(),
+				"The Activity which you are trying to perform operation is already present in the database", new Date());
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.CONFLICT);
 
 	}
 
