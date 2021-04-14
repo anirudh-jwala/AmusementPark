@@ -10,6 +10,9 @@ import com.cg.AmusementPark.exception.CustomerNotFoundException;
 @Repository
 public interface CustomerRepository extends ICustomerRepository, JpaRepository<Customer, Integer> {
 
+	@Query("SELECT c FROM Customer c WHERE c.email = ?1")
+	public Customer findByCustomerEmail(String email);
+
 	@Query("SELECT c FROM Customer c WHERE c.customerId = ?1")
 	public Customer viewCustomer(int customerId) throws CustomerNotFoundException;
 

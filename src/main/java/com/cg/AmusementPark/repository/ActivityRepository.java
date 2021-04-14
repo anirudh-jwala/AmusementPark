@@ -8,9 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import com.cg.AmusementPark.entities.Activity;
 
-
 @Repository
 public interface ActivityRepository extends IActivityRepository, JpaRepository<Activity, Integer> {
+
+	@Query("SELECT a FROM Activity a WHERE a.activityName = ?1")
+	public Activity findByActivityName(String activityName);
 
 	@Query("SELECT a FROM Activity a where a.charges = ?1")
 	public List<Activity> viewActivitiesOfCharges(float charges);

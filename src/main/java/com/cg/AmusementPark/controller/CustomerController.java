@@ -3,15 +3,12 @@ package com.cg.AmusementPark.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.AmusementPark.entities.Customer;
@@ -24,16 +21,20 @@ public class CustomerController {
 
 	@Autowired
 	private CustomerService customerService;
-	
-	//@ResponseStatus(code = HttpStatus.CREATED)
-	@PostMapping(path = "/customer")//, consumes = MediaType.APPLICATION_JSON_VALUE)
+
+	@PostMapping(path = "/customer")
 	public Customer insertCustomer(@RequestBody Customer customer) throws CustomerExistsException {
-		if(customerService.insertCustomer(customer)==null)
-		{
-			CustomerExistsException customerException = new CustomerExistsException("you are trying to insert is already exists");
-			throw customerException; 
+
+		Customer customerToInsert = customerService.insertCustomer(customer);
+
+		if (customerToInsert == null) {
+			CustomerExistsException customerException = new CustomerExistsException(
+					"Customer you are trying to insert already exists");
+			throw customerException;
 		}
-		return customerService.insertCustomer(customer);
+
+		return customerToInsert;
+
 	}
 
 	@PutMapping(path = "/customer")
@@ -48,6 +49,7 @@ public class CustomerController {
 		}
 
 		return customerToUpdate;
+
 	}
 
 	@DeleteMapping(path = "/customer/{id}")
@@ -62,6 +64,7 @@ public class CustomerController {
 		}
 
 		return customerToDelete;
+
 	}
 
 	@GetMapping(path = "/customer")
@@ -75,6 +78,7 @@ public class CustomerController {
 		}
 
 		return customers;
+
 	}
 
 	@GetMapping(path = "/customer/{id}")
@@ -104,6 +108,7 @@ public class CustomerController {
 		}
 
 		return customerToValidate;
+
 	}
 
 }

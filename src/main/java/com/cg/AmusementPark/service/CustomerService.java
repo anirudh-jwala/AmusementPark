@@ -18,11 +18,15 @@ public class CustomerService implements ICustomerService {
 
 	@Override
 	public Customer insertCustomer(Customer customer) {
-		Optional<Customer> searchedCustomer = customerRepository.findById(customer.getCustomerId());
-		if (searchedCustomer.isPresent()) {
+
+		Customer searchedCustomer = customerRepository.findByCustomerEmail(customer.getEmail());
+
+		if (searchedCustomer != null && customer.getEmail().equals(searchedCustomer.getEmail())) {
 			return null;
 		}
+
 		return customerRepository.save(customer);
+
 	}
 
 	@Override
@@ -32,9 +36,9 @@ public class CustomerService implements ICustomerService {
 
 		if (searchedCustomer.isPresent()) {
 			return customerRepository.save(customer);
-		} else {
-			return null;
 		}
+
+		return null;
 
 	}
 
@@ -47,20 +51,22 @@ public class CustomerService implements ICustomerService {
 			Customer deleteCustomer = searchedCustomer.get();
 			customerRepository.delete(deleteCustomer);
 			return deleteCustomer;
-		} else {
-			return null;
 		}
+
+		return null;
 
 	}
 
 	@Override
 	public List<Customer> viewCustomers() {
+
 		List<Customer> customers = customerRepository.findAll();
 
 		if (customers.size() == 0)
 			return null;
 
 		return customers;
+
 	}
 
 	@Override
@@ -70,20 +76,22 @@ public class CustomerService implements ICustomerService {
 
 		if (searchedCustomer.isPresent()) {
 			return customerRepository.viewCustomer(customerId);
-		} else {
-			return null;
 		}
+
+		return null;
 
 	}
 
 	@Override
 	public Customer validateCustomer(String email, String password) throws CustomerNotFoundException {
+
 		Customer customer = customerRepository.validateCustomer(email, password);
 
 		if (customer != null)
 			return customer;
 
 		return null;
+
 	}
 
 }
