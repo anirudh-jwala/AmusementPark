@@ -16,9 +16,6 @@ public class CustomerService implements ICustomerService {
 	@Autowired
 	private CustomerRepository customerRepository;
 
-	/**
-	 * TODO: Add CustomerExistsException
-	 */
 	@Override
 	public Customer insertCustomer(Customer customer) {
 		return customerRepository.save(customer);

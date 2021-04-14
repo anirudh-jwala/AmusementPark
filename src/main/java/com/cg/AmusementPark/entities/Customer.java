@@ -2,6 +2,7 @@ package com.cg.AmusementPark.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +47,6 @@ public class Customer {
 	@Column(name = "mobile_number")
 	private String mobileNumber;
 
-	@JsonManagedReference
 	@OneToMany(mappedBy = "customer", targetEntity = TicketBooking.class)
 	private List<TicketBooking> tickets;
 

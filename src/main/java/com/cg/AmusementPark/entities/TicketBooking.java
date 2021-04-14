@@ -1,6 +1,6 @@
 package com.cg.AmusementPark.entities;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -29,9 +29,9 @@ public class TicketBooking {
 	@Column(name = "ticket_id")
 	private Integer ticketId;
 
-	@DateTimeFormat(pattern = "yyyy-MM-dd ")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull(message = "Please provide a date")
-	private Date date;
+	private LocalDate date;
 
 	@Column(name = "bill_amount")
 	private float bill;
@@ -41,7 +41,6 @@ public class TicketBooking {
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
-	@JsonManagedReference
 	@ManyToMany
 	private List<Activity> activities;
 
@@ -64,11 +63,11 @@ public class TicketBooking {
 		this.bill = bill;
 	}
 
-	public Date getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
