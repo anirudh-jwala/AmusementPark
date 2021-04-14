@@ -25,12 +25,15 @@ public class CustomerController {
 
 	@PostMapping(path = "/customer", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Customer insertCustomer(@RequestBody Customer customer) throws CustomerExistsException {
-		if(customerService.insertCustomer(customer)==null)
-		{
-			CustomerExistsException customerException = new CustomerExistsException("you are trying to insert is already exists");
-			throw customerException; 
+
+		if (customerService.insertCustomer(customer) == null) {
+			CustomerExistsException customerException = new CustomerExistsException(
+					"you are trying to insert is already exists");
+			throw customerException;
 		}
+
 		return customerService.insertCustomer(customer);
+
 	}
 
 	@PutMapping(path = "/customer")
@@ -45,6 +48,7 @@ public class CustomerController {
 		}
 
 		return customerToUpdate;
+
 	}
 
 	@DeleteMapping(path = "/customer/{id}")
@@ -59,6 +63,7 @@ public class CustomerController {
 		}
 
 		return customerToDelete;
+
 	}
 
 	@GetMapping(path = "/customer")
@@ -72,6 +77,7 @@ public class CustomerController {
 		}
 
 		return customers;
+
 	}
 
 	@GetMapping(path = "/customer/{id}")
@@ -101,6 +107,7 @@ public class CustomerController {
 		}
 
 		return customerToValidate;
+
 	}
 
 }
