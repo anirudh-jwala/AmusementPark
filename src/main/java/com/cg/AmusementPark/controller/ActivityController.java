@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.AmusementPark.entities.Activity;
+import com.cg.AmusementPark.exception.ActivityNotFoundException;
+import com.cg.AmusementPark.exception.CustomerNotFoundException;
 import com.cg.AmusementPark.service.ActivityService;
 
 @RestController
@@ -26,13 +28,26 @@ public class ActivityController {
 	}
 
 	@PutMapping(path = "/activity")
-	public Activity updateActivity(@RequestBody Activity activity) {
-		return activityService.updateActivity(activity);
+	public Activity updateActivity(@RequestBody Activity activity) throws ActivityNotFoundException{
+		Activity activityToUpdate = activityService.updateActivity(activity);
+		if (activityToUpdate == null) {
+			ActivityNotFoundException activityException = new ActivityNotFoundException(
+					"Activity you are trying to update is not found or invalid");
+			throw activityException;
+		}
+		
+		return activityToUpdate;
 	}
 
 	@DeleteMapping(path = "/activity/{id}")
-	public Activity deleteActivity(@PathVariable("id") int activityId) {
-		return activityService.deleteActivity(activityId);
+	public Activity deleteActivity(@PathVariable("id") int activityId) throws ActivityNotFoundException{
+		Activity activityToDelete = activityService.deleteActivity(activityId);
+		if (activityToDelete == null) {
+			ActivityNotFoundException activityException = new ActivityNotFoundException(
+					"Activity you are trying to delete is not found or invalid");
+			throw activityException;
+		}
+		return activityToDelete;
 	}
 
 	@GetMapping(path = "/activity/{amount}")

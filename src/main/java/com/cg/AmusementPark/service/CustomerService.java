@@ -18,6 +18,10 @@ public class CustomerService implements ICustomerService {
 
 	@Override
 	public Customer insertCustomer(Customer customer) {
+		Optional<Customer> searchedCustomer = customerRepository.findById(customer.getCustomerId());
+		if (searchedCustomer.isPresent()) {
+			return null;
+		}
 		return customerRepository.save(customer);
 	}
 
