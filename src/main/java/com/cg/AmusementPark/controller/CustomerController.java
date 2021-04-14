@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.AmusementPark.entities.Customer;
+import com.cg.AmusementPark.exception.CustomerExistsException;
 import com.cg.AmusementPark.exception.CustomerNotFoundException;
 import com.cg.AmusementPark.service.CustomerService;
 
@@ -23,7 +24,12 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@PostMapping(path = "/customer", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public Customer insertCustomer(@RequestBody Customer customer) {
+	public Customer insertCustomer(@RequestBody Customer customer) throws CustomerExistsException {
+		if(customerService.insertCustomer(customer)==null)
+		{
+			CustomerExistsException customerException = new CustomerExistsException("you are trying to insert is already exists");
+			throw customerException; 
+		}
 		return customerService.insertCustomer(customer);
 	}
 

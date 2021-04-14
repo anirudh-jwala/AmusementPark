@@ -21,5 +21,15 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
 
 	}
+	
+	@ExceptionHandler({ CustomerExistsException.class })
+	public final ResponseEntity<Object> handleCustomerExistsException(CustomerExistsException exception,
+			WebRequest req) {
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(),
+				"The customer which you are trying to insert  is already present in the database", new Date());
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+
+	}
 
 }
