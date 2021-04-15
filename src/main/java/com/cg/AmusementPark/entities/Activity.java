@@ -44,6 +44,21 @@ public class Activity {
 	@Fetch(FetchMode.SELECT)
 	private List<TicketBooking> ticketBooking;
 
+	public Activity() {
+
+	}
+
+	public Activity(Integer activityId,
+			@Size(min = 3, max = 40, message = "Activity name should be min 3 characters") String activityName,
+			@Size(max = 255, message = "Activity name should be min 5 characters") String description,
+			@Positive(message = "Activity charges should be greater than 0") float charges) {
+		super();
+		this.activityId = activityId;
+		this.activityName = activityName;
+		this.description = description;
+		this.charges = charges;
+	}
+
 	/**
 	 * Getters and Setters
 	 */
@@ -102,6 +117,12 @@ public class Activity {
 		} else if (!activityId.equals(other.activityId))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Activity [activityId=" + activityId + ", activityName=" + activityName + ", description=" + description
+				+ ", charges=" + charges + "]";
 	}
 
 }
