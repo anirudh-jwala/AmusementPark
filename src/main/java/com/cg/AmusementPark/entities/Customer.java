@@ -16,6 +16,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "customer")
 public class Customer {
@@ -51,6 +54,40 @@ public class Customer {
 
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<TicketBooking> tickets;
+
+	public Customer() {
+
+	}
+
+	public Customer(Integer customerId,
+			@NotBlank(message = "Username is mandatory") @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-z0-9]+$", message = "Username must be alphanumeric with no spaces") String username,
+			@NotBlank(message = "Email is mandatory") @Email String email,
+			@NotBlank(message = "Password is mandatory") @Size(min = 3, max = 20, message = "Password must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Password must be alphanumeric with no spaces") String password,
+			String address,
+			@Size(min = 10, max = 10, message = "Can be of 10 number only") @Pattern(regexp = "^[6-9]{1}\\d{9}$", message = "Can be of 10 number only") String mobileNumber) {
+		this.customerId = customerId;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.address = address;
+		this.mobileNumber = mobileNumber;
+	}
+
+	public Customer(Integer customerId,
+			@NotBlank(message = "Username is mandatory") @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-z0-9]+$", message = "Username must be alphanumeric with no spaces") String username,
+			@NotBlank(message = "Email is mandatory") @Email String email,
+			@NotBlank(message = "Password is mandatory") @Size(min = 3, max = 20, message = "Password must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Password must be alphanumeric with no spaces") String password,
+			String address,
+			@Size(min = 10, max = 10, message = "Can be of 10 number only") @Pattern(regexp = "^[6-9]{1}\\d{9}$", message = "Can be of 10 number only") String mobileNumber,
+			List<TicketBooking> tickets) {
+		this.customerId = customerId;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.address = address;
+		this.mobileNumber = mobileNumber;
+		this.tickets = tickets;
+	}
 
 	/**
 	 * Getters and Setters
@@ -134,6 +171,12 @@ public class Customer {
 		} else if (!customerId.equals(other.customerId))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Customer [customerId=" + customerId + ", username=" + username + ", email=" + email + ", password="
+				+ password + ", address=" + address + ", mobileNumber=" + mobileNumber + ", tickets=" + tickets + "]";
 	}
 
 }

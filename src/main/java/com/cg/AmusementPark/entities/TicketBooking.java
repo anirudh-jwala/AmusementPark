@@ -19,7 +19,9 @@ import javax.validation.constraints.Positive;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "ticket_booking")
 public class TicketBooking {
@@ -45,6 +47,29 @@ public class TicketBooking {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Activity> activities;
+
+	public TicketBooking() {
+
+	}
+
+	public TicketBooking(Integer ticketId, @NotNull(message = "Please provide a date") LocalDate date,
+			@Positive(message = "Bill amount should be greater than 0") float bill) {
+		super();
+		this.ticketId = ticketId;
+		this.date = date;
+		this.bill = bill;
+	}
+
+	public TicketBooking(Integer ticketId, @NotNull(message = "Please provide a date") LocalDate date,
+			@Positive(message = "Bill amount should be greater than 0") float bill, Customer customer,
+			List<Activity> activities) {
+		super();
+		this.ticketId = ticketId;
+		this.date = date;
+		this.bill = bill;
+		this.customer = customer;
+		this.activities = activities;
+	}
 
 	/**
 	 * Getters and Setters
@@ -112,6 +137,12 @@ public class TicketBooking {
 		} else if (!ticketId.equals(other.ticketId))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "TicketBooking [ticketId=" + ticketId + ", date=" + date + ", bill=" + bill + ", customer=" + customer
+				+ ", activities=" + activities + "]";
 	}
 
 }

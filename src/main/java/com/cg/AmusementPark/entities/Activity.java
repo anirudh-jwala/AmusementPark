@@ -17,7 +17,9 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Entity
 @Table(name = "activity")
 public class Activity {
@@ -52,11 +54,22 @@ public class Activity {
 			@Size(min = 3, max = 40, message = "Activity name should be min 3 characters") String activityName,
 			@Size(max = 255, message = "Activity name should be min 5 characters") String description,
 			@Positive(message = "Activity charges should be greater than 0") float charges) {
-		super();
 		this.activityId = activityId;
 		this.activityName = activityName;
 		this.description = description;
 		this.charges = charges;
+	}
+
+	public Activity(Integer activityId,
+			@Size(min = 3, max = 40, message = "Activity name should be min 3 characters") String activityName,
+			@Size(max = 255, message = "Activity name should be min 5 characters") String description,
+			@Positive(message = "Activity charges should be greater than 0") float charges,
+			List<TicketBooking> ticketBooking) {
+		this.activityId = activityId;
+		this.activityName = activityName;
+		this.description = description;
+		this.charges = charges;
+		this.ticketBooking = ticketBooking;
 	}
 
 	/**
@@ -92,6 +105,14 @@ public class Activity {
 
 	public void setCharges(float charges) {
 		this.charges = charges;
+	}
+
+	public List<TicketBooking> getTicketBooking() {
+		return ticketBooking;
+	}
+
+	public void setTicketBooking(List<TicketBooking> ticketBooking) {
+		this.ticketBooking = ticketBooking;
 	}
 
 	@Override
