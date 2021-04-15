@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -13,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -32,6 +34,7 @@ public class TicketBooking {
 	@NotNull(message = "Please provide a date")
 	private LocalDate date;
 
+	@Positive(message = "Bill amount should be greater than 0")
 	@Column(name = "bill_amount")
 	private float bill;
 
@@ -40,7 +43,7 @@ public class TicketBooking {
 	@JoinColumn(name = "customer_id")
 	private Customer customer;
 
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Activity> activities;
 
 	/**

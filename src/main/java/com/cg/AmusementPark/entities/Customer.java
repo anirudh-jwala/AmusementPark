@@ -2,13 +2,16 @@ package com.cg.AmusementPark.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -30,7 +33,7 @@ public class Customer {
 	private String username;
 
 	@NotBlank(message = "Email is mandatory")
-	@Pattern(regexp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$", message = "Email should be valid")
+	@Email
 	private String email;
 
 	@NotBlank(message = "Password is mandatory")
@@ -41,11 +44,12 @@ public class Customer {
 	@Column(nullable = true)
 	private String address;
 
-	@Pattern(regexp = "^[0-9]+$", message = "Phone must be numeric")
+	@Size(min = 10, max = 10, message = "Can be of 10 number only")
+	@Pattern(regexp = "^[6-9]{1}\\d{9}$", message = "Can be of 10 number only")
 	@Column(name = "mobile_number")
 	private String mobileNumber;
 
-	@OneToMany(mappedBy = "customer", targetEntity = TicketBooking.class)
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<TicketBooking> tickets;
 
 	/**

@@ -2,6 +2,7 @@ package com.cg.AmusementPark.entities;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +11,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
@@ -23,9 +28,11 @@ public class Activity {
 	@Column(name = "acitivity_id")
 	private Integer activityId;
 
+	@Size(min = 3, max = 40, message = "Activity name should be min 3 characters")
 	@Column(name = "activity_name", nullable = false)
 	private String activityName;
 
+	@Size(min = 5, max = 255, message = "Activity name should be min 5 characters")
 	@Column(nullable = true)
 	private String description;
 
@@ -33,7 +40,8 @@ public class Activity {
 	private float charges;
 
 	@JsonBackReference
-	@ManyToMany(mappedBy = "activities")
+	@ManyToMany(mappedBy = "activities", cascade = CascadeType.ALL)
+	@Fetch(FetchMode.SELECT)
 	private List<TicketBooking> ticketBooking;
 
 	/**
