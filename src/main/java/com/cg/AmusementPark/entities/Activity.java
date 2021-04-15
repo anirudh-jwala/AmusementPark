@@ -32,7 +32,7 @@ public class Activity {
 	@Column(name = "activity_name", nullable = false)
 	private String activityName;
 
-	@Size(min = 5, max = 255, message = "Activity name should be min 5 characters")
+	@Size(max = 255, message = "Activity name should be min 5 characters")
 	@Column(nullable = true)
 	private String description;
 

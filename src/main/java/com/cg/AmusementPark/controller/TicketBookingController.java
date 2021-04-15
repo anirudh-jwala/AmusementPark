@@ -2,7 +2,10 @@ package com.cg.AmusementPark.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +26,12 @@ public class TicketBookingController {
 	private TicketBookingService ticketBookingService;
 
 	@PostMapping(path = "/ticket")
-	public TicketBooking insertTicketBooking(@RequestBody TicketBooking ticketBooking) {
+	public TicketBooking insertTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
+			BindingResult bindingResult) throws Exception {
+
+		if (bindingResult.hasErrors()) {
+			throw new Exception("Ticking booking details are not valid");
+		}
 
 		return ticketBookingService.insertTicketBooking(ticketBooking);
 

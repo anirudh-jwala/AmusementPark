@@ -2,7 +2,10 @@ package com.cg.AmusementPark.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +26,12 @@ public class ActivityController {
 	private ActivityService activityService;
 
 	@PostMapping(path = "/activity")
-	public Activity insertActivity(@RequestBody Activity activity) throws ActivityExistsException {
+	public Activity insertActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
+			throws ActivityExistsException, Exception {
+
+		if (bindingResult.hasErrors()) {
+			throw new Exception("Activity details are not valid");
+		}
 
 		Activity activityToInsert = activityService.insertActivity(activity);
 
@@ -38,7 +46,12 @@ public class ActivityController {
 	}
 
 	@PutMapping(path = "/activity")
-	public Activity updateActivity(@RequestBody Activity activity) throws ActivityNotFoundException {
+	public Activity updateActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
+			throws ActivityNotFoundException, Exception {
+
+		if (bindingResult.hasErrors()) {
+			throw new Exception("Activity details are not valid");
+		}
 
 		Activity activityToUpdate = activityService.updateActivity(activity);
 

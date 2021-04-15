@@ -2,7 +2,10 @@ package com.cg.AmusementPark.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +26,12 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@PostMapping(path = "/customer")
-	public Customer insertCustomer(@RequestBody Customer customer) throws CustomerExistsException {
+	public Customer insertCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult)
+			throws CustomerExistsException, Exception {
+
+		if (bindingResult.hasErrors()) {
+			throw new Exception("Customer details are not valid");
+		}
 
 		Customer customerToInsert = customerService.insertCustomer(customer);
 
@@ -38,7 +46,12 @@ public class CustomerController {
 	}
 
 	@PutMapping(path = "/customer")
-	public Customer updateCustomer(@RequestBody Customer customer) throws CustomerNotFoundException {
+	public Customer updateCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult)
+			throws CustomerNotFoundException, Exception {
+
+		if (bindingResult.hasErrors()) {
+			throw new Exception("Customer details are not valid");
+		}
 
 		Customer customerToUpdate = customerService.updateCustomer(customer);
 
