@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cg.AmusementPark.entities.Customer;
+import com.cg.AmusementPark.exception.CustomerExistsException;
 import com.cg.AmusementPark.exception.CustomerNotFoundException;
 import com.cg.AmusementPark.repository.CustomerRepository;
 
@@ -17,12 +18,12 @@ public class CustomerService implements ICustomerService {
 	private CustomerRepository customerRepository;
 
 	@Override
-	public Customer insertCustomer(Customer customer) {
+	public Customer insertCustomer(Customer customer) throws CustomerExistsException {
 
 		Customer searchedCustomer = customerRepository.findByCustomerEmail(customer.getEmail());
 
 		if (searchedCustomer != null && customer.getEmail().equals(searchedCustomer.getEmail())) {
-			return null;
+			throw new CustomerExistsException("Customer you are trying to insert already exists");
 		}
 
 		return customerRepository.save(customer);
@@ -30,40 +31,41 @@ public class CustomerService implements ICustomerService {
 	}
 
 	@Override
-	public Customer updateCustomer(Customer customer) {
+	public Customer updateCustomer(Customer customer) throws CustomerNotFoundException {
 
 		Optional<Customer> searchedCustomer = customerRepository.findById(customer.getCustomerId());
 
-		if (searchedCustomer.isPresent()) {
-			return customerRepository.save(customer);
+		if (!searchedCustomer.isPresent()) {
+			throw new CustomerNotFoundException("Customer you are trying to update is not found or invalid");
 		}
 
-		return null;
+		return customerRepository.save(customer);
 
 	}
 
 	@Override
-	public Customer deleteCustomer(int customerId) {
+	public Customer deleteCustomer(int customerId) throws CustomerNotFoundException {
 
 		Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
 
-		if (searchedCustomer.isPresent()) {
-			Customer deleteCustomer = searchedCustomer.get();
-			customerRepository.delete(deleteCustomer);
-			return deleteCustomer;
+		if (!searchedCustomer.isPresent()) {
+			throw new CustomerNotFoundException("Customer you are trying to delete is not found or invalid");
 		}
 
-		return null;
+		Customer deleteCustomer = searchedCustomer.get();
+		customerRepository.delete(deleteCustomer);
+		return deleteCustomer;
 
 	}
 
 	@Override
-	public List<Customer> viewCustomers() {
+	public List<Customer> viewCustomers() throws CustomerNotFoundException {
 
 		List<Customer> customers = customerRepository.findAll();
 
-		if (customers.size() == 0)
-			return null;
+		if (customers.size() == 0) {
+			throw new CustomerNotFoundException("No customers are available");
+		}
 
 		return customers;
 
@@ -74,11 +76,11 @@ public class CustomerService implements ICustomerService {
 
 		Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
 
-		if (searchedCustomer.isPresent()) {
-			return customerRepository.viewCustomer(customerId);
+		if (!searchedCustomer.isPresent()) {
+			throw new CustomerNotFoundException("No customer is available with provided ID");
 		}
 
-		return null;
+		return customerRepository.viewCustomer(customerId);
 
 	}
 
@@ -87,10 +89,11 @@ public class CustomerService implements ICustomerService {
 
 		Customer customer = customerRepository.validateCustomer(email, password);
 
-		if (customer != null)
-			return customer;
+		if (customer == null) {
+			throw new CustomerNotFoundException("Customer details mentioned are not valid");
+		}
 
-		return null;
+		return customer;
 
 	}
 

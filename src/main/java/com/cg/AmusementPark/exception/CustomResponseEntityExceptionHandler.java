@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
 	/**
-	 * Global exceptions
+	 * Global exception for resource not found
 	 */
 	@ExceptionHandler(ResourceNotFoundException.class)
 	public ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException exception, WebRequest request) {
@@ -24,17 +24,17 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
 	}
 
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<?> globleExcpetionHandler(Exception exception, WebRequest request) {
-
-		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(),
-				request.getDescription(false), new Date());
-		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-
-	}
+//	@ExceptionHandler(Exception.class)
+//	public ResponseEntity<?> globleExcpetionHandler(Exception exception, WebRequest request) {
+//
+//		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(),
+//				request.getDescription(false), new Date());
+//		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+//
+//	}
 
 	/**
-	 * Custom exceptions
+	 * Custom exceptions handlers of Customer entity
 	 */
 	@ExceptionHandler({ CustomerNotFoundException.class })
 	public final ResponseEntity<Object> handleCustomerNotFoundException(CustomerNotFoundException exception,
@@ -57,6 +57,9 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
 	}
 
+	/**
+	 * Custom exceptions handlers of Activity entity
+	 */
 	@ExceptionHandler({ ActivityNotFoundException.class })
 	public final ResponseEntity<Object> handleActivityNotFoundException(ActivityNotFoundException exception,
 			WebRequest req) {
@@ -78,6 +81,9 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
 	}
 
+	/**
+	 * Custom exceptions handlers of Ticket Booking entity
+	 */
 	@ExceptionHandler({ TicketBookingNotFoundException.class })
 	public final ResponseEntity<Object> handleTicketBookingNotFoundException(TicketBookingNotFoundException exception,
 			WebRequest req) {

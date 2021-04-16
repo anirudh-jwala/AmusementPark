@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.cg.AmusementPark.entities.Activity;
+import com.cg.AmusementPark.exception.ActivityNotFoundException;
 
 @Repository
 public interface ActivityRepository extends IActivityRepository, JpaRepository<Activity, Integer> {

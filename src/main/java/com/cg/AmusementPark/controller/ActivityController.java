@@ -33,15 +33,7 @@ public class ActivityController {
 			throw new Exception("Activity details are not valid");
 		}
 
-		Activity activityToInsert = activityService.insertActivity(activity);
-
-		if (activityToInsert == null) {
-			ActivityExistsException activityException = new ActivityExistsException(
-					"Activity you are trying to insert already exists in database");
-			throw activityException;
-		}
-
-		return activityToInsert;
+		return activityService.insertActivity(activity);
 
 	}
 
@@ -53,30 +45,14 @@ public class ActivityController {
 			throw new Exception("Activity details are not valid");
 		}
 
-		Activity activityToUpdate = activityService.updateActivity(activity);
-
-		if (activityToUpdate == null) {
-			ActivityNotFoundException activityException = new ActivityNotFoundException(
-					"Activity you are trying to update is not found or invalid");
-			throw activityException;
-		}
-
-		return activityToUpdate;
+		return activityService.updateActivity(activity);
 
 	}
 
 	@DeleteMapping(path = "/activity/{id}")
 	public Activity deleteActivity(@PathVariable("id") int activityId) throws ActivityNotFoundException {
 
-		Activity activityToDelete = activityService.deleteActivity(activityId);
-
-		if (activityToDelete == null) {
-			ActivityNotFoundException activityException = new ActivityNotFoundException(
-					"Activity you are trying to delete is not found or invalid");
-			throw activityException;
-		}
-
-		return activityToDelete;
+		return activityService.deleteActivity(activityId);
 
 	}
 
@@ -84,30 +60,14 @@ public class ActivityController {
 	public List<Activity> viewActivitiesOfCharges(@PathVariable("amount") float charges)
 			throws ActivityNotFoundException {
 
-		List<Activity> activities = activityService.viewActivitiesOfCharges(charges);
-
-		if (activities.size() == 0) {
-			ActivityNotFoundException activityException = new ActivityNotFoundException(
-					"No Activity Found for this charges");
-			throw activityException;
-		}
-
-		return activities;
+		return activityService.viewActivitiesOfCharges(charges);
 
 	}
 
 	@GetMapping(path = "/activity/count/{amount}")
 	public int countActivitiesOfCharges(@PathVariable("amount") float charges) throws ActivityNotFoundException {
 
-		int activityCount = activityService.countActivitiesOfCharges(charges);
-
-		if (activityCount == 0) {
-			ActivityNotFoundException activityException = new ActivityNotFoundException(
-					"No Activity is Found for this charges");
-			throw activityException;
-		}
-
-		return activityCount;
+		return activityService.countActivitiesOfCharges(charges);
 
 	}
 

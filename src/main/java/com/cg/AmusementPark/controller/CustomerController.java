@@ -33,15 +33,7 @@ public class CustomerController {
 			throw new Exception("Customer details are not valid");
 		}
 
-		Customer customerToInsert = customerService.insertCustomer(customer);
-
-		if (customerToInsert == null) {
-			CustomerExistsException customerException = new CustomerExistsException(
-					"Customer you are trying to insert already exists");
-			throw customerException;
-		}
-
-		return customerToInsert;
+		return customerService.insertCustomer(customer);
 
 	}
 
@@ -53,74 +45,35 @@ public class CustomerController {
 			throw new Exception("Customer details are not valid");
 		}
 
-		Customer customerToUpdate = customerService.updateCustomer(customer);
-
-		if (customerToUpdate == null) {
-			CustomerNotFoundException customerException = new CustomerNotFoundException(
-					"Customer you are trying to update is not found or invalid");
-			throw customerException;
-		}
-
-		return customerToUpdate;
+		return customerService.updateCustomer(customer);
 
 	}
 
 	@DeleteMapping(path = "/customer/{id}")
 	public Customer deleteCustomer(@PathVariable("id") int customerId) throws CustomerNotFoundException {
 
-		Customer customerToDelete = customerService.deleteCustomer(customerId);
-
-		if (customerToDelete == null) {
-			CustomerNotFoundException customerException = new CustomerNotFoundException(
-					"Customer you are trying to delete is not found or invalid");
-			throw customerException;
-		}
-
-		return customerToDelete;
+		return customerService.deleteCustomer(customerId);
 
 	}
 
 	@GetMapping(path = "/customer")
 	public List<Customer> viewCustomers() throws CustomerNotFoundException {
 
-		List<Customer> customers = customerService.viewCustomers();
-
-		if (customers == null) {
-			CustomerNotFoundException customerException = new CustomerNotFoundException("No customers are available");
-			throw customerException;
-		}
-
-		return customers;
+		return customerService.viewCustomers();
 
 	}
 
 	@GetMapping(path = "/customer/{id}")
 	public Customer viewCustomer(@PathVariable("id") int customerId) throws CustomerNotFoundException {
 
-		Customer customer = customerService.viewCustomer(customerId);
-
-		if (customer == null) {
-			CustomerNotFoundException customerException = new CustomerNotFoundException(
-					"No customer is available with provided ID");
-			throw customerException;
-		}
-
-		return customer;
+		return customerService.viewCustomer(customerId);
 
 	}
 
 	@PostMapping(path = "/customer/auth")
 	public Customer validateCustomer(@RequestBody Customer customer) throws CustomerNotFoundException {
 
-		Customer customerToValidate = customerService.validateCustomer(customer.getEmail(), customer.getPassword());
-
-		if (customerToValidate == null) {
-			CustomerNotFoundException customerException = new CustomerNotFoundException(
-					"Customer details mentioned are not valid");
-			throw customerException;
-		}
-
-		return customerToValidate;
+		return customerService.validateCustomer(customer.getEmail(), customer.getPassword());
 
 	}
 

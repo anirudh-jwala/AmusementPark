@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.cg.AmusementPark.entities.Customer;
 import com.cg.AmusementPark.entities.TicketBooking;
+import com.cg.AmusementPark.exception.CustomerNotFoundException;
+import com.cg.AmusementPark.exception.TicketBookingNotFoundException;
 import com.cg.AmusementPark.repository.CustomerRepository;
 import com.cg.AmusementPark.repository.TicketBookingRepository;
 
@@ -26,56 +28,56 @@ public class TicketBookingService implements ITicketBookingService {
 	}
 
 	@Override
-	public TicketBooking updateTicketBooking(TicketBooking ticketBooking) {
+	public TicketBooking updateTicketBooking(TicketBooking ticketBooking) throws TicketBookingNotFoundException {
 
 		Optional<TicketBooking> searchedTicket = ticketBookingRepository.findById(ticketBooking.getTicketId());
 
-		if (searchedTicket.isPresent()) {
-			return ticketBookingRepository.save(ticketBooking);
+		if (!searchedTicket.isPresent()) {
+			throw new TicketBookingNotFoundException("Ticket Booking you are trying to update is not found or invalid");
 		}
 
-		return null;
+		return ticketBookingRepository.save(ticketBooking);
 
 	}
 
 	@Override
-	public TicketBooking deleteTicketBooking(int ticketId) {
+	public TicketBooking deleteTicketBooking(int ticketId) throws TicketBookingNotFoundException {
 
 		Optional<TicketBooking> searchedTicket = ticketBookingRepository.findById(ticketId);
 
-		if (searchedTicket.isPresent()) {
-			TicketBooking ticket = searchedTicket.get();
-			ticketBookingRepository.delete(ticket);
-			return ticket;
+		if (!searchedTicket.isPresent()) {
+			throw new TicketBookingNotFoundException("Ticket Booking you are trying to delete is not found or invalid");
 		}
 
-		return null;
+		TicketBooking ticket = searchedTicket.get();
+		ticketBookingRepository.delete(ticket);
+		return ticket;
 
 	}
 
 	@Override
-	public List<TicketBooking> viewAllTicketsOfCustomer(int customerId) {
+	public List<TicketBooking> viewAllTicketsOfCustomer(int customerId) throws CustomerNotFoundException {
 
 		Optional<Customer> customer = customerRepository.findById(customerId);
 
 		if (customer.isPresent()) {
-			return ticketBookingRepository.viewAllTicketsOfCustomer(customerId);
+			throw new CustomerNotFoundException("No customer is found for specified ID");
 		}
 
-		return null;
+		return ticketBookingRepository.viewAllTicketsOfCustomer(customerId);
 
 	}
 
 	@Override
-	public float calculateBill(int customerId) {
+	public float calculateBill(int customerId) throws CustomerNotFoundException {
 
 		Optional<Customer> customer = customerRepository.findById(customerId);
 
-		if (customer.isPresent()) {
-			return ticketBookingRepository.calculateBill(customerId);
+		if (!customer.isPresent()) {
+			throw new CustomerNotFoundException("No customer is found for specified ID");
 		}
 
-		return 0.0f;
+		return ticketBookingRepository.calculateBill(customerId);
 
 	}
 

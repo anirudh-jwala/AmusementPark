@@ -40,60 +40,30 @@ public class TicketBookingController {
 	@PutMapping(path = "/ticket")
 	public TicketBooking updateTicketBooking(TicketBooking ticketBooking) throws TicketBookingNotFoundException {
 
-		TicketBooking ticketBookingToUpdate = ticketBookingService.updateTicketBooking(ticketBooking);
-
-		if (ticketBookingToUpdate == null) {
-			TicketBookingNotFoundException ticketBookingException = new TicketBookingNotFoundException(
-					"Ticket Booking you are trying to update is not found or invalid");
-			throw ticketBookingException;
-		}
-
-		return ticketBookingToUpdate;
+		return ticketBookingService.updateTicketBooking(ticketBooking);
 
 	}
 
-	@DeleteMapping(path = "/ticket")
-	public TicketBooking deleteTicketBooking(int ticketId) throws TicketBookingNotFoundException {
+	@DeleteMapping(path = "/ticket/{id}")
+	public TicketBooking deleteTicketBooking(@PathVariable("id") int ticketId) throws TicketBookingNotFoundException {
 
-		TicketBooking ticketBookingToDelete = ticketBookingService.deleteTicketBooking(ticketId);
-
-		if (ticketBookingToDelete == null) {
-			TicketBookingNotFoundException ticketBookingException = new TicketBookingNotFoundException(
-					"Ticket Booking you are trying to delete is not found or invalid");
-			throw ticketBookingException;
-		}
-
-		return ticketBookingToDelete;
+		return ticketBookingService.deleteTicketBooking(ticketId);
 
 	}
 
-	@GetMapping(path = "/ticket/{id}")
+	@GetMapping(path = "/ticket/customer/{id}")
 	public List<TicketBooking> viewAllTicketsOfCustomer(@PathVariable("id") int customerId)
 			throws CustomerNotFoundException {
 
-		List<TicketBooking> ticketBooking = ticketBookingService.viewAllTicketsOfCustomer(customerId);
-
-		if (ticketBooking == null) {
-			CustomerNotFoundException customerException = new CustomerNotFoundException(
-					"No customer is found for specified ID");
-			throw customerException;
-		}
-
-		return ticketBooking;
+		return ticketBookingService.viewAllTicketsOfCustomer(customerId);
 
 	}
 
 	@GetMapping(path = "/ticket/bill/{id}")
 	public float calculateBill(@PathVariable("id") int customerId) throws CustomerNotFoundException {
-		float charges = ticketBookingService.calculateBill(customerId);
 
-		if (charges == 0.0f) {
-			CustomerNotFoundException customerException = new CustomerNotFoundException(
-					"No customer is found for specified ID");
-			throw customerException;
-		}
+		return ticketBookingService.calculateBill(customerId);
 
-		return charges;
 	}
 
 }
