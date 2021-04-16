@@ -24,15 +24,6 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
 	}
 
-//	@ExceptionHandler(Exception.class)
-//	public ResponseEntity<?> globleExcpetionHandler(Exception exception, WebRequest request) {
-//
-//		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(),
-//				request.getDescription(false), new Date());
-//		return new ResponseEntity<>(exceptionResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-//
-//	}
-
 	/**
 	 * Custom exceptions handlers of Customer entity
 	 */

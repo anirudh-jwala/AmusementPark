@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,54 +28,56 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@PostMapping(path = "/customer")
-	public Customer insertCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult)
+	public ResponseEntity<Customer> insertCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult)
 			throws CustomerExistsException, Exception {
 
 		if (bindingResult.hasErrors()) {
-			throw new Exception("Customer details are not valid");
+			throw new Exception("Customer details provided are not valid, please try again!");
 		}
 
-		return customerService.insertCustomer(customer);
+		return new ResponseEntity<Customer>(customerService.insertCustomer(customer), HttpStatus.CREATED);
 
 	}
 
 	@PutMapping(path = "/customer")
-	public Customer updateCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult)
+	public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult)
 			throws CustomerNotFoundException, Exception {
 
 		if (bindingResult.hasErrors()) {
-			throw new Exception("Customer details are not valid");
+			throw new Exception("Customer details provided are not valid, please try again!");
 		}
 
-		return customerService.updateCustomer(customer);
+		return new ResponseEntity<Customer>(customerService.updateCustomer(customer), HttpStatus.OK);
 
 	}
 
 	@DeleteMapping(path = "/customer/{id}")
-	public Customer deleteCustomer(@PathVariable("id") int customerId) throws CustomerNotFoundException {
+	public ResponseEntity<Customer> deleteCustomer(@PathVariable("id") int customerId)
+			throws CustomerNotFoundException {
 
-		return customerService.deleteCustomer(customerId);
+		return new ResponseEntity<Customer>(customerService.deleteCustomer(customerId), HttpStatus.OK);
 
 	}
 
 	@GetMapping(path = "/customer")
-	public List<Customer> viewCustomers() throws CustomerNotFoundException {
+	public ResponseEntity<List<Customer>> viewCustomers() throws CustomerNotFoundException {
 
-		return customerService.viewCustomers();
+		return new ResponseEntity<List<Customer>>(customerService.viewCustomers(), HttpStatus.OK);
 
 	}
 
 	@GetMapping(path = "/customer/{id}")
-	public Customer viewCustomer(@PathVariable("id") int customerId) throws CustomerNotFoundException {
+	public ResponseEntity<Customer> viewCustomer(@PathVariable("id") int customerId) throws CustomerNotFoundException {
 
-		return customerService.viewCustomer(customerId);
+		return new ResponseEntity<Customer>(customerService.viewCustomer(customerId), HttpStatus.OK);
 
 	}
 
 	@PostMapping(path = "/customer/auth")
-	public Customer validateCustomer(@RequestBody Customer customer) throws CustomerNotFoundException {
+	public ResponseEntity<Customer> validateCustomer(@RequestBody Customer customer) throws CustomerNotFoundException {
 
-		return customerService.validateCustomer(customer.getEmail(), customer.getPassword());
+		return new ResponseEntity<Customer>(
+				customerService.validateCustomer(customer.getEmail(), customer.getPassword()), HttpStatus.OK);
 
 	}
 

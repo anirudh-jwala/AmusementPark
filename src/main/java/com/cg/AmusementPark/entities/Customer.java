@@ -36,6 +36,7 @@ public class Customer {
 	private String username;
 
 	@NotBlank(message = "Email is mandatory")
+	@Column(unique = true)
 	@Email
 	private String email;
 
@@ -55,6 +56,9 @@ public class Customer {
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<TicketBooking> tickets;
 
+	/**
+	 * Customer constructors
+	 */
 	public Customer() {
 
 	}

@@ -34,7 +34,7 @@ public class Activity {
 	@Column(name = "activity_name", nullable = false)
 	private String activityName;
 
-	@Size(max = 255, message = "Activity name should be min 5 characters")
+	@Size(max = 255)
 	@Column(nullable = true)
 	private String description;
 
@@ -46,13 +46,16 @@ public class Activity {
 	@Fetch(FetchMode.SELECT)
 	private List<TicketBooking> ticketBooking;
 
+	/**
+	 * Activity constructors
+	 */
 	public Activity() {
 
 	}
 
 	public Activity(Integer activityId,
 			@Size(min = 3, max = 40, message = "Activity name should be min 3 characters") String activityName,
-			@Size(max = 255, message = "Activity name should be min 5 characters") String description,
+			@Size(max = 255) String description,
 			@Positive(message = "Activity charges should be greater than 0") float charges) {
 		this.activityId = activityId;
 		this.activityName = activityName;
@@ -62,7 +65,7 @@ public class Activity {
 
 	public Activity(Integer activityId,
 			@Size(min = 3, max = 40, message = "Activity name should be min 3 characters") String activityName,
-			@Size(max = 255, message = "Activity name should be min 5 characters") String description,
+			@Size(max = 255) String description,
 			@Positive(message = "Activity charges should be greater than 0") float charges,
 			List<TicketBooking> ticketBooking) {
 		this.activityId = activityId;

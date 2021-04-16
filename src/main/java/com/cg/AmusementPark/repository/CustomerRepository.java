@@ -2,12 +2,10 @@ package com.cg.AmusementPark.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import com.cg.AmusementPark.entities.Customer;
 import com.cg.AmusementPark.exception.CustomerNotFoundException;
 
-@Repository
 public interface CustomerRepository extends ICustomerRepository, JpaRepository<Customer, Integer> {
 
 	@Query("SELECT c FROM Customer c WHERE c.email = ?1")

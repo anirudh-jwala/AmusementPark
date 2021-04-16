@@ -4,12 +4,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 
 import com.cg.AmusementPark.entities.Activity;
-import com.cg.AmusementPark.exception.ActivityNotFoundException;
 
-@Repository
 public interface ActivityRepository extends IActivityRepository, JpaRepository<Activity, Integer> {
 
 	@Query("SELECT a FROM Activity a WHERE a.activityName = ?1")

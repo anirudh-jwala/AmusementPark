@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,48 +28,50 @@ public class ActivityController {
 	private ActivityService activityService;
 
 	@PostMapping(path = "/activity")
-	public Activity insertActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
+	public ResponseEntity<Activity> insertActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
 			throws ActivityExistsException, Exception {
 
 		if (bindingResult.hasErrors()) {
-			throw new Exception("Activity details are not valid");
+			throw new Exception("Activity details provided are not valid, please try again!");
 		}
 
-		return activityService.insertActivity(activity);
+		return new ResponseEntity<Activity>(activityService.insertActivity(activity), HttpStatus.CREATED);
 
 	}
 
 	@PutMapping(path = "/activity")
-	public Activity updateActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
+	public ResponseEntity<Activity> updateActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
 			throws ActivityNotFoundException, Exception {
 
 		if (bindingResult.hasErrors()) {
-			throw new Exception("Activity details are not valid");
+			throw new Exception("Activity details provided are not valid, please try again!");
 		}
 
-		return activityService.updateActivity(activity);
+		return new ResponseEntity<Activity>(activityService.updateActivity(activity), HttpStatus.OK);
 
 	}
 
 	@DeleteMapping(path = "/activity/{id}")
-	public Activity deleteActivity(@PathVariable("id") int activityId) throws ActivityNotFoundException {
+	public ResponseEntity<Activity> deleteActivity(@PathVariable("id") int activityId)
+			throws ActivityNotFoundException {
 
-		return activityService.deleteActivity(activityId);
+		return new ResponseEntity<Activity>(activityService.deleteActivity(activityId), HttpStatus.OK);
 
 	}
 
 	@GetMapping(path = "/activity/{amount}")
-	public List<Activity> viewActivitiesOfCharges(@PathVariable("amount") float charges)
+	public ResponseEntity<List<Activity>> viewActivitiesOfCharges(@PathVariable("amount") float charges)
 			throws ActivityNotFoundException {
 
-		return activityService.viewActivitiesOfCharges(charges);
+		return new ResponseEntity<List<Activity>>(activityService.viewActivitiesOfCharges(charges), HttpStatus.OK);
 
 	}
 
 	@GetMapping(path = "/activity/count/{amount}")
-	public int countActivitiesOfCharges(@PathVariable("amount") float charges) throws ActivityNotFoundException {
+	public ResponseEntity<?> countActivitiesOfCharges(@PathVariable("amount") float charges)
+			throws ActivityNotFoundException {
 
-		return activityService.countActivitiesOfCharges(charges);
+		return new ResponseEntity<>(activityService.countActivitiesOfCharges(charges), HttpStatus.OK);
 
 	}
 

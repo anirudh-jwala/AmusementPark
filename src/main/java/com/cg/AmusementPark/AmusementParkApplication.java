@@ -25,6 +25,9 @@ public class AmusementParkApplication {
 		SpringApplication.run(AmusementParkApplication.class, args);
 	}
 
+	/**
+	 * Swagger UI Configuration
+	 */
 	@Bean
 	public Docket productApi() {
 		return new Docket(DocumentationType.SWAGGER_2).apiInfo(getApiInfo()).select()

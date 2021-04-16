@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,43 +28,48 @@ public class TicketBookingController {
 	private TicketBookingService ticketBookingService;
 
 	@PostMapping(path = "/ticket")
-	public TicketBooking insertTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
+	public ResponseEntity<TicketBooking> insertTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
 			BindingResult bindingResult) throws Exception {
 
 		if (bindingResult.hasErrors()) {
-			throw new Exception("Ticking booking details are not valid");
+			throw new Exception("Ticket booking details provided are not valid, please try again!");
 		}
 
-		return ticketBookingService.insertTicketBooking(ticketBooking);
+		return new ResponseEntity<TicketBooking>(ticketBookingService.insertTicketBooking(ticketBooking),
+				HttpStatus.CREATED);
 
 	}
 
 	@PutMapping(path = "/ticket")
-	public TicketBooking updateTicketBooking(TicketBooking ticketBooking) throws TicketBookingNotFoundException {
+	public ResponseEntity<TicketBooking> updateTicketBooking(TicketBooking ticketBooking)
+			throws TicketBookingNotFoundException {
 
-		return ticketBookingService.updateTicketBooking(ticketBooking);
+		return new ResponseEntity<TicketBooking>(ticketBookingService.updateTicketBooking(ticketBooking),
+				HttpStatus.OK);
 
 	}
 
 	@DeleteMapping(path = "/ticket/{id}")
-	public TicketBooking deleteTicketBooking(@PathVariable("id") int ticketId) throws TicketBookingNotFoundException {
+	public ResponseEntity<TicketBooking> deleteTicketBooking(@PathVariable("id") int ticketId)
+			throws TicketBookingNotFoundException {
 
-		return ticketBookingService.deleteTicketBooking(ticketId);
+		return new ResponseEntity<TicketBooking>(ticketBookingService.deleteTicketBooking(ticketId), HttpStatus.OK);
 
 	}
 
 	@GetMapping(path = "/ticket/customer/{id}")
-	public List<TicketBooking> viewAllTicketsOfCustomer(@PathVariable("id") int customerId)
+	public ResponseEntity<List<TicketBooking>> viewAllTicketsOfCustomer(@PathVariable("id") int customerId)
 			throws CustomerNotFoundException {
 
-		return ticketBookingService.viewAllTicketsOfCustomer(customerId);
+		return new ResponseEntity<List<TicketBooking>>(ticketBookingService.viewAllTicketsOfCustomer(customerId),
+				HttpStatus.OK);
 
 	}
 
 	@GetMapping(path = "/ticket/bill/{id}")
-	public float calculateBill(@PathVariable("id") int customerId) throws CustomerNotFoundException {
+	public ResponseEntity<?> calculateBill(@PathVariable("id") int customerId) throws CustomerNotFoundException {
 
-		return ticketBookingService.calculateBill(customerId);
+		return new ResponseEntity<>(ticketBookingService.calculateBill(customerId), HttpStatus.OK);
 
 	}
 
