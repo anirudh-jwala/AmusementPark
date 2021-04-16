@@ -60,7 +60,7 @@ public class TicketBookingService implements ITicketBookingService {
 
 		Optional<Customer> customer = customerRepository.findById(customerId);
 
-		if (customer.isPresent()) {
+		if (!customer.isPresent()) {
 			throw new CustomerNotFoundException("No customer is found for specified ID");
 		}
 
@@ -69,7 +69,7 @@ public class TicketBookingService implements ITicketBookingService {
 	}
 
 	@Override
-	public float calculateBill(int customerId) throws CustomerNotFoundException {
+	public float calculateBill(int ticketId, int customerId) throws CustomerNotFoundException {
 
 		Optional<Customer> customer = customerRepository.findById(customerId);
 
@@ -77,7 +77,7 @@ public class TicketBookingService implements ITicketBookingService {
 			throw new CustomerNotFoundException("No customer is found for specified ID");
 		}
 
-		return ticketBookingRepository.calculateBill(customerId);
+		return ticketBookingRepository.calculateBill(ticketId, customerId);
 
 	}
 

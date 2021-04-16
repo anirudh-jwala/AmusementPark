@@ -16,6 +16,6 @@ public interface ITicketBookingService {
 
 	public List<TicketBooking> viewAllTicketsOfCustomer(int customerId) throws CustomerNotFoundException;
 
-	public float calculateBill(int customerId) throws CustomerNotFoundException;
+	public float calculateBill(int ticketId, int customerId) throws CustomerNotFoundException;
 
 }

@@ -66,10 +66,11 @@ public class TicketBookingController {
 
 	}
 
-	@GetMapping(path = "/ticket/bill/{id}")
-	public ResponseEntity<?> calculateBill(@PathVariable("id") int customerId) throws CustomerNotFoundException {
+	@GetMapping(path = "/ticket/bill/{ticketId}/{customerId}")
+	public ResponseEntity<?> calculateBill(@PathVariable("ticketId") int ticketId,
+			@PathVariable("customerId") int customerId) throws CustomerNotFoundException {
 
-		return new ResponseEntity<>(ticketBookingService.calculateBill(customerId), HttpStatus.OK);
+		return new ResponseEntity<>(ticketBookingService.calculateBill(ticketId, customerId), HttpStatus.OK);
 
 	}
 
