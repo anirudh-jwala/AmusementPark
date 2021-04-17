@@ -1,5 +1,6 @@
 package com.cg.AmusementPark;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -19,6 +20,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 
+import com.cg.AmusementPark.entities.Activity;
 import com.cg.AmusementPark.entities.Customer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -54,7 +56,7 @@ class AmusementParkApplicationTest {
 				.andExpect(jsonPath("$.[0].customerId").exists())
 				.andExpect(jsonPath("$.[0].mobileNumber", is("9848012345")));
 	}
-	
+
 	@Test
 	public void shouldCheckOneCustomerNameAndTicketDetails() throws Exception {
 		this.mockMvc
@@ -64,7 +66,7 @@ class AmusementParkApplicationTest {
 				.andExpect(jsonPath("$.username", is("sanjay")))
 				.andExpect(jsonPath("$.tickets[0].ticketId", is(1)));
 	}
-	
+
 	@Test
 	public void shouldAddCustomer() throws Exception {
 		this.mockMvc
@@ -75,7 +77,7 @@ class AmusementParkApplicationTest {
 			    .andExpect(status().isCreated())
 			    .andExpect(jsonPath("$.customerId", is(5)));
 	}
-	
+
 	@Test
 	public void shouldUpdateCustomer() throws Exception {
 		this.mockMvc
@@ -86,11 +88,62 @@ class AmusementParkApplicationTest {
 			    .andExpect(status().isOk())
 			    .andExpect(jsonPath("$.email", is("bharath@capgemini.com")));
 	}
-	
+
 	@Test
 	public void shouldDeleteCustomer() throws Exception {
 		this.mockMvc
 				.perform(delete("/customer/{id}", 4))
+				.andExpect(status().isOk());
+	}
+	
+	/**
+	 * Activity controller testing
+	 */
+	@Test
+	public void shouldGetActivitiesOfCharges() throws Exception {
+		this.mockMvc
+				.perform(get("/activity/{amount}", 500.0f))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.[0].activityId").exists())
+				.andExpect(jsonPath("$.[0].activityName", is("Jungle Safari")));
+	}
+	
+	@Test
+	public void shouldGetCountOfActivitiesOfCharges() throws Exception {
+		this.mockMvc
+				.perform(get("/activity/{amount}", 500.0f))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().string(containsString("2")));
+	}
+	
+	@Test
+	public void shouldAddActivity() throws Exception {
+		this.mockMvc
+				.perform(post("/activity")
+				.content(asJsonString(new Activity(5, "Lazer show", "For kids and adults", 250.0f)))
+			    .contentType(MediaType.APPLICATION_JSON)
+			    .accept(MediaType.APPLICATION_JSON))
+			    .andExpect(status().isCreated())
+			    .andExpect(jsonPath("$.activityId", is(5)));
+	}
+	
+	@Test
+	public void shouldUpdateActivity() throws Exception {
+		this.mockMvc
+				.perform(put("/activity")
+				.content(asJsonString(new Activity(5, "Lazer show", "For kids and adults", 350.0f)))
+			    .contentType(MediaType.APPLICATION_JSON)
+			    .accept(MediaType.APPLICATION_JSON))
+			    .andExpect(status().isOk())
+			    .andExpect(jsonPath("$.charges", is(350.0)));
+	}
+	
+	@Test
+	public void shouldDeleteActivity() throws Exception {
+		this.mockMvc
+				.perform(delete("/activity/{id}", 3))
 				.andExpect(status().isOk());
 	}
 
