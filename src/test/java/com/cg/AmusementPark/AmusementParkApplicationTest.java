@@ -1,9 +1,6 @@
 package com.cg.AmusementPark;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -13,14 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.cg.AmusementPark.controller.ActivityController;
 import com.cg.AmusementPark.controller.CustomerController;
 import com.cg.AmusementPark.controller.TicketBookingController;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = AmusementParkApplication.class)
@@ -30,16 +23,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AmusementParkApplicationTest {
 
 	@Autowired
-	ActivityController acitivityController;
+	private ActivityController acitivityController;
 
 	@Autowired
-	CustomerController customerController;
+	private CustomerController customerController;
 
 	@Autowired
-	TicketBookingController ticketBookingController;
-
-	@Autowired
-	MockMvc mockMvc;
+	private TicketBookingController ticketBookingController;
 
 	@Test
 	void activityControllerIsNotNull() {
@@ -54,12 +44,6 @@ class AmusementParkApplicationTest {
 	@Test
 	void ticketBookingControllerIsNotNull() {
 		assertThat(ticketBookingController).isNotNull();
-	}
-
-	@Test
-	public void shouldCheckCustomerEmail() throws Exception {
-		this.mockMvc.perform(get("/customer/1")).andDo(print())
-				.andExpect((ResultMatcher) jsonPath("email", is("sanjay@gmail.com")));
 	}
 
 }
