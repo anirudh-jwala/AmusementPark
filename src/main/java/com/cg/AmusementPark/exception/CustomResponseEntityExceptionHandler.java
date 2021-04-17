@@ -48,6 +48,16 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
 	}
 
+	@ExceptionHandler({ InvalidCustomerException.class })
+	public final ResponseEntity<Object> handleInvalidCustomerException(InvalidCustomerException exception,
+			WebRequest req) {
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(),
+				"Customer information is not valid, please enter again!", new Date());
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
+
+	}
+
 	/**
 	 * Custom exceptions handlers of Activity entity
 	 */
@@ -72,6 +82,16 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 
 	}
 
+	@ExceptionHandler({ InvalidActivityException.class })
+	public final ResponseEntity<Object> handleInvalidActivityException(InvalidActivityException exception,
+			WebRequest req) {
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(),
+				"Activity information is not valid, please enter again!", new Date());
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
+
+	}
+
 	/**
 	 * Custom exceptions handlers of Ticket Booking entity
 	 */
@@ -83,6 +103,16 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
 				"The Ticket Booking Request which you are trying to perform operation is not present in the database",
 				new Date());
 		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.NOT_FOUND);
+
+	}
+
+	@ExceptionHandler({ InvalidTicketBookingException.class })
+	public final ResponseEntity<Object> handleInvalidTicketBookingException(InvalidTicketBookingException exception,
+			WebRequest req) {
+
+		ExceptionResponse exceptionResponse = new ExceptionResponse(exception.getMessage(),
+				"Ticket booking information is not valid, please enter again!", new Date());
+		return new ResponseEntity<Object>(exceptionResponse, HttpStatus.BAD_REQUEST);
 
 	}
 

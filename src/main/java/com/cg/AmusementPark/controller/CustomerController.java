@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.AmusementPark.entities.Customer;
 import com.cg.AmusementPark.exception.CustomerExistsException;
 import com.cg.AmusementPark.exception.CustomerNotFoundException;
+import com.cg.AmusementPark.exception.InvalidCustomerException;
 import com.cg.AmusementPark.service.CustomerService;
 
 @RestController
@@ -29,10 +31,16 @@ public class CustomerController {
 
 	@PostMapping(path = "/customer")
 	public ResponseEntity<Customer> insertCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult)
-			throws CustomerExistsException, Exception {
+			throws CustomerExistsException, InvalidCustomerException {
 
 		if (bindingResult.hasErrors()) {
-			throw new Exception("Customer details provided are not valid, please try again!");
+
+			List<FieldError> errors = bindingResult.getFieldErrors();
+
+			for (FieldError error : errors) {
+				throw new InvalidCustomerException(error.getDefaultMessage());
+			}
+
 		}
 
 		return new ResponseEntity<Customer>(customerService.insertCustomer(customer), HttpStatus.CREATED);
@@ -44,7 +52,13 @@ public class CustomerController {
 			throws CustomerNotFoundException, Exception {
 
 		if (bindingResult.hasErrors()) {
-			throw new Exception("Customer details provided are not valid, please try again!");
+
+			List<FieldError> errors = bindingResult.getFieldErrors();
+
+			for (FieldError error : errors) {
+				throw new InvalidCustomerException(error.getDefaultMessage());
+			}
+
 		}
 
 		return new ResponseEntity<Customer>(customerService.updateCustomer(customer), HttpStatus.OK);

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.AmusementPark.entities.TicketBooking;
 import com.cg.AmusementPark.exception.CustomerNotFoundException;
+import com.cg.AmusementPark.exception.InvalidTicketBookingException;
 import com.cg.AmusementPark.exception.TicketBookingNotFoundException;
 import com.cg.AmusementPark.service.TicketBookingService;
 
@@ -29,10 +31,16 @@ public class TicketBookingController {
 
 	@PostMapping(path = "/ticket")
 	public ResponseEntity<TicketBooking> insertTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
-			BindingResult bindingResult) throws Exception {
+			BindingResult bindingResult) throws InvalidTicketBookingException {
 
 		if (bindingResult.hasErrors()) {
-			throw new Exception("Ticket booking details provided are not valid, please try again!");
+
+			List<FieldError> errors = bindingResult.getFieldErrors();
+
+			for (FieldError error : errors) {
+				throw new InvalidTicketBookingException(error.getDefaultMessage());
+			}
+
 		}
 
 		return new ResponseEntity<TicketBooking>(ticketBookingService.insertTicketBooking(ticketBooking),
@@ -41,8 +49,18 @@ public class TicketBookingController {
 	}
 
 	@PutMapping(path = "/ticket")
-	public ResponseEntity<TicketBooking> updateTicketBooking(TicketBooking ticketBooking)
-			throws TicketBookingNotFoundException {
+	public ResponseEntity<TicketBooking> updateTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
+			BindingResult bindingResult) throws TicketBookingNotFoundException, InvalidTicketBookingException {
+
+		if (bindingResult.hasErrors()) {
+
+			List<FieldError> errors = bindingResult.getFieldErrors();
+
+			for (FieldError error : errors) {
+				throw new InvalidTicketBookingException(error.getDefaultMessage());
+			}
+
+		}
 
 		return new ResponseEntity<TicketBooking>(ticketBookingService.updateTicketBooking(ticketBooking),
 				HttpStatus.OK);

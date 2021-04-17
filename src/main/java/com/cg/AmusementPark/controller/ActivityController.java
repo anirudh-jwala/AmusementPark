@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cg.AmusementPark.entities.Activity;
 import com.cg.AmusementPark.exception.ActivityExistsException;
 import com.cg.AmusementPark.exception.ActivityNotFoundException;
+import com.cg.AmusementPark.exception.InvalidActivityException;
 import com.cg.AmusementPark.service.ActivityService;
 
 @RestController
@@ -29,10 +31,16 @@ public class ActivityController {
 
 	@PostMapping(path = "/activity")
 	public ResponseEntity<Activity> insertActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
-			throws ActivityExistsException, Exception {
+			throws ActivityExistsException, InvalidActivityException {
 
 		if (bindingResult.hasErrors()) {
-			throw new Exception("Activity details provided are not valid, please try again!");
+
+			List<FieldError> errors = bindingResult.getFieldErrors();
+
+			for (FieldError error : errors) {
+				throw new InvalidActivityException(error.getDefaultMessage());
+			}
+
 		}
 
 		return new ResponseEntity<Activity>(activityService.insertActivity(activity), HttpStatus.CREATED);
@@ -41,10 +49,16 @@ public class ActivityController {
 
 	@PutMapping(path = "/activity")
 	public ResponseEntity<Activity> updateActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
-			throws ActivityNotFoundException, Exception {
+			throws ActivityNotFoundException, InvalidActivityException {
 
 		if (bindingResult.hasErrors()) {
-			throw new Exception("Activity details provided are not valid, please try again!");
+
+			List<FieldError> errors = bindingResult.getFieldErrors();
+
+			for (FieldError error : errors) {
+				throw new InvalidActivityException(error.getDefaultMessage());
+			}
+
 		}
 
 		return new ResponseEntity<Activity>(activityService.updateActivity(activity), HttpStatus.OK);
