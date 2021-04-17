@@ -88,7 +88,18 @@ public class CustomerController {
 	}
 
 	@PostMapping(path = "/customer/auth")
-	public ResponseEntity<Customer> validateCustomer(@RequestBody Customer customer) throws CustomerNotFoundException {
+	public ResponseEntity<Customer> validateCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult)
+			throws CustomerNotFoundException, InvalidCustomerException {
+
+		if (bindingResult.hasErrors()) {
+
+			List<FieldError> errors = bindingResult.getFieldErrors();
+
+			for (FieldError error : errors) {
+				throw new InvalidCustomerException(error.getDefaultMessage());
+			}
+
+		}
 
 		return new ResponseEntity<Customer>(
 				customerService.validateCustomer(customer.getEmail(), customer.getPassword()), HttpStatus.OK);
