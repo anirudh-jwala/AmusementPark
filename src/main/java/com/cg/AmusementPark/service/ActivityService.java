@@ -87,4 +87,8 @@ public class ActivityService implements IActivityService {
 
 	}
 
+	public Activity findActivityById(int activityId) {
+		return activityRepository.findById(activityId).get();
+	}
+
 }
