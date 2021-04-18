@@ -70,6 +70,7 @@ class ActivityServiceTest {
 				.insertActivity(new Activity(1, "Swimming", "Best for summer", 500.0f));
 
 		assertEquals("Best for summer", realActivityAdded.getDescription());
+		assertEquals("Swimming", realActivityAdded.getActivityName());
 
 	}
 

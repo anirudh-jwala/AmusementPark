@@ -33,7 +33,10 @@ class CustomerServiceTest {
 		mockCustomers.add(new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
 		mockCustomers.add(new Customer(2, "bharath", "bharath@gmail.com", "bharath123", "Hyderabad", "7981970397"));
 		mockCustomers.add(new Customer(3, "shubham", "shubham@gmail.com", "shubham123", "Pune", "7981970397"));
-
+		mockCustomers.add(new Customer(4, "sai teja", "ksaiteja@gmail.com", "saiteja123", "Hydrabad", "7981912345"));
+		mockCustomers.add(new Customer(5, "asadullah", "asadullah@gmail.com", "asadullah123", "Bhopal", "7981970397"));
+		mockCustomers.add(new Customer(6, "siddharth", "siddharth@gmail.com", "siddharth123", "Indore", "7981913678"));
+		
 		Mockito.when(customerRepository.findAll()).thenReturn(mockCustomers);
 
 		List<Customer> realCustomers = customerService.viewCustomers();
@@ -49,6 +52,9 @@ class CustomerServiceTest {
 		mockCustomers.add(new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
 		mockCustomers.add(new Customer(2, "bharath", "bharath@gmail.com", "bharath123", "Hyderabad", "7981970397"));
 		mockCustomers.add(new Customer(3, "shubham", "shubham@gmail.com", "shubham123", "Pune", "7981970397"));
+		mockCustomers.add(new Customer(4, "sai teja", "ksaiteja@gmail.com", "saiteja123", "Hydrabad", "7981912345"));
+		mockCustomers.add(new Customer(5, "asadullah", "asadullah@gmail.com", "asadullah123", "Bhopal", "7981970397"));
+		mockCustomers.add(new Customer(6, "siddharth", "siddharth@gmail.com", "siddharth123", "Indore", "7981913678"));
 
 		customerRepository.saveAll(mockCustomers);
 
@@ -68,6 +74,9 @@ class CustomerServiceTest {
 		mockCustomers.add(new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
 		mockCustomers.add(new Customer(2, "bharath", "bharath@gmail.com", "bharath123", "Hyderabad", "7981970397"));
 		mockCustomers.add(new Customer(3, "shubham", "shubham@gmail.com", "shubham123", "Pune", "7981970397"));
+		mockCustomers.add(new Customer(4, "sai teja", "ksaiteja@gmail.com", "saiteja123", "Hydrabad", "7981912345"));
+		mockCustomers.add(new Customer(5, "asadullah", "asadullah@gmail.com", "asadullah123", "Bhopal", "7981970397"));
+		mockCustomers.add(new Customer(6, "siddharth", "siddharth@gmail.com", "siddharth123", "Indore", "7981913678"));
 
 		customerRepository.saveAll(mockCustomers);
 
