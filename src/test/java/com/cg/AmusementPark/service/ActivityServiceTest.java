@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -36,11 +36,11 @@ class ActivityServiceTest {
 
 		Mockito.when(activityRepository.viewActivitiesOfCharges(500.0f)).thenReturn(mockActivities.subList(0, 1));
 		List<Activity> realActivities1 = activityService.viewActivitiesOfCharges(500.0f);
-		Assert.assertEquals("Swimming", realActivities1.get(0).getActivityName());
+		assertEquals("Swimming", realActivities1.get(0).getActivityName());
 
 		Mockito.when(activityRepository.viewActivitiesOfCharges(350.0f)).thenReturn(mockActivities.subList(1, 3));
 		List<Activity> realActivities2 = activityService.viewActivitiesOfCharges(350.0f);
-		Assert.assertEquals("Kids train", realActivities2.get(1).getActivityName());
+		assertEquals("Kids train", realActivities2.get(1).getActivityName());
 
 	}
 
@@ -55,7 +55,7 @@ class ActivityServiceTest {
 		Mockito.when(activityRepository.countActivitiesOfCharges(350.0f)).thenReturn(2);
 
 		int realActivityCount = activityService.countActivitiesOfCharges(350.0f);
-		Assert.assertEquals(2, realActivityCount);
+		assertEquals(2, realActivityCount);
 
 	}
 
@@ -69,7 +69,7 @@ class ActivityServiceTest {
 		Activity realActivityAdded = activityService
 				.insertActivity(new Activity(1, "Swimming", "Best for summer", 500.0f));
 
-		Assert.assertEquals("Best for summer", realActivityAdded.getDescription());
+		assertEquals("Best for summer", realActivityAdded.getDescription());
 
 	}
 
@@ -86,7 +86,7 @@ class ActivityServiceTest {
 		Activity activityUpdated = activityService.findActivityById(1);
 		activityUpdated.setActivityName("Swimming Championship");
 
-		Assert.assertEquals("Swimming Championship", activityUpdated.getActivityName());
+		assertEquals("Swimming Championship", activityUpdated.getActivityName());
 
 	}
 

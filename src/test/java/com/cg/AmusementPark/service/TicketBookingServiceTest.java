@@ -1,10 +1,11 @@
 package com.cg.AmusementPark.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -46,8 +47,8 @@ class TicketBookingServiceTest {
 		TicketBooking realTicket = ticketBookingService
 				.insertTicketBooking(new TicketBooking(1, date, 850.0f, mockCustomer, mockActivities));
 
-		Assert.assertEquals("Swimming", realTicket.getActivities().get(0).getActivityName());
-		Assert.assertEquals("Enjoy with family", realTicket.getActivities().get(1).getDescription());
+		assertEquals("Swimming", realTicket.getActivities().get(0).getActivityName());
+		assertEquals("Enjoy with family", realTicket.getActivities().get(1).getDescription());
 
 	}
 

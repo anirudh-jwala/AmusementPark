@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -38,7 +38,7 @@ class CustomerServiceTest {
 
 		List<Customer> realCustomers = customerService.viewCustomers();
 
-		Assert.assertEquals("anirudh", realCustomers.get(0).getUsername());
+		assertEquals("anirudh", realCustomers.get(0).getUsername());
 
 	}
 
@@ -57,7 +57,7 @@ class CustomerServiceTest {
 
 		Customer realCustomer = customerService.viewCustomer(2);
 
-		Assert.assertEquals("bharath", realCustomer.getUsername());
+		assertEquals("bharath", realCustomer.getUsername());
 
 	}
 
@@ -76,7 +76,7 @@ class CustomerServiceTest {
 
 		Customer realCustomer = customerService.validateCustomer("anirudh@gmail.com", "anirudh123");
 
-		Assert.assertEquals("anirudh@gmail.com", realCustomer.getEmail());
+		assertEquals("anirudh@gmail.com", realCustomer.getEmail());
 
 	}
 
@@ -91,9 +91,9 @@ class CustomerServiceTest {
 		Customer realCustomer = customerService.insertCustomer(
 				new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
 
-		Assert.assertEquals("anirudh@gmail.com", realCustomer.getEmail());
-		Assert.assertEquals("7981970397", realCustomer.getMobileNumber());
-		Assert.assertEquals("Hyderabad", realCustomer.getAddress());
+		assertEquals("anirudh@gmail.com", realCustomer.getEmail());
+		assertEquals("7981970397", realCustomer.getMobileNumber());
+		assertEquals("Hyderabad", realCustomer.getAddress());
 
 	}
 
@@ -113,8 +113,8 @@ class CustomerServiceTest {
 		customerUpdated.setAddress("Mumbai");
 		customerUpdated.setEmail("anirudh@capgemini.com");
 
-		Assert.assertEquals("anirudh@capgemini.com", customerUpdated.getEmail());
-		Assert.assertEquals("Mumbai", customerUpdated.getAddress());
+		assertEquals("anirudh@capgemini.com", customerUpdated.getEmail());
+		assertEquals("Mumbai", customerUpdated.getAddress());
 
 	}
 
