@@ -1,5 +1,6 @@
 package com.cg.AmusementPark;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -71,7 +72,7 @@ class AmusementParkApplicationTest {
 //						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 //				.andExpect(status().isCreated()).andExpect(jsonPath("$.customerId", is(6)));
 //	}
-//
+
 //	@Test
 //	public void shouldUpdateCustomer() throws Exception {
 //		this.mockMvc
@@ -97,11 +98,11 @@ class AmusementParkApplicationTest {
 				.andExpect(jsonPath("$.[0].activityName", is("Jungle Safari")));
 	}
 
-//	@Test
-//	public void shouldGetCountOfActivitiesOfCharges() throws Exception {
-//		this.mockMvc.perform(get("/activity/{amount}", 500.0f)).andDo(print()).andExpect(status().isOk())
-//				.andExpect(content().string(containsString("2")));
-//	}
+	@Test
+	public void shouldGetCountOfActivitiesOfCharges() throws Exception {
+		this.mockMvc.perform(get("/activity/{amount}", 500.0f)).andDo(print()).andExpect(status().isOk())
+				.andExpect(content().string(containsString("2")));
+	}
 
 //	@Test
 //	public void shouldAddActivity() throws Exception {
@@ -110,7 +111,7 @@ class AmusementParkApplicationTest {
 //						.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
 //				.andExpect(status().isCreated()).andExpect(jsonPath("$.activityId", is(6)));
 //	}
-//
+
 //	@Test
 //	public void shouldUpdateActivity() throws Exception {
 //		this.mockMvc
@@ -136,12 +137,12 @@ class AmusementParkApplicationTest {
 
 	}
 
-//	@Test
-//	public void shouldReturnChargesOfTicketById() throws Exception {
-//
-//		this.mockMvc.perform(get("/ticket/bill/{ticketId}/{customerId}", 2, 1)).andDo(print())
-//				.andExpect(status().isOk()).andExpect(content().string(containsString("500")));
-//	}
+	@Test
+	public void shouldReturnChargesOfTicketById() throws Exception {
+
+		this.mockMvc.perform(get("/ticket/bill/{ticketId}/{customerId}", 2, 1)).andDo(print())
+				.andExpect(status().isOk()).andExpect(content().string(containsString("500")));
+	}
 
 //	@Test
 //	public void shouldDeleteTicketBooking() throws Exception {
