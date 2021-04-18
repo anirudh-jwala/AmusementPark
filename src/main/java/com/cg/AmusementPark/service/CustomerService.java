@@ -80,7 +80,8 @@ public class CustomerService implements ICustomerService {
 			throw new CustomerNotFoundException("No customer is available with provided ID");
 		}
 
-		return customerRepository.viewCustomer(customerId);
+		// return customerRepository.viewCustomer(customerId);
+		return customerRepository.findById(customerId).get();
 
 	}
 
@@ -95,6 +96,10 @@ public class CustomerService implements ICustomerService {
 
 		return customer;
 
+	}
+	
+	public Customer findCustomerById(int customerId) {
+		return customerRepository.findById(customerId).get();
 	}
 
 }

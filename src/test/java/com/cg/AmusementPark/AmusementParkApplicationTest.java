@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 
 import com.cg.AmusementPark.entities.Activity;
 import com.cg.AmusementPark.entities.Customer;
+import com.cg.AmusementPark.entities.TicketBooking;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,122 +38,161 @@ class AmusementParkApplicationTest {
 	MockMvc mockMvc;
 
 	/**
-	 * Customer controller testing
+	 * Customer testing
 	 */
-	@Test
-	public void shouldCheckCustomerEmailById() throws Exception {
-		this.mockMvc
-				.perform(get("/customer/{id}", 1))
-				.andDo(print())
-				.andExpect((ResultMatcher) jsonPath("email", is("sanjay@gmail.com")));
-	}
-
-	@Test
-	public void shouldCheckCustomerDetails() throws Exception {
-		this.mockMvc
-				.perform(get("/customer"))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.[0].customerId").exists())
-				.andExpect(jsonPath("$.[0].mobileNumber", is("9848012345")));
-	}
-
-	@Test
-	public void shouldCheckOneCustomerNameAndTicketDetails() throws Exception {
-		this.mockMvc
-				.perform(get("/customer/{id}", 1))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.username", is("sanjay")))
-				.andExpect(jsonPath("$.tickets[0].ticketId", is(1)));
-	}
-
-	@Test
-	public void shouldAddCustomer() throws Exception {
-		this.mockMvc
-				.perform(post("/customer")
-				.content(asJsonString(new Customer(5, "shubham", "shubham@gmail.com", "shubham123", "Pune", "9848012345")))
-			    .contentType(MediaType.APPLICATION_JSON)
-			    .accept(MediaType.APPLICATION_JSON))
-			    .andExpect(status().isCreated())
-			    .andExpect(jsonPath("$.customerId", is(5)));
-	}
-
-	@Test
-	public void shouldUpdateCustomer() throws Exception {
-		this.mockMvc
-				.perform(put("/customer")
-				.content(asJsonString(new Customer(3, "bharath", "bharath@capgemini.com", "bharath123456", "Hyderabad", "9848012345")))
-			    .contentType(MediaType.APPLICATION_JSON)
-			    .accept(MediaType.APPLICATION_JSON))
-			    .andExpect(status().isOk())
-			    .andExpect(jsonPath("$.email", is("bharath@capgemini.com")));
-	}
-
-	@Test
-	public void shouldDeleteCustomer() throws Exception {
-		this.mockMvc
-				.perform(delete("/customer/{id}", 4))
-				.andExpect(status().isOk());
-	}
-	
+//	@Test
+//	public void shouldCheckCustomerEmailById() throws Exception {
+//		this.mockMvc
+//				.perform(get("/customer/{id}", 1))
+//				.andDo(print())
+//				.andExpect((ResultMatcher) jsonPath("email", is("sanjay@gmail.com")));
+//	}
+//
+//	@Test
+//	public void shouldCheckCustomerDetails() throws Exception {
+//		this.mockMvc
+//				.perform(get("/customer"))
+//				.andDo(print())
+//				.andExpect(status().isOk())
+//				.andExpect(jsonPath("$.[0].customerId").exists())
+//				.andExpect(jsonPath("$.[0].mobileNumber", is("9848012345")));
+//	}
+//
+//	@Test
+//	public void shouldCheckOneCustomerNameAndTicketDetails() throws Exception {
+//		this.mockMvc
+//				.perform(get("/customer/{id}", 1))
+//				.andDo(print())
+//				.andExpect(status().isOk())
+//				.andExpect(jsonPath("$.username", is("sanjay")))
+//				.andExpect(jsonPath("$.tickets[0].ticketId", is(1)));
+//	}
+//
+//	@Test
+//	public void shouldAddCustomer() throws Exception {
+//		this.mockMvc
+//				.perform(post("/customer")
+//				.content(asJsonString(new Customer(6, "saitejac", "sai@gmail.com", "saiteja123", "Hyderabad", "9848012345")))
+//			    .contentType(MediaType.APPLICATION_JSON)
+//			    .accept(MediaType.APPLICATION_JSON))
+//			    .andExpect(status().isCreated())
+//			    .andExpect(jsonPath("$.customerId", is(6)));
+//	}
+//
+//	@Test
+//	public void shouldUpdateCustomer() throws Exception {
+//		this.mockMvc
+//				.perform(put("/customer")
+//				.content(asJsonString(new Customer(6, "sai teja", "sai@capgemini.com", "sai123", "Hyderabad", "9848012345")))
+//			    .contentType(MediaType.APPLICATION_JSON)
+//			    .accept(MediaType.APPLICATION_JSON))
+//			    .andExpect(status().isOk())
+//			    .andExpect(jsonPath("$.email", is("sai@capgemini.com")));
+//	}
+//
+//	@Test
+//	public void shouldDeleteCustomer() throws Exception {
+//		this.mockMvc
+//				.perform(delete("/customer/{id}", 5))
+//				.andExpect(status().isOk());
+//	}
+//	
 	/**
-	 * Activity controller testing
+	 * Activity testing
+	 */
+//	@Test
+//	public void shouldGetActivitiesOfCharges() throws Exception {
+//		this.mockMvc
+//				.perform(get("/activity/{amount}", 500.0f))
+//				.andDo(print())
+//				.andExpect(status().isOk())
+//				.andExpect(jsonPath("$.[0].activityId").exists())
+//				.andExpect(jsonPath("$.[0].activityName", is("Jungle Safari")));
+//	}
+//	
+//	@Test
+//	public void shouldGetCountOfActivitiesOfCharges() throws Exception {
+//		this.mockMvc
+//				.perform(get("/activity/{amount}", 500.0f))
+//				.andDo(print())
+//				.andExpect(status().isOk())
+//				.andExpect(content().string(containsString("2")));
+//	}
+//	
+//	@Test
+//	public void shouldAddActivity() throws Exception {
+//		this.mockMvc
+//				.perform(post("/activity")
+//				.content(asJsonString(new Activity(6, "Gaint wheel", "For adults", 550.0f)))
+//			    .contentType(MediaType.APPLICATION_JSON)
+//			    .accept(MediaType.APPLICATION_JSON))
+//			    .andExpect(status().isCreated())
+//			    .andExpect(jsonPath("$.activityId", is(6)));
+//	}
+//	
+//	@Test
+//	public void shouldUpdateActivity() throws Exception {
+//		this.mockMvc
+//				.perform(put("/activity")
+//				.content(asJsonString(new Activity(5, "Lazer show", "For kids and adults", 450.0f)))
+//			    .contentType(MediaType.APPLICATION_JSON)
+//			    .accept(MediaType.APPLICATION_JSON))
+//			    .andExpect(status().isOk())
+//			    .andExpect(jsonPath("$.charges", is(450.0)));
+//	}
+//	
+//	@Test
+//	public void shouldDeleteActivity() throws Exception {
+//		this.mockMvc
+//				.perform(delete("/activity/{id}", 4))
+//				.andExpect(status().isOk());
+//	}
+
+	/**
+	 * Ticket booking testing
 	 */
 	@Test
-	public void shouldGetActivitiesOfCharges() throws Exception {
-		this.mockMvc
-				.perform(get("/activity/{amount}", 500.0f))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.[0].activityId").exists())
-				.andExpect(jsonPath("$.[0].activityName", is("Jungle Safari")));
+	public void shouldReturnListOfTicketByCustomerId() throws Exception {
+
+		this.mockMvc.perform(get("/ticket/customer/{id}", 1)).andDo(print()).andExpect(status().isOk())
+				.andExpect(jsonPath("$.[0].ticketId", is(2))).andExpect(jsonPath("$.[0].bill").exists());
+
 	}
-	
+
 	@Test
-	public void shouldGetCountOfActivitiesOfCharges() throws Exception {
-		this.mockMvc
-				.perform(get("/activity/{amount}", 500.0f))
-				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(content().string(containsString("2")));
+	public void shouldReturnChargesOfTicketById() throws Exception {
+
+		this.mockMvc.perform(get("/ticket/bill/{ticketId}/{customerId}", 2, 1)).andDo(print())
+				.andExpect(status().isOk()).andExpect(content().string(containsString("500")));
 	}
-	
+
 	@Test
-	public void shouldAddActivity() throws Exception {
+	public void shouldDeleteTicketBooking() throws Exception {
+
 		this.mockMvc
-				.perform(post("/activity")
-				.content(asJsonString(new Activity(5, "Lazer show", "For kids and adults", 250.0f)))
-			    .contentType(MediaType.APPLICATION_JSON)
-			    .accept(MediaType.APPLICATION_JSON))
-			    .andExpect(status().isCreated())
-			    .andExpect(jsonPath("$.activityId", is(5)));
-	}
-	
-	@Test
-	public void shouldUpdateActivity() throws Exception {
-		this.mockMvc
-				.perform(put("/activity")
-				.content(asJsonString(new Activity(5, "Lazer show", "For kids and adults", 350.0f)))
-			    .contentType(MediaType.APPLICATION_JSON)
-			    .accept(MediaType.APPLICATION_JSON))
-			    .andExpect(status().isOk())
-			    .andExpect(jsonPath("$.charges", is(350.0)));
-	}
-	
-	@Test
-	public void shouldDeleteActivity() throws Exception {
-		this.mockMvc
-				.perform(delete("/activity/{id}", 3))
+				.perform(delete("/ticket/{id}", 1))
 				.andExpect(status().isOk());
+
 	}
+	
+//	@Test
+//	public void shouldAddTicketBooking() {
+//		
+//		this.mockMvc
+//				.perform(post("/ticket"))
+//				.content(asJsonString(new TicketBooking(3, new LocalDate(), 500.0f)))
+//			    .contentType(MediaType.APPLICATION_JSON)
+//			    .accept(MediaType.APPLICATION_JSON))
+//			    .andExpect(status().isCreated());
+//		
+//	}
 
 	public String asJsonString(Object obj) {
-	    try {
-	        return new ObjectMapper().writeValueAsString(obj);
-	    } catch (Exception e) {
-	        throw new RuntimeException(e);
-	    }
+		try {
+			return new ObjectMapper().writeValueAsString(obj);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 }
