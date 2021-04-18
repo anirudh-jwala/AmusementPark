@@ -3,6 +3,8 @@ package com.cg.AmusementPark.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,12 @@ public class ActivityService implements IActivityService {
 	@Autowired
 	private ActivityRepository activityRepository;
 
+	Logger logger = LoggerFactory.getLogger(this.getClass());
+
 	@Override
 	public Activity insertActivity(Activity activity) throws ActivityExistsException {
+
+		logger.info("Called insertActivity() method of ActivityService");
 
 		Activity searchedActivity = activityRepository.findByActivityName(activity.getActivityName());
 
@@ -33,6 +39,8 @@ public class ActivityService implements IActivityService {
 	@Override
 	public Activity updateActivity(Activity activity) throws ActivityNotFoundException {
 
+		logger.info("Called updateActivity() method of ActivityService");
+
 		Optional<Activity> searchedActivity = activityRepository.findById(activity.getActivityId());
 
 		if (!searchedActivity.isPresent()) {
@@ -45,6 +53,8 @@ public class ActivityService implements IActivityService {
 
 	@Override
 	public Activity deleteActivity(int activityId) throws ActivityNotFoundException {
+
+		logger.info("Called deleteActivity() method of ActivityService");
 
 		Optional<Activity> searchedActivity = activityRepository.findById(activityId);
 
@@ -60,6 +70,8 @@ public class ActivityService implements IActivityService {
 	@Override
 	public List<Activity> viewActivitiesOfCharges(float charges) throws ActivityNotFoundException {
 
+		logger.info("Called viewActivitiesOfCharges() method of ActivityService");
+
 		List<Activity> activities = activityRepository.viewActivitiesOfCharges(charges);
 
 		if (activities.size() == 0) {
@@ -74,6 +86,8 @@ public class ActivityService implements IActivityService {
 
 	@Override
 	public int countActivitiesOfCharges(float charges) throws ActivityNotFoundException {
+
+		logger.info("Called countActivitiesOfCharges() method of ActivityService");
 
 		int activityCount = activityRepository.countActivitiesOfCharges(charges);
 

@@ -3,6 +3,8 @@ package com.cg.AmusementPark.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +18,14 @@ public class CustomerService implements ICustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepository;
+	
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Override
 	public Customer insertCustomer(Customer customer) throws CustomerExistsException {
 
+		logger.info("Called insertCustomer() method of CustomerService");
+		
 		Customer searchedCustomer = customerRepository.findByCustomerEmail(customer.getEmail());
 
 		if (searchedCustomer != null && customer.getEmail().equals(searchedCustomer.getEmail())) {
@@ -33,6 +39,8 @@ public class CustomerService implements ICustomerService {
 	@Override
 	public Customer updateCustomer(Customer customer) throws CustomerNotFoundException {
 
+		logger.info("Called updateCustomer() method of CustomerService");
+		
 		Optional<Customer> searchedCustomer = customerRepository.findById(customer.getCustomerId());
 
 		if (!searchedCustomer.isPresent()) {
@@ -46,6 +54,8 @@ public class CustomerService implements ICustomerService {
 	@Override
 	public Customer deleteCustomer(int customerId) throws CustomerNotFoundException {
 
+		logger.info("Called deleteCustomer() method of CustomerService");
+		
 		Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
 
 		if (!searchedCustomer.isPresent()) {
@@ -61,6 +71,8 @@ public class CustomerService implements ICustomerService {
 	@Override
 	public List<Customer> viewCustomers() throws CustomerNotFoundException {
 
+		logger.info("Called viewCustomers() method of CustomerService");
+		
 		List<Customer> customers = customerRepository.findAll();
 
 		if (customers.size() == 0) {
@@ -74,6 +86,8 @@ public class CustomerService implements ICustomerService {
 	@Override
 	public Customer viewCustomer(int customerId) throws CustomerNotFoundException {
 
+		logger.info("Called viewCustomer() method of CustomerService");
+		
 		Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
 
 		if (!searchedCustomer.isPresent()) {
@@ -88,6 +102,8 @@ public class CustomerService implements ICustomerService {
 	@Override
 	public Customer validateCustomer(String email, String password) throws CustomerNotFoundException {
 
+		logger.info("Called validateCustomer() method of CustomerService");
+		
 		Customer customer = customerRepository.validateCustomer(email, password);
 
 		if (customer == null) {

@@ -177,6 +177,9 @@ public class Customer {
 		return true;
 	}
 
+	/**
+	 * toString() of Customer
+	 */
 	@Override
 	public String toString() {
 		return "Customer [customerId=" + customerId + ", username=" + username + ", email=" + email + ", password="

@@ -143,6 +143,9 @@ public class Activity {
 		return true;
 	}
 
+	/**
+	 * toString() of Activity
+	 */
 	@Override
 	public String toString() {
 		return "Activity [activityId=" + activityId + ", activityName=" + activityName + ", description=" + description

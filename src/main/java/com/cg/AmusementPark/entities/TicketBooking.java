@@ -48,6 +48,9 @@ public class TicketBooking {
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Activity> activities;
 
+	/**
+	 * Ticket booking constructor
+	 */
 	public TicketBooking() {
 
 	}
@@ -139,6 +142,9 @@ public class TicketBooking {
 		return true;
 	}
 
+	/**
+	 * toString() of Ticket Booking
+	 */
 	@Override
 	public String toString() {
 		return "TicketBooking [ticketId=" + ticketId + ", date=" + date + ", bill=" + bill + ", customer=" + customer
