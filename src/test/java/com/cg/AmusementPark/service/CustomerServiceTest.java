@@ -36,7 +36,7 @@ class CustomerServiceTest {
 		mockCustomers.add(new Customer(4, "sai teja", "ksaiteja@gmail.com", "saiteja123", "Hydrabad", "7981912345"));
 		mockCustomers.add(new Customer(5, "asadullah", "asadullah@gmail.com", "asadullah123", "Bhopal", "7981970397"));
 		mockCustomers.add(new Customer(6, "siddharth", "siddharth@gmail.com", "siddharth123", "Indore", "7981913678"));
-		
+
 		Mockito.when(customerRepository.findAll()).thenReturn(mockCustomers);
 
 		List<Customer> realCustomers = customerService.viewCustomers();
