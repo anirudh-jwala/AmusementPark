@@ -18,14 +18,14 @@ public class CustomerService implements ICustomerService {
 
 	@Autowired
 	private CustomerRepository customerRepository;
-	
+
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@Override
 	public Customer insertCustomer(Customer customer) throws CustomerExistsException {
 
 		logger.info("Called insertCustomer() method of CustomerService");
-		
+
 		Customer searchedCustomer = customerRepository.findByCustomerEmail(customer.getEmail());
 
 		if (searchedCustomer != null && customer.getEmail().equals(searchedCustomer.getEmail())) {
@@ -40,7 +40,7 @@ public class CustomerService implements ICustomerService {
 	public Customer updateCustomer(Customer customer) throws CustomerNotFoundException {
 
 		logger.info("Called updateCustomer() method of CustomerService");
-		
+
 		Optional<Customer> searchedCustomer = customerRepository.findById(customer.getCustomerId());
 
 		if (!searchedCustomer.isPresent()) {
@@ -55,7 +55,7 @@ public class CustomerService implements ICustomerService {
 	public Customer deleteCustomer(int customerId) throws CustomerNotFoundException {
 
 		logger.info("Called deleteCustomer() method of CustomerService");
-		
+
 		Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
 
 		if (!searchedCustomer.isPresent()) {
@@ -72,10 +72,10 @@ public class CustomerService implements ICustomerService {
 	public List<Customer> viewCustomers() throws CustomerNotFoundException {
 
 		logger.info("Called viewCustomers() method of CustomerService");
-		
+
 		List<Customer> customers = customerRepository.findAll();
 
-		if (customers.size() == 0) {
+		if (customers.isEmpty()) {
 			throw new CustomerNotFoundException("No customers are available");
 		}
 
@@ -87,15 +87,14 @@ public class CustomerService implements ICustomerService {
 	public Customer viewCustomer(int customerId) throws CustomerNotFoundException {
 
 		logger.info("Called viewCustomer() method of CustomerService");
-		
+
 		Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
 
-		if (!searchedCustomer.isPresent()) {
+		if (searchedCustomer.isPresent()) {
+			return searchedCustomer.get();
+		} else {
 			throw new CustomerNotFoundException("No customer is available with provided ID");
 		}
-
-		// return customerRepository.viewCustomer(customerId);
-		return customerRepository.findById(customerId).get();
 
 	}
 
@@ -103,7 +102,7 @@ public class CustomerService implements ICustomerService {
 	public Customer validateCustomer(String email, String password) throws CustomerNotFoundException {
 
 		logger.info("Called validateCustomer() method of CustomerService");
-		
+
 		Customer customer = customerRepository.validateCustomer(email, password);
 
 		if (customer == null) {
@@ -113,9 +112,15 @@ public class CustomerService implements ICustomerService {
 		return customer;
 
 	}
-	
-	public Customer findCustomerById(int customerId) {
-		return customerRepository.findById(customerId).get();
+
+	public Customer findCustomerById(int customerId) throws CustomerNotFoundException {
+
+		Optional<Customer> foundCustomer = customerRepository.findById(customerId);
+
+		if (foundCustomer.isPresent())
+			return foundCustomer.get();
+		else
+			throw new CustomerNotFoundException("Customer details are not available for provided ID");
 	}
 
 }

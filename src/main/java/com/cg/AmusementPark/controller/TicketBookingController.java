@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +29,7 @@ public class TicketBookingController {
 
 	@Autowired
 	private TicketBookingService ticketBookingService;
-	
+
 	Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	/**
@@ -39,7 +38,8 @@ public class TicketBookingController {
 	 * @return ResponseEntity<TicketBooking>
 	 * @throws InvalidTicketBookingException
 	 * 
-	 * Add a new record of ticket booking to database
+	 *                                       Add a new record of ticket booking to
+	 *                                       database
 	 * 
 	 */
 	@PostMapping(path = "/ticket")
@@ -47,19 +47,12 @@ public class TicketBookingController {
 			BindingResult bindingResult) throws InvalidTicketBookingException {
 
 		logger.info("Called POST mapping insertTicketBooking() method");
-		
+
 		if (bindingResult.hasErrors()) {
-
-			List<FieldError> errors = bindingResult.getFieldErrors();
-
-			for (FieldError error : errors) {
-				throw new InvalidTicketBookingException(error.getDefaultMessage());
-			}
-
+			throw new InvalidTicketBookingException("Ticket booking details are invalid");
 		}
 
-		return new ResponseEntity<TicketBooking>(ticketBookingService.insertTicketBooking(ticketBooking),
-				HttpStatus.CREATED);
+		return new ResponseEntity<>(ticketBookingService.insertTicketBooking(ticketBooking), HttpStatus.CREATED);
 
 	}
 
@@ -70,7 +63,8 @@ public class TicketBookingController {
 	 * @throws TicketBookingNotFoundException
 	 * @throws InvalidTicketBookingException
 	 * 
-	 * Update an existing record of ticket booking in database
+	 *                                        Update an existing record of ticket
+	 *                                        booking in database
 	 * 
 	 */
 	@PutMapping(path = "/ticket")
@@ -78,28 +72,22 @@ public class TicketBookingController {
 			BindingResult bindingResult) throws TicketBookingNotFoundException, InvalidTicketBookingException {
 
 		logger.info("Called PUT mapping updateTicketBooking() method");
-		
+
 		if (bindingResult.hasErrors()) {
-
-			List<FieldError> errors = bindingResult.getFieldErrors();
-
-			for (FieldError error : errors) {
-				throw new InvalidTicketBookingException(error.getDefaultMessage());
-			}
-
+			throw new InvalidTicketBookingException("Ticket booking details are invalid");
 		}
 
-		return new ResponseEntity<TicketBooking>(ticketBookingService.updateTicketBooking(ticketBooking),
-				HttpStatus.OK);
+		return new ResponseEntity<>(ticketBookingService.updateTicketBooking(ticketBooking), HttpStatus.OK);
 
 	}
-	
+
 	/**
 	 * @param ticketId
 	 * @return ResponseEntity<TicketBooking>
 	 * @throws TicketBookingNotFoundException
 	 * 
-	 * Remove an existing record of ticket booking based on ticket booking id
+	 *                                        Remove an existing record of ticket
+	 *                                        booking based on ticket booking id
 	 * 
 	 */
 	@DeleteMapping(path = "/ticket/{id}")
@@ -107,8 +95,8 @@ public class TicketBookingController {
 			throws TicketBookingNotFoundException {
 
 		logger.info("Called DELETE mapping deleteTicketBooking() method");
-		
-		return new ResponseEntity<TicketBooking>(ticketBookingService.deleteTicketBooking(ticketId), HttpStatus.OK);
+
+		return new ResponseEntity<>(ticketBookingService.deleteTicketBooking(ticketId), HttpStatus.OK);
 
 	}
 
@@ -117,7 +105,8 @@ public class TicketBookingController {
 	 * @return ResponseEntity<List<TicketBooking>>
 	 * @throws CustomerNotFoundException
 	 * 
-	 * Get list of all tickets for a specified customer id
+	 *                                   Get list of all tickets for a specified
+	 *                                   customer id
 	 * 
 	 */
 	@GetMapping(path = "/ticket/customer/{id}")
@@ -125,9 +114,8 @@ public class TicketBookingController {
 			throws CustomerNotFoundException {
 
 		logger.info("Called GET mapping viewAllTicketsOfCustomer() method");
-		
-		return new ResponseEntity<List<TicketBooking>>(ticketBookingService.viewAllTicketsOfCustomer(customerId),
-				HttpStatus.OK);
+
+		return new ResponseEntity<>(ticketBookingService.viewAllTicketsOfCustomer(customerId), HttpStatus.OK);
 
 	}
 
@@ -137,15 +125,17 @@ public class TicketBookingController {
 	 * @return ResponseEntity<?>
 	 * @throws CustomerNotFoundException
 	 * 
-	 * Calculate the entire bill amount of a ticket booking based on customer id and ticket id
+	 *                                   Calculate the entire bill amount of a
+	 *                                   ticket booking based on customer id and
+	 *                                   ticket id
 	 * 
 	 */
 	@GetMapping(path = "/ticket/bill/{ticketId}/{customerId}")
-	public ResponseEntity<?> calculateBill(@PathVariable("ticketId") int ticketId,
+	public ResponseEntity<Float> calculateBill(@PathVariable("ticketId") int ticketId,
 			@PathVariable("customerId") int customerId) throws CustomerNotFoundException {
 
 		logger.info("Called GET mapping calculateBill() method");
-		
+
 		return new ResponseEntity<>(ticketBookingService.calculateBill(ticketId, customerId), HttpStatus.OK);
 
 	}

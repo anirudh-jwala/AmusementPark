@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,7 +39,7 @@ public class ActivityController {
 	 * @throws ActivityExistsException
 	 * @throws InvalidActivityException
 	 * 
-	 * Inserting an activity to database
+	 *                                  Inserting an activity to database
 	 * 
 	 */
 	@PostMapping(path = "/activity")
@@ -50,16 +49,10 @@ public class ActivityController {
 		logger.info("Called POST mapping insertActivity() method");
 
 		if (bindingResult.hasErrors()) {
-
-			List<FieldError> errors = bindingResult.getFieldErrors();
-
-			for (FieldError error : errors) {
-				throw new InvalidActivityException(error.getDefaultMessage());
-			}
-
+			throw new InvalidActivityException("Activity detials are not valid");
 		}
 
-		return new ResponseEntity<Activity>(activityService.insertActivity(activity), HttpStatus.CREATED);
+		return new ResponseEntity<>(activityService.insertActivity(activity), HttpStatus.CREATED);
 
 	}
 
@@ -70,7 +63,9 @@ public class ActivityController {
 	 * @throws ActivityNotFoundException
 	 * @throws InvalidActivityException
 	 * 
-	 * Update existing record of activity in database, else throw ActivityNotFoundException
+	 *                                   Update existing record of activity in
+	 *                                   database, else throw
+	 *                                   ActivityNotFoundException
 	 * 
 	 */
 	@PutMapping(path = "/activity")
@@ -80,16 +75,10 @@ public class ActivityController {
 		logger.info("Called PUT mapping updateActivity() method");
 
 		if (bindingResult.hasErrors()) {
-
-			List<FieldError> errors = bindingResult.getFieldErrors();
-
-			for (FieldError error : errors) {
-				throw new InvalidActivityException(error.getDefaultMessage());
-			}
-
+			throw new InvalidActivityException("Activity detials are not valid");
 		}
 
-		return new ResponseEntity<Activity>(activityService.updateActivity(activity), HttpStatus.OK);
+		return new ResponseEntity<>(activityService.updateActivity(activity), HttpStatus.OK);
 
 	}
 
@@ -98,7 +87,8 @@ public class ActivityController {
 	 * @return ResponseEntity<Activity>
 	 * @throws ActivityNotFoundException
 	 * 
-	 * Remove an existing activity from database, else throw ActivityNotFoundException
+	 *                                   Remove an existing activity from database,
+	 *                                   else throw ActivityNotFoundException
 	 * 
 	 */
 	@DeleteMapping(path = "/activity/{id}")
@@ -107,7 +97,7 @@ public class ActivityController {
 
 		logger.info("Called DELETE mapping deleteActivity() method");
 
-		return new ResponseEntity<Activity>(activityService.deleteActivity(activityId), HttpStatus.OK);
+		return new ResponseEntity<>(activityService.deleteActivity(activityId), HttpStatus.OK);
 
 	}
 
@@ -116,7 +106,8 @@ public class ActivityController {
 	 * @return ResponseEntity<List<Activity>>
 	 * @throws ActivityNotFoundException
 	 * 
-	 * Get list of all activities based on the amount provided
+	 *                                   Get list of all activities based on the
+	 *                                   amount provided
 	 * 
 	 */
 	@GetMapping(path = "/activity/{amount}")
@@ -125,7 +116,7 @@ public class ActivityController {
 
 		logger.info("Called GET mapping viewActivitiesOfCharges() method");
 
-		return new ResponseEntity<List<Activity>>(activityService.viewActivitiesOfCharges(charges), HttpStatus.OK);
+		return new ResponseEntity<>(activityService.viewActivitiesOfCharges(charges), HttpStatus.OK);
 
 	}
 
@@ -134,11 +125,12 @@ public class ActivityController {
 	 * @return ResponseEntity<?>
 	 * @throws ActivityNotFoundException
 	 * 
-	 * Get the total count of activity records available for provided amount
+	 *                                   Get the total count of activity records
+	 *                                   available for provided amount
 	 * 
 	 */
 	@GetMapping(path = "/activity/count/{amount}")
-	public ResponseEntity<?> countActivitiesOfCharges(@PathVariable("amount") float charges)
+	public ResponseEntity<Integer> countActivitiesOfCharges(@PathVariable("amount") float charges)
 			throws ActivityNotFoundException {
 
 		logger.info("Called GET mapping countActivitiesOfCharges() method");

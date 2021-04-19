@@ -74,10 +74,8 @@ public class ActivityService implements IActivityService {
 
 		List<Activity> activities = activityRepository.viewActivitiesOfCharges(charges);
 
-		if (activities.size() == 0) {
-			ActivityNotFoundException activityException = new ActivityNotFoundException(
-					"No Activity Found for this charges");
-			throw activityException;
+		if (activities.isEmpty()) {
+			throw new ActivityNotFoundException("No Activity Found for this charges");
 		}
 
 		return activities;
@@ -92,17 +90,21 @@ public class ActivityService implements IActivityService {
 		int activityCount = activityRepository.countActivitiesOfCharges(charges);
 
 		if (activityCount == 0) {
-			ActivityNotFoundException activityException = new ActivityNotFoundException(
-					"No Activity is Found for this charges");
-			throw activityException;
+			throw new ActivityNotFoundException("No Activity is Found for this charges");
 		}
 
 		return activityCount;
 
 	}
 
-	public Activity findActivityById(int activityId) {
-		return activityRepository.findById(activityId).get();
+	public Activity findActivityById(int activityId) throws ActivityNotFoundException {
+
+		Optional<Activity> foundActivity = activityRepository.findById(activityId);
+
+		if (foundActivity.isPresent())
+			return foundActivity.get();
+		else
+			throw new ActivityNotFoundException("No Activity is Found for provided ID");
 	}
 
 }

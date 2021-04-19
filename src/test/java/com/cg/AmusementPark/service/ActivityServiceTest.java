@@ -27,7 +27,7 @@ class ActivityServiceTest {
 	private ActivityService activityService;
 
 	@Test
-	public void shouldReturnActivityNamesForCharges() throws ActivityNotFoundException {
+	void shouldReturnActivityNamesForCharges() throws ActivityNotFoundException {
 
 		List<Activity> mockActivities = new ArrayList<>();
 		mockActivities.add(new Activity(1, "Swimming", "Best for summer", 500.0f));
@@ -45,7 +45,7 @@ class ActivityServiceTest {
 	}
 
 	@Test
-	public void shouldReturnActivityCountForCharges() throws ActivityNotFoundException {
+	void shouldReturnActivityCountForCharges() throws ActivityNotFoundException {
 
 		List<Activity> mockActivities = new ArrayList<>();
 		mockActivities.add(new Activity(1, "Swimming", "Best for summer", 500.0f));
@@ -60,7 +60,7 @@ class ActivityServiceTest {
 	}
 
 	@Test
-	public void shouldAddActivity() throws ActivityExistsException {
+	void shouldAddActivity() throws ActivityExistsException {
 
 		Activity mockActivityToAdd = new Activity(1, "Swimming", "Best for summer", 500.0f);
 
@@ -74,7 +74,7 @@ class ActivityServiceTest {
 	}
 
 	@Test
-	public void shouldUpdateActivity() throws ActivityNotFoundException, ActivityExistsException {
+	void shouldUpdateActivity() throws ActivityNotFoundException, ActivityExistsException {
 
 		Activity mockActivityToUpdate = new Activity(1, "Swimming", "Best for summer", 500.0f);
 		mockActivityToUpdate.setActivityName("Swimming Championship");

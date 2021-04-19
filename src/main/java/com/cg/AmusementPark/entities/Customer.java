@@ -31,7 +31,7 @@ public class Customer {
 
 	@NotBlank(message = "Username is mandatory")
 	@Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long")
-	@Pattern(regexp = "^[a-zA-z0-9]+$", message = "Username must be alphanumeric with no spaces")
+	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Username must be alphanumeric with no spaces")
 	@Column(unique = true)
 	private String username;
 
@@ -64,7 +64,7 @@ public class Customer {
 	}
 
 	public Customer(Integer customerId,
-			@NotBlank(message = "Username is mandatory") @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-z0-9]+$", message = "Username must be alphanumeric with no spaces") String username,
+			@NotBlank(message = "Username is mandatory") @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Username must be alphanumeric with no spaces") String username,
 			@NotBlank(message = "Email is mandatory") @Email String email,
 			@NotBlank(message = "Password is mandatory") @Size(min = 3, max = 20, message = "Password must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Password must be alphanumeric with no spaces") String password,
 			String address,
@@ -78,7 +78,7 @@ public class Customer {
 	}
 
 	public Customer(Integer customerId,
-			@NotBlank(message = "Username is mandatory") @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-z0-9]+$", message = "Username must be alphanumeric with no spaces") String username,
+			@NotBlank(message = "Username is mandatory") @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Username must be alphanumeric with no spaces") String username,
 			@NotBlank(message = "Email is mandatory") @Email String email,
 			@NotBlank(message = "Password is mandatory") @Size(min = 3, max = 20, message = "Password must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Password must be alphanumeric with no spaces") String password,
 			String address,
