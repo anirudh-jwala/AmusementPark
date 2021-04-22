@@ -8,14 +8,14 @@ import com.cg.AmusementPark.exception.ActivityNotFoundException;
 
 public interface IActivityService {
 
-	public Activity insertActivity(Activity activity) throws ActivityExistsException;
+    Activity insertActivity(Activity activity) throws ActivityExistsException;
 
-	public Activity updateActivity(Activity activity) throws ActivityNotFoundException;
+    Activity updateActivity(Activity activity) throws ActivityNotFoundException;
 
-	public Activity deleteActivity(int activityId) throws ActivityNotFoundException;
+    Activity deleteActivity(int activityId) throws ActivityNotFoundException;
 
-	public List<Activity> viewActivitiesOfCharges(float charges) throws ActivityNotFoundException;
+    List<Activity> viewActivitiesOfCharges(float charges) throws ActivityNotFoundException;
 
-	public int countActivitiesOfCharges(float charges) throws ActivityNotFoundException;
+    int countActivitiesOfCharges(float charges) throws ActivityNotFoundException;
 
 }

@@ -27,117 +27,102 @@ import com.cg.AmusementPark.service.TicketBookingService;
 @RestController
 public class TicketBookingController {
 
-	@Autowired
-	private TicketBookingService ticketBookingService;
+    @Autowired
+    private TicketBookingService ticketBookingService;
 
-	Logger logger = LoggerFactory.getLogger(this.getClass());
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	/**
-	 * @param ticketBooking
-	 * @param bindingResult
-	 * @return ResponseEntity<TicketBooking>
-	 * @throws InvalidTicketBookingException
-	 * 
-	 *                                       Add a new record of ticket booking to
-	 *                                       database
-	 * 
-	 */
-	@PostMapping(path = "/ticket")
-	public ResponseEntity<TicketBooking> insertTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
-			BindingResult bindingResult) throws InvalidTicketBookingException {
+    /**
+     * @param ticketBooking
+     * @param bindingResult
+     * @return ResponseEntity<TicketBooking>
+     * @throws InvalidTicketBookingException Add a new record of ticket booking to
+     *                                       database
+     */
+    @PostMapping(path = "/ticket")
+    public ResponseEntity<TicketBooking> insertTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
+                                                             BindingResult bindingResult) throws InvalidTicketBookingException {
 
-		logger.info("Called POST mapping insertTicketBooking() method");
+        logger.info("Called POST mapping insertTicketBooking() method");
 
-		if (bindingResult.hasErrors()) {
-			throw new InvalidTicketBookingException("Ticket booking details are invalid");
-		}
+        if (bindingResult.hasErrors()) {
+            throw new InvalidTicketBookingException("Ticket booking details are invalid");
+        }
 
-		return new ResponseEntity<>(ticketBookingService.insertTicketBooking(ticketBooking), HttpStatus.CREATED);
+        return new ResponseEntity<>(ticketBookingService.insertTicketBooking(ticketBooking), HttpStatus.CREATED);
 
-	}
+    }
 
-	/**
-	 * @param ticketBooking
-	 * @param bindingResult
-	 * @return ResponseEntity<TicketBooking>
-	 * @throws TicketBookingNotFoundException
-	 * @throws InvalidTicketBookingException
-	 * 
-	 *                                        Update an existing record of ticket
-	 *                                        booking in database
-	 * 
-	 */
-	@PutMapping(path = "/ticket")
-	public ResponseEntity<TicketBooking> updateTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
-			BindingResult bindingResult) throws TicketBookingNotFoundException, InvalidTicketBookingException {
+    /**
+     * @param ticketBooking
+     * @param bindingResult
+     * @return ResponseEntity<TicketBooking>
+     * @throws TicketBookingNotFoundException
+     * @throws InvalidTicketBookingException  Update an existing record of ticket
+     *                                        booking in database
+     */
+    @PutMapping(path = "/ticket")
+    public ResponseEntity<TicketBooking> updateTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
+                                                             BindingResult bindingResult) throws TicketBookingNotFoundException, InvalidTicketBookingException {
 
-		logger.info("Called PUT mapping updateTicketBooking() method");
+        logger.info("Called PUT mapping updateTicketBooking() method");
 
-		if (bindingResult.hasErrors()) {
-			throw new InvalidTicketBookingException("Ticket booking details are invalid");
-		}
+        if (bindingResult.hasErrors()) {
+            throw new InvalidTicketBookingException("Ticket booking details are invalid");
+        }
 
-		return new ResponseEntity<>(ticketBookingService.updateTicketBooking(ticketBooking), HttpStatus.OK);
+        return new ResponseEntity<>(ticketBookingService.updateTicketBooking(ticketBooking), HttpStatus.OK);
 
-	}
+    }
 
-	/**
-	 * @param ticketId
-	 * @return ResponseEntity<TicketBooking>
-	 * @throws TicketBookingNotFoundException
-	 * 
-	 *                                        Remove an existing record of ticket
-	 *                                        booking based on ticket booking id
-	 * 
-	 */
-	@DeleteMapping(path = "/ticket/{id}")
-	public ResponseEntity<TicketBooking> deleteTicketBooking(@PathVariable("id") int ticketId)
-			throws TicketBookingNotFoundException {
+    /**
+     * @param ticketId
+     * @return ResponseEntity<TicketBooking>
+     * @throws TicketBookingNotFoundException Remove an existing record of ticket
+     *                                        booking based on ticket booking id
+     */
+    @DeleteMapping(path = "/ticket/{id}")
+    public ResponseEntity<TicketBooking> deleteTicketBooking(@PathVariable("id") int ticketId)
+            throws TicketBookingNotFoundException {
 
-		logger.info("Called DELETE mapping deleteTicketBooking() method");
+        logger.info("Called DELETE mapping deleteTicketBooking() method");
 
-		return new ResponseEntity<>(ticketBookingService.deleteTicketBooking(ticketId), HttpStatus.OK);
+        return new ResponseEntity<>(ticketBookingService.deleteTicketBooking(ticketId), HttpStatus.OK);
 
-	}
+    }
 
-	/**
-	 * @param customerId
-	 * @return ResponseEntity<List<TicketBooking>>
-	 * @throws CustomerNotFoundException
-	 * 
-	 *                                   Get list of all tickets for a specified
-	 *                                   customer id
-	 * 
-	 */
-	@GetMapping(path = "/ticket/customer/{id}")
-	public ResponseEntity<List<TicketBooking>> viewAllTicketsOfCustomer(@PathVariable("id") int customerId)
-			throws CustomerNotFoundException {
+    /**
+     * @param customerId
+     * @return ResponseEntity<List < TicketBooking>>
+     * @throws CustomerNotFoundException Get list of all tickets for a specified
+     *                                   customer id
+     */
+    @GetMapping(path = "/ticket/customer/{id}")
+    public ResponseEntity<List<TicketBooking>> viewAllTicketsOfCustomer(@PathVariable("id") int customerId)
+            throws CustomerNotFoundException {
 
-		logger.info("Called GET mapping viewAllTicketsOfCustomer() method");
+        logger.info("Called GET mapping viewAllTicketsOfCustomer() method");
 
-		return new ResponseEntity<>(ticketBookingService.viewAllTicketsOfCustomer(customerId), HttpStatus.OK);
+        return new ResponseEntity<>(ticketBookingService.viewAllTicketsOfCustomer(customerId), HttpStatus.OK);
 
-	}
+    }
 
-	/**
-	 * @param ticketId
-	 * @param customerId
-	 * @return ResponseEntity<?>
-	 * @throws CustomerNotFoundException
-	 * 
-	 *                                   Calculate the entire bill amount of a
-	 *                                   ticket booking based on customer id and
-	 *                                   ticket id
-	 * 
-	 */
-	@GetMapping(path = "/ticket/bill/{ticketId}/{customerId}")
-	public ResponseEntity<Float> calculateBill(@PathVariable("ticketId") int ticketId,
-			@PathVariable("customerId") int customerId) throws CustomerNotFoundException {
+    /**
+     * @param ticketId
+     * @param customerId
+     * @return ResponseEntity<?>
+     * @throws CustomerNotFoundException Calculate the entire bill amount of a
+     *                                   ticket booking based on customer id and
+     *                                   ticket id
+     */
+    @GetMapping(path = "/ticket/bill/{ticketId}/{customerId}")
+    public ResponseEntity<Float> calculateBill(@PathVariable("ticketId") int ticketId,
+                                               @PathVariable("customerId") int customerId) throws CustomerNotFoundException {
 
-		logger.info("Called GET mapping calculateBill() method");
+        logger.info("Called GET mapping calculateBill() method");
 
-		return new ResponseEntity<>(ticketBookingService.calculateBill(ticketId, customerId), HttpStatus.OK);
+        return new ResponseEntity<>(ticketBookingService.calculateBill(ticketId, customerId), HttpStatus.OK);
 
-	}
+    }
 
 }

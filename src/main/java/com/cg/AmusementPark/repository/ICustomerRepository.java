@@ -5,8 +5,8 @@ import com.cg.AmusementPark.exception.CustomerNotFoundException;
 
 public interface ICustomerRepository {
 
-	public Customer viewCustomer(int customerId) throws CustomerNotFoundException;
+    Customer viewCustomer(int customerId) throws CustomerNotFoundException;
 
-	public Customer validateCustomer(String username, String password) throws CustomerNotFoundException;
+    Customer validateCustomer(String username, String password) throws CustomerNotFoundException;
 
 }

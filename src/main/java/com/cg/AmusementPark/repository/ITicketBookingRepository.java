@@ -7,8 +7,8 @@ import com.cg.AmusementPark.exception.CustomerNotFoundException;
 
 public interface ITicketBookingRepository {
 
-	public List<TicketBooking> viewAllTicketsOfCustomer(int customerId) throws CustomerNotFoundException;
+    List<TicketBooking> viewAllTicketsOfCustomer(int customerId) throws CustomerNotFoundException;
 
-	public float calculateBill(int ticketId, int customerId) throws CustomerNotFoundException;
+    float calculateBill(int ticketId, int customerId) throws CustomerNotFoundException;
 
 }

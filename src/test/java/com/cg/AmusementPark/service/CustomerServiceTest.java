@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -20,111 +22,111 @@ import com.cg.AmusementPark.repository.CustomerRepository;
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
 
-	@Mock
-	private CustomerRepository customerRepository;
+    @Mock
+    private CustomerRepository customerRepository;
 
-	@InjectMocks
-	private CustomerService customerService;
+    @InjectMocks
+    private CustomerService customerService;
 
-	@Test
-	void shouldReturnAllCustomers() throws CustomerNotFoundException {
+    @Test
+    void shouldReturnAllCustomers() throws CustomerNotFoundException {
 
-		List<Customer> mockCustomers = new ArrayList<>();
-		mockCustomers.add(new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
-		mockCustomers.add(new Customer(2, "bharath", "bharath@gmail.com", "bharath123", "Hyderabad", "7981970397"));
-		mockCustomers.add(new Customer(3, "shubham", "shubham@gmail.com", "shubham123", "Pune", "7981970397"));
-		mockCustomers.add(new Customer(4, "sai teja", "ksaiteja@gmail.com", "saiteja123", "Hydrabad", "7981912345"));
-		mockCustomers.add(new Customer(5, "asadullah", "asadullah@gmail.com", "asadullah123", "Bhopal", "7981970397"));
-		mockCustomers.add(new Customer(6, "siddharth", "siddharth@gmail.com", "siddharth123", "Indore", "7981913678"));
+        List<Customer> mockCustomers = new ArrayList<>();
+        mockCustomers.add(new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
+        mockCustomers.add(new Customer(2, "bharath", "bharath@gmail.com", "bharath123", "Hyderabad", "7981970397"));
+        mockCustomers.add(new Customer(3, "shubham", "shubham@gmail.com", "shubham123", "Pune", "7981970397"));
+        mockCustomers.add(new Customer(4, "sai teja", "ksaiteja@gmail.com", "saiteja123", "Hydrabad", "7981912345"));
+        mockCustomers.add(new Customer(5, "asadullah", "asadullah@gmail.com", "asadullah123", "Bhopal", "7981970397"));
+        mockCustomers.add(new Customer(6, "siddharth", "siddharth@gmail.com", "siddharth123", "Indore", "7981913678"));
 
-		Mockito.when(customerRepository.findAll()).thenReturn(mockCustomers);
+        Mockito.when(customerRepository.findAll()).thenReturn(mockCustomers);
 
-		List<Customer> realCustomers = customerService.viewCustomers();
+        List<Customer> realCustomers = customerService.viewCustomers();
 
-		assertEquals("anirudh", realCustomers.get(0).getUsername());
+        assertEquals("anirudh", realCustomers.get(0).getUsername());
 
-	}
+    }
 
-	@Test
-	void shouldReturnCustomerById() throws CustomerNotFoundException {
+    @Test
+    void shouldReturnCustomerById() throws CustomerNotFoundException {
 
-		List<Customer> mockCustomers = new ArrayList<>();
-		mockCustomers.add(new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
-		mockCustomers.add(new Customer(2, "bharath", "bharath@gmail.com", "bharath123", "Hyderabad", "7981970397"));
-		mockCustomers.add(new Customer(3, "shubham", "shubham@gmail.com", "shubham123", "Pune", "7981970397"));
-		mockCustomers.add(new Customer(4, "sai teja", "ksaiteja@gmail.com", "saiteja123", "Hydrabad", "7981912345"));
-		mockCustomers.add(new Customer(5, "asadullah", "asadullah@gmail.com", "asadullah123", "Bhopal", "7981970397"));
-		mockCustomers.add(new Customer(6, "siddharth", "siddharth@gmail.com", "siddharth123", "Indore", "7981913678"));
+        List<Customer> mockCustomers = new ArrayList<>();
+        mockCustomers.add(new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
+        mockCustomers.add(new Customer(2, "bharath", "bharath@gmail.com", "bharath123", "Hyderabad", "7981970397"));
+        mockCustomers.add(new Customer(3, "shubham", "shubham@gmail.com", "shubham123", "Pune", "7981970397"));
+        mockCustomers.add(new Customer(4, "sai teja", "ksaiteja@gmail.com", "saiteja123", "Hydrabad", "7981912345"));
+        mockCustomers.add(new Customer(5, "asadullah", "asadullah@gmail.com", "asadullah123", "Bhopal", "7981970397"));
+        mockCustomers.add(new Customer(6, "siddharth", "siddharth@gmail.com", "siddharth123", "Indore", "7981913678"));
 
-		customerRepository.saveAll(mockCustomers);
+        customerRepository.saveAll(mockCustomers);
 
-		Mockito.when(customerRepository.findById(2)).thenReturn(
-				Optional.of(new Customer(2, "bharath", "bharath@gmail.com", "bharath123", "Hyderabad", "7981970397")));
+        Mockito.when(customerRepository.findById(2)).thenReturn(
+                Optional.of(new Customer(2, "bharath", "bharath@gmail.com", "bharath123", "Hyderabad", "7981970397")));
 
-		Customer realCustomer = customerService.viewCustomer(2);
+        Customer realCustomer = customerService.viewCustomer(2);
 
-		assertEquals("bharath", realCustomer.getUsername());
+        assertEquals("bharath", realCustomer.getUsername());
 
-	}
+    }
 
-	@Test
-	void shouldValidateCustomerByEmailAndPassword() throws CustomerNotFoundException {
+    @Test
+    void shouldValidateCustomerByEmailAndPassword() throws CustomerNotFoundException {
 
-		List<Customer> mockCustomers = new ArrayList<>();
-		mockCustomers.add(new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
-		mockCustomers.add(new Customer(2, "bharath", "bharath@gmail.com", "bharath123", "Hyderabad", "7981970397"));
-		mockCustomers.add(new Customer(3, "shubham", "shubham@gmail.com", "shubham123", "Pune", "7981970397"));
-		mockCustomers.add(new Customer(4, "sai teja", "ksaiteja@gmail.com", "saiteja123", "Hydrabad", "7981912345"));
-		mockCustomers.add(new Customer(5, "asadullah", "asadullah@gmail.com", "asadullah123", "Bhopal", "7981970397"));
-		mockCustomers.add(new Customer(6, "siddharth", "siddharth@gmail.com", "siddharth123", "Indore", "7981913678"));
+        List<Customer> mockCustomers = new ArrayList<>();
+        mockCustomers.add(new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
+        mockCustomers.add(new Customer(2, "bharath", "bharath@gmail.com", "bharath123", "Hyderabad", "7981970397"));
+        mockCustomers.add(new Customer(3, "shubham", "shubham@gmail.com", "shubham123", "Pune", "7981970397"));
+        mockCustomers.add(new Customer(4, "sai teja", "ksaiteja@gmail.com", "saiteja123", "Hydrabad", "7981912345"));
+        mockCustomers.add(new Customer(5, "asadullah", "asadullah@gmail.com", "asadullah123", "Bhopal", "7981970397"));
+        mockCustomers.add(new Customer(6, "siddharth", "siddharth@gmail.com", "siddharth123", "Indore", "7981913678"));
 
-		customerRepository.saveAll(mockCustomers);
+        customerRepository.saveAll(mockCustomers);
 
-		Mockito.when(customerRepository.validateCustomer("anirudh@gmail.com", "anirudh123"))
-				.thenReturn(new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
+        Mockito.when(customerRepository.validateCustomer("anirudh@gmail.com", "anirudh123"))
+                .thenReturn(new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
 
-		Customer realCustomer = customerService.validateCustomer("anirudh@gmail.com", "anirudh123");
+        Customer realCustomer = customerService.validateCustomer("anirudh@gmail.com", "anirudh123");
 
-		assertEquals("anirudh@gmail.com", realCustomer.getEmail());
+        assertEquals("anirudh@gmail.com", realCustomer.getEmail());
 
-	}
+    }
 
-	@Test
-	void shouldAddCustomer() throws CustomerNotFoundException, CustomerExistsException {
+    @Test
+    void shouldAddCustomer() throws CustomerNotFoundException, CustomerExistsException {
 
-		Customer mockCustomer = new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad",
-				"7981970397");
+        Customer mockCustomer = new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad",
+                "7981970397");
 
-		Mockito.when(customerRepository.save(mockCustomer)).thenReturn(mockCustomer);
+        Mockito.when(customerRepository.save(mockCustomer)).thenReturn(mockCustomer);
 
-		Customer realCustomer = customerService.insertCustomer(
-				new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
+        Customer realCustomer = customerService.insertCustomer(
+                new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
 
-		assertEquals("anirudh@gmail.com", realCustomer.getEmail());
-		assertEquals("7981970397", realCustomer.getMobileNumber());
-		assertEquals("Hyderabad", realCustomer.getAddress());
+        assertEquals("anirudh@gmail.com", realCustomer.getEmail());
+        assertEquals("7981970397", realCustomer.getMobileNumber());
+        assertEquals("Hyderabad", realCustomer.getAddress());
 
-	}
+    }
 
-	@Test
-	void shouldUpdateCustomer() throws CustomerNotFoundException, CustomerExistsException {
+    @Test
+    void shouldUpdateCustomer() throws CustomerNotFoundException, CustomerExistsException {
 
-		Customer mockCustomer = new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad",
-				"7981970397");
+        Customer mockCustomer = new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad",
+                "7981970397");
 
-		Mockito.when(customerRepository.save(mockCustomer)).thenReturn(mockCustomer);
-		Mockito.when(customerRepository.findById(1)).thenReturn(Optional.of(mockCustomer));
+        Mockito.when(customerRepository.save(mockCustomer)).thenReturn(mockCustomer);
+        Mockito.when(customerRepository.findById(1)).thenReturn(Optional.of(mockCustomer));
 
-		customerService.insertCustomer(
-				new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
+        customerService.insertCustomer(
+                new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "7981970397"));
 
-		Customer customerUpdated = customerService.findCustomerById(1);
-		customerUpdated.setAddress("Mumbai");
-		customerUpdated.setEmail("anirudh@capgemini.com");
+        Customer customerUpdated = customerService.findCustomerById(1);
+        customerUpdated.setAddress("Mumbai");
+        customerUpdated.setEmail("anirudh@capgemini.com");
 
-		assertEquals("anirudh@capgemini.com", customerUpdated.getEmail());
-		assertEquals("Mumbai", customerUpdated.getAddress());
+        assertEquals("anirudh@capgemini.com", customerUpdated.getEmail());
+        assertEquals("Mumbai", customerUpdated.getAddress());
 
-	}
+    }
 
 }

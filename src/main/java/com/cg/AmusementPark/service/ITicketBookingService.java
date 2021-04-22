@@ -8,14 +8,14 @@ import com.cg.AmusementPark.exception.TicketBookingNotFoundException;
 
 public interface ITicketBookingService {
 
-	public TicketBooking insertTicketBooking(TicketBooking ticketBooking);
+    TicketBooking insertTicketBooking(TicketBooking ticketBooking);
 
-	public TicketBooking updateTicketBooking(TicketBooking ticketBooking) throws TicketBookingNotFoundException;
+    TicketBooking updateTicketBooking(TicketBooking ticketBooking) throws TicketBookingNotFoundException;
 
-	public TicketBooking deleteTicketBooking(int ticketId) throws TicketBookingNotFoundException;
+    TicketBooking deleteTicketBooking(int ticketId) throws TicketBookingNotFoundException;
 
-	public List<TicketBooking> viewAllTicketsOfCustomer(int customerId) throws CustomerNotFoundException;
+    List<TicketBooking> viewAllTicketsOfCustomer(int customerId) throws CustomerNotFoundException;
 
-	public float calculateBill(int ticketId, int customerId) throws CustomerNotFoundException;
+    float calculateBill(int ticketId, int customerId) throws CustomerNotFoundException;
 
 }

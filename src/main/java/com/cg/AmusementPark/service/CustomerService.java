@@ -16,111 +16,111 @@ import com.cg.AmusementPark.repository.CustomerRepository;
 @Service
 public class CustomerService implements ICustomerService {
 
-	@Autowired
-	private CustomerRepository customerRepository;
+    @Autowired
+    private CustomerRepository customerRepository;
 
-	Logger logger = LoggerFactory.getLogger(this.getClass());
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@Override
-	public Customer insertCustomer(Customer customer) throws CustomerExistsException {
+    @Override
+    public Customer insertCustomer(Customer customer) throws CustomerExistsException {
 
-		logger.info("Called insertCustomer() method of CustomerService");
+        logger.info("Called insertCustomer() method of CustomerService");
 
-		Customer searchedCustomer = customerRepository.findByCustomerEmail(customer.getEmail());
+        Customer searchedCustomer = customerRepository.findByCustomerEmail(customer.getEmail());
 
-		if (searchedCustomer != null && customer.getEmail().equals(searchedCustomer.getEmail())) {
-			throw new CustomerExistsException("Customer you are trying to insert already exists");
-		}
+        if (searchedCustomer != null && customer.getEmail().equals(searchedCustomer.getEmail())) {
+            throw new CustomerExistsException("Customer you are trying to insert already exists");
+        }
 
-		return customerRepository.save(customer);
+        return customerRepository.save(customer);
 
-	}
+    }
 
-	@Override
-	public Customer updateCustomer(Customer customer) throws CustomerNotFoundException {
+    @Override
+    public Customer updateCustomer(Customer customer) throws CustomerNotFoundException {
 
-		logger.info("Called updateCustomer() method of CustomerService");
+        logger.info("Called updateCustomer() method of CustomerService");
 
-		Optional<Customer> searchedCustomer = customerRepository.findById(customer.getCustomerId());
+        Optional<Customer> searchedCustomer = customerRepository.findById(customer.getCustomerId());
 
-		if (!searchedCustomer.isPresent()) {
-			throw new CustomerNotFoundException("Customer you are trying to update is not found or invalid");
-		}
+        if (!searchedCustomer.isPresent()) {
+            throw new CustomerNotFoundException("Customer you are trying to update is not found or invalid");
+        }
 
-		return customerRepository.save(customer);
+        return customerRepository.save(customer);
 
-	}
+    }
 
-	@Override
-	public Customer deleteCustomer(int customerId) throws CustomerNotFoundException {
+    @Override
+    public Customer deleteCustomer(int customerId) throws CustomerNotFoundException {
 
-		logger.info("Called deleteCustomer() method of CustomerService");
+        logger.info("Called deleteCustomer() method of CustomerService");
 
-		Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
+        Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
 
-		if (!searchedCustomer.isPresent()) {
-			throw new CustomerNotFoundException("Customer you are trying to delete is not found or invalid");
-		}
+        if (!searchedCustomer.isPresent()) {
+            throw new CustomerNotFoundException("Customer you are trying to delete is not found or invalid");
+        }
 
-		Customer deleteCustomer = searchedCustomer.get();
-		customerRepository.delete(deleteCustomer);
-		return deleteCustomer;
+        Customer deleteCustomer = searchedCustomer.get();
+        customerRepository.delete(deleteCustomer);
+        return deleteCustomer;
 
-	}
+    }
 
-	@Override
-	public List<Customer> viewCustomers() throws CustomerNotFoundException {
+    @Override
+    public List<Customer> viewCustomers() throws CustomerNotFoundException {
 
-		logger.info("Called viewCustomers() method of CustomerService");
+        logger.info("Called viewCustomers() method of CustomerService");
 
-		List<Customer> customers = customerRepository.findAll();
+        List<Customer> customers = customerRepository.findAll();
 
-		if (customers.isEmpty()) {
-			throw new CustomerNotFoundException("No customers are available");
-		}
+        if (customers.isEmpty()) {
+            throw new CustomerNotFoundException("No customers are available");
+        }
 
-		return customers;
+        return customers;
 
-	}
+    }
 
-	@Override
-	public Customer viewCustomer(int customerId) throws CustomerNotFoundException {
+    @Override
+    public Customer viewCustomer(int customerId) throws CustomerNotFoundException {
 
-		logger.info("Called viewCustomer() method of CustomerService");
+        logger.info("Called viewCustomer() method of CustomerService");
 
-		Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
+        Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
 
-		if (searchedCustomer.isPresent()) {
-			return searchedCustomer.get();
-		} else {
-			throw new CustomerNotFoundException("No customer is available with provided ID");
-		}
+        if (searchedCustomer.isPresent()) {
+            return searchedCustomer.get();
+        } else {
+            throw new CustomerNotFoundException("No customer is available with provided ID");
+        }
 
-	}
+    }
 
-	@Override
-	public Customer validateCustomer(String email, String password) throws CustomerNotFoundException {
+    @Override
+    public Customer validateCustomer(String email, String password) throws CustomerNotFoundException {
 
-		logger.info("Called validateCustomer() method of CustomerService");
+        logger.info("Called validateCustomer() method of CustomerService");
 
-		Customer customer = customerRepository.validateCustomer(email, password);
+        Customer customer = customerRepository.validateCustomer(email, password);
 
-		if (customer == null) {
-			throw new CustomerNotFoundException("Customer details mentioned are not valid");
-		}
+        if (customer == null) {
+            throw new CustomerNotFoundException("Customer details mentioned are not valid");
+        }
 
-		return customer;
+        return customer;
 
-	}
+    }
 
-	public Customer findCustomerById(int customerId) throws CustomerNotFoundException {
+    public Customer findCustomerById(int customerId) throws CustomerNotFoundException {
 
-		Optional<Customer> foundCustomer = customerRepository.findById(customerId);
+        Optional<Customer> foundCustomer = customerRepository.findById(customerId);
 
-		if (foundCustomer.isPresent())
-			return foundCustomer.get();
-		else
-			throw new CustomerNotFoundException("Customer details are not available for provided ID");
-	}
+        if (foundCustomer.isPresent())
+            return foundCustomer.get();
+        else
+            throw new CustomerNotFoundException("Customer details are not available for provided ID");
+    }
 
 }
