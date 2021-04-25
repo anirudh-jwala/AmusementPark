@@ -26,129 +26,135 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "ticket_booking")
 public class TicketBooking {
 
-    @Id
-    @GeneratedValue(generator = "ticketSeq")
-    @SequenceGenerator(name = "ticketSeq", sequenceName = "TICKET_SEQ", allocationSize = 1)
-    @Column(name = "ticket_id")
-    private Integer ticketId;
+	@Id
+	@GeneratedValue(generator = "ticketSequence")
+	@SequenceGenerator(name = "ticketSequence", sequenceName = "TICKET_SEQ", allocationSize = 1)
+	@Column(name = "ticket_id")
+	private Integer ticketId;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @NotNull(message = "Please provide a date")
-    private LocalDate date;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@NotNull(message = "Please provide a date")
+	private LocalDate date;
 
-    @Positive(message = "Bill amount should be greater than 0")
-    @Column(name = "bill_amount")
-    private float bill;
+	@Positive(message = "Bill amount should be greater than 0")
+	@Column(name = "bill_amount")
+	private float bill;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+	@JsonBackReference
+	@ManyToOne
+	@JoinColumn(name = "customer_id")
+	private Customer customer;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Activity> activities;
+	@ManyToMany(fetch = FetchType.EAGER)
+	private List<Activity> activities;
 
-    /**
-     * Ticket booking constructor
-     */
-    public TicketBooking() {
+	/**
+	 * Ticket booking constructor
+	 */
+	public TicketBooking() {
 
-    }
+	}
 
-    public TicketBooking(Integer ticketId, @NotNull(message = "Please provide a date") LocalDate date,
-                         @Positive(message = "Bill amount should be greater than 0") float bill) {
-        super();
-        this.ticketId = ticketId;
-        this.date = date;
-        this.bill = bill;
-    }
+	public TicketBooking(Integer ticketId, @NotNull(message = "Please provide a date") LocalDate date,
+			@Positive(message = "Bill amount should be greater than 0") float bill) {
+		this.ticketId = ticketId;
+		this.date = date;
+		this.bill = bill;
+	}
 
-    public TicketBooking(Integer ticketId, @NotNull(message = "Please provide a date") LocalDate date,
-                         @Positive(message = "Bill amount should be greater than 0") float bill, Customer customer,
-                         List<Activity> activities) {
-        super();
-        this.ticketId = ticketId;
-        this.date = date;
-        this.bill = bill;
-        this.customer = customer;
-        this.activities = activities;
-    }
+	public TicketBooking(Integer ticketId, @NotNull(message = "Please provide a date") LocalDate date,
+			@Positive(message = "Bill amount should be greater than 0") float bill, Customer customer) {
+		this.ticketId = ticketId;
+		this.date = date;
+		this.bill = bill;
+		this.customer = customer;
+	}
 
-    /**
-     * Getters and Setters
-     */
-    public Integer getTicketId() {
-        return ticketId;
-    }
+	public TicketBooking(Integer ticketId, @NotNull(message = "Please provide a date") LocalDate date,
+			@Positive(message = "Bill amount should be greater than 0") float bill, Customer customer,
+			List<Activity> activities) {
+		this.ticketId = ticketId;
+		this.date = date;
+		this.bill = bill;
+		this.customer = customer;
+		this.activities = activities;
+	}
 
-    public void setTicketId(Integer ticketId) {
-        this.ticketId = ticketId;
-    }
+	/**
+	 * Getters and Setters
+	 */
+	public Integer getTicketId() {
+		return ticketId;
+	}
 
-    public float getBill() {
-        return bill;
-    }
+	public void setTicketId(Integer ticketId) {
+		this.ticketId = ticketId;
+	}
 
-    public void setBill(float bill) {
-        this.bill = bill;
-    }
+	public float getBill() {
+		return bill;
+	}
 
-    public LocalDate getDate() {
-        return date;
-    }
+	public void setBill(float bill) {
+		this.bill = bill;
+	}
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
+	public LocalDate getDate() {
+		return date;
+	}
 
-    public Customer getCustomer() {
-        return customer;
-    }
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
+	public Customer getCustomer() {
+		return customer;
+	}
 
-    public List<Activity> getActivities() {
-        return activities;
-    }
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
 
-    public void setActivities(List<Activity> activities) {
-        this.activities = activities;
-    }
+	public List<Activity> getActivities() {
+		return activities;
+	}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((ticketId == null) ? 0 : ticketId.hashCode());
-        return result;
-    }
+	public void setActivities(List<Activity> activities) {
+		this.activities = activities;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        TicketBooking other = (TicketBooking) obj;
-        if (ticketId == null) {
-            if (other.ticketId != null)
-                return false;
-        } else if (!ticketId.equals(other.ticketId))
-            return false;
-        return true;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ticketId == null) ? 0 : ticketId.hashCode());
+		return result;
+	}
 
-    /**
-     * toString() of Ticket Booking
-     */
-    @Override
-    public String toString() {
-        return "TicketBooking [ticketId=" + ticketId + ", date=" + date + ", bill=" + bill + ", customer=" + customer
-                + ", activities=" + activities + "]";
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TicketBooking other = (TicketBooking) obj;
+		if (ticketId == null) {
+			if (other.ticketId != null)
+				return false;
+		} else if (!ticketId.equals(other.ticketId))
+			return false;
+		return true;
+	}
+
+	/**
+	 * toString() of Ticket Booking
+	 */
+	@Override
+	public String toString() {
+		return "TicketBooking [ticketId=" + ticketId + ", date=" + date + ", bill=" + bill + ", customer=" + customer
+				+ ", activities=" + activities + "]";
+	}
 
 }

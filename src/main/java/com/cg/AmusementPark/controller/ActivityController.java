@@ -27,101 +27,84 @@ import com.cg.AmusementPark.service.ActivityService;
 @RestController
 public class ActivityController {
 
-    @Autowired
-    private ActivityService activityService;
+	@Autowired
+	private ActivityService activityService;
 
-    Logger logger = LoggerFactory.getLogger(this.getClass());
+	Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    /**
-     * @param activity
-     * @param bindingResult
-     * @return ResponseEntity<Activity>
-     * @throws ActivityExistsException
-     * @throws InvalidActivityException Inserting an activity to database
-     */
-    @PostMapping(path = "/activity")
-    public ResponseEntity<Activity> insertActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
-            throws ActivityExistsException, InvalidActivityException {
+	/**
+	 * Inserting an activity to database
+	 */
+	@PostMapping(path = "/activity")
+	public ResponseEntity<Activity> insertActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
+			throws ActivityExistsException, InvalidActivityException {
 
-        logger.info("Called POST mapping insertActivity() method");
+		logger.info("Called POST mapping insertActivity() method");
 
-        if (bindingResult.hasErrors()) {
-            throw new InvalidActivityException("Activity detials are not valid");
-        }
+		if (bindingResult.hasErrors()) {
+			throw new InvalidActivityException("Activity detials are not valid");
+		}
 
-        return new ResponseEntity<>(activityService.insertActivity(activity), HttpStatus.CREATED);
+		return new ResponseEntity<>(activityService.insertActivity(activity), HttpStatus.CREATED);
 
-    }
+	}
 
-    /**
-     * @param activity
-     * @param bindingResult
-     * @return ResponseEntity<Activity>
-     * @throws ActivityNotFoundException
-     * @throws InvalidActivityException  Update existing record of activity in
-     *                                   database, else throw
-     *                                   ActivityNotFoundException
-     */
-    @PutMapping(path = "/activity")
-    public ResponseEntity<Activity> updateActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
-            throws ActivityNotFoundException, InvalidActivityException {
+	/**
+	 * Update existing record of activity in database, else throw
+	 * ActivityNotFoundException
+	 */
+	@PutMapping(path = "/activity")
+	public ResponseEntity<Activity> updateActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
+			throws ActivityNotFoundException, InvalidActivityException {
 
-        logger.info("Called PUT mapping updateActivity() method");
+		logger.info("Called PUT mapping updateActivity() method");
 
-        if (bindingResult.hasErrors()) {
-            throw new InvalidActivityException("Activity detials are not valid");
-        }
+		if (bindingResult.hasErrors()) {
+			throw new InvalidActivityException("Activity detials are not valid");
+		}
 
-        return new ResponseEntity<>(activityService.updateActivity(activity), HttpStatus.OK);
+		return new ResponseEntity<>(activityService.updateActivity(activity), HttpStatus.OK);
 
-    }
+	}
 
-    /**
-     * @param activityId
-     * @return ResponseEntity<Activity>
-     * @throws ActivityNotFoundException Remove an existing activity from database,
-     *                                   else throw ActivityNotFoundException
-     */
-    @DeleteMapping(path = "/activity/{id}")
-    public ResponseEntity<Activity> deleteActivity(@PathVariable("id") int activityId)
-            throws ActivityNotFoundException {
+	/**
+	 * Remove an existing activity from database, else throw
+	 * ActivityNotFoundException
+	 */
+	@DeleteMapping(path = "/activity/{activityId}")
+	public ResponseEntity<Activity> deleteActivity(@PathVariable("activityId") int activityId)
+			throws ActivityNotFoundException {
 
-        logger.info("Called DELETE mapping deleteActivity() method");
+		logger.info("Called DELETE mapping deleteActivity() method");
 
-        return new ResponseEntity<>(activityService.deleteActivity(activityId), HttpStatus.OK);
+		return new ResponseEntity<>(activityService.deleteActivity(activityId), HttpStatus.OK);
 
-    }
+	}
 
-    /**
-     * @param charges
-     * @return ResponseEntity<List < Activity>>
-     * @throws ActivityNotFoundException Get list of all activities based on the
-     *                                   amount provided
-     */
-    @GetMapping(path = "/activity/{amount}")
-    public ResponseEntity<List<Activity>> viewActivitiesOfCharges(@PathVariable("amount") float charges)
-            throws ActivityNotFoundException {
+	/**
+	 * Get list of all activities based on the amount provided
+	 */
+	@GetMapping(path = "/activity/{charges}")
+	public ResponseEntity<List<Activity>> viewActivitiesOfCharges(@PathVariable("charges") float charges)
+			throws ActivityNotFoundException {
 
-        logger.info("Called GET mapping viewActivitiesOfCharges() method");
+		logger.info("Called GET mapping viewActivitiesOfCharges() method");
 
-        return new ResponseEntity<>(activityService.viewActivitiesOfCharges(charges), HttpStatus.OK);
+		return new ResponseEntity<>(activityService.viewActivitiesOfCharges(charges), HttpStatus.OK);
 
-    }
+	}
 
-    /**
-     * @param charges
-     * @return ResponseEntity<?>
-     * @throws ActivityNotFoundException Get the total count of activity records
-     *                                   available for provided amount
-     */
-    @GetMapping(path = "/activity/count/{amount}")
-    public ResponseEntity<Integer> countActivitiesOfCharges(@PathVariable("amount") float charges)
-            throws ActivityNotFoundException {
+	/**
+	 * Get the total count of activity records available for provided amount
+	 */
+	@GetMapping(path = "/activity/count/{charges}")
+	public ResponseEntity<Integer> countActivitiesOfCharges(@PathVariable("charges") float charges)
+			throws ActivityNotFoundException {
 
-        logger.info("Called GET mapping countActivitiesOfCharges() method");
+		logger.info("Called GET mapping countActivitiesOfCharges() method");
 
-        return new ResponseEntity<>(activityService.countActivitiesOfCharges(charges), HttpStatus.OK);
+		return new ResponseEntity<>(activityService.countActivitiesOfCharges(charges), HttpStatus.OK);
 
-    }
+	}
 
 }

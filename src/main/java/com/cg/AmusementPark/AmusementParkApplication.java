@@ -16,22 +16,22 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 @EnableSwagger2WebMvc
 public class AmusementParkApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(AmusementParkApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(AmusementParkApplication.class, args);
+	}
 
-    /**
-     * Swagger UI Configuration
-     */
-    @Bean
-    public Docket productApi() {
-        return new Docket(DocumentationType.SWAGGER_2).apiInfo(getApiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.cg.AmusementPark")).paths(PathSelectors.any()).build();
-    }
+	/**
+	 * Swagger UI Configuration
+	 */
+	@Bean
+	public Docket productApi() {
+		return new Docket(DocumentationType.SWAGGER_2).apiInfo(getApiInfo()).select()
+				.apis(RequestHandlerSelectors.basePackage("com.cg.AmusementPark")).paths(PathSelectors.any()).build();
+	}
 
-    private ApiInfo getApiInfo() {
-        return new ApiInfoBuilder().title("Amusement Park API").version("1.0").description("API for Amusement park.")
-                .build();
-    }
+	private ApiInfo getApiInfo() {
+		return new ApiInfoBuilder().title("Amusement Park API").version("2.0")
+				.description("API for Amusement park angular application built with Spring Boot").build();
+	}
 
 }

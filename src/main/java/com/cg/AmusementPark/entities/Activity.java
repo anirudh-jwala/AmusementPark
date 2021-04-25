@@ -25,132 +25,134 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Table(name = "activity")
 public class Activity {
 
-    @Id
-    @GeneratedValue(generator = "actSeq")
-    @SequenceGenerator(name = "actSeq", sequenceName = "ACTIVITY_SEQ", allocationSize = 1)
-    @Column(name = "activity_id")
-    private Integer activityId;
+	@Id
+	@GeneratedValue(generator = "activitySequence")
+	@SequenceGenerator(name = "activitySequence", sequenceName = "ACTIVITY_SEQ", allocationSize = 1)
+	@Column(name = "activity_id")
+	private Integer activityId;
 
-    @Size(min = 3, max = 40, message = "Activity name should be min 3 characters")
-    @Column(name = "activity_name", nullable = false)
-    private String activityName;
+	@Size(min = 3, max = 40, message = "Activity name should be min 3 characters")
+	@Column(name = "activity_name", nullable = false)
+	private String activityName;
 
-    @Size(max = 255)
-    @NotNull
-    private String description;
+	@Size(max = 1000, message = "Description should have maximum of 1000 characters")
+	@NotNull
+	private String description;
 
-    @Positive(message = "Activity charges should be greater than 0")
-    private float charges;
+	@Positive(message = "Activity charges should be greater than 0")
+	private float charges;
 
-    @JsonBackReference
-    @ManyToMany(mappedBy = "activities", cascade = CascadeType.ALL)
-    @Fetch(FetchMode.SELECT)
-    private List<TicketBooking> ticketBooking;
+	@JsonBackReference
+	@ManyToMany(mappedBy = "activities", cascade = CascadeType.ALL)
+	@Fetch(FetchMode.SELECT)
+	private List<TicketBooking> ticketBooking;
 
-    /**
-     * Activity constructors
-     */
-    public Activity() {
+	/**
+	 * Activity constructors
+	 */
+	public Activity() {
 
-    }
+	}
 
-    public Activity(Integer activityId,
-                    @Size(min = 3, max = 40, message = "Activity name should be min 3 characters") String activityName,
-                    @Size(max = 255) String description,
-                    @Positive(message = "Activity charges should be greater than 0") float charges) {
-        this.activityId = activityId;
-        this.activityName = activityName;
-        this.description = description;
-        this.charges = charges;
-    }
+	public Activity(Integer activityId,
+			@Size(min = 3, max = 40, message = "Activity name should be min 3 characters") String activityName,
+			@Size(max = 1000, message = "Description should have maximum of 1000 characters") @NotNull String description,
+			@Positive(message = "Activity charges should be greater than 0") float charges) {
+		super();
+		this.activityId = activityId;
+		this.activityName = activityName;
+		this.description = description;
+		this.charges = charges;
+	}
 
-    public Activity(Integer activityId,
-                    @Size(min = 3, max = 40, message = "Activity name should be min 3 characters") String activityName,
-                    @Size(max = 255) String description,
-                    @Positive(message = "Activity charges should be greater than 0") float charges,
-                    List<TicketBooking> ticketBooking) {
-        this.activityId = activityId;
-        this.activityName = activityName;
-        this.description = description;
-        this.charges = charges;
-        this.ticketBooking = ticketBooking;
-    }
+	public Activity(Integer activityId,
+			@Size(min = 3, max = 40, message = "Activity name should be min 3 characters") String activityName,
+			@Size(max = 1000, message = "Description should have maximum of 1000 characters") @NotNull String description,
+			@Positive(message = "Activity charges should be greater than 0") float charges,
+			List<TicketBooking> ticketBooking) {
+		super();
+		this.activityId = activityId;
+		this.activityName = activityName;
+		this.description = description;
+		this.charges = charges;
+		this.ticketBooking = ticketBooking;
+	}
 
-    /**
-     * Getters and Setters
-     */
-    public Integer getActivityId() {
-        return activityId;
-    }
+	/**
+	 * Getters and Setters
+	 */
+	public Integer getActivityId() {
+		return activityId;
+	}
 
-    public void setActivityId(Integer activityId) {
-        this.activityId = activityId;
-    }
+	public void setActivityId(Integer activityId) {
+		this.activityId = activityId;
+	}
 
-    public String getActivityName() {
-        return activityName;
-    }
+	public String getActivityName() {
+		return activityName;
+	}
 
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
+	public void setActivityName(String activityName) {
+		this.activityName = activityName;
+	}
 
-    public String getDescription() {
-        return description;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public float getCharges() {
-        return charges;
-    }
+	public float getCharges() {
+		return charges;
+	}
 
-    public void setCharges(float charges) {
-        this.charges = charges;
-    }
+	public void setCharges(float charges) {
+		this.charges = charges;
+	}
 
-    public List<TicketBooking> getTicketBooking() {
-        return ticketBooking;
-    }
+	public List<TicketBooking> getTicketBooking() {
+		return ticketBooking;
+	}
 
-    public void setTicketBooking(List<TicketBooking> ticketBooking) {
-        this.ticketBooking = ticketBooking;
-    }
+	public void setTicketBooking(List<TicketBooking> ticketBooking) {
+		this.ticketBooking = ticketBooking;
+	}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((activityId == null) ? 0 : activityId.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((activityId == null) ? 0 : activityId.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Activity other = (Activity) obj;
-        if (activityId == null) {
-            if (other.activityId != null)
-                return false;
-        } else if (!activityId.equals(other.activityId))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Activity other = (Activity) obj;
+		if (activityId == null) {
+			if (other.activityId != null)
+				return false;
+		} else if (!activityId.equals(other.activityId))
+			return false;
+		return true;
+	}
 
-    /**
-     * toString() of Activity
-     */
-    @Override
-    public String toString() {
-        return "Activity [activityId=" + activityId + ", activityName=" + activityName + ", description=" + description
-                + ", charges=" + charges + "]";
-    }
+	/**
+	 * toString() of Activity
+	 */
+	@Override
+	public String toString() {
+		return "Activity [activityId=" + activityId + ", activityName=" + activityName + ", description=" + description
+				+ ", charges=" + charges + "]";
+	}
 
 }

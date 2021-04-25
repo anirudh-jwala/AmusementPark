@@ -21,35 +21,35 @@ import com.cg.AmusementPark.repository.TicketBookingRepository;
 @ExtendWith(MockitoExtension.class)
 class TicketBookingServiceTest {
 
-    @Mock
-    private TicketBookingRepository ticketBookingRepository;
+	@Mock
+	private TicketBookingRepository ticketBookingRepository;
 
-    @InjectMocks
-    private TicketBookingService ticketBookingService;
+	@InjectMocks
+	private TicketBookingService ticketBookingService;
 
-    @Test
-    void shouldAddTicketBookings() {
-        LocalDate date = null;
+	@Test
+	void shouldAddTicketBookings() {
+		LocalDate date = null;
 
-        Customer mockCustomer = new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad",
-                "7981970397");
+		Customer mockCustomer = new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "USER",
+				"7981970397");
 
-        List<Activity> mockActivities = new ArrayList<>();
-        mockActivities.add(new Activity(1, "Swimming", "Best for summer", 500.0f));
-        mockActivities.add(new Activity(2, "Gaint Wheel", "Enjoy with family", 350.0f));
+		List<Activity> mockActivities = new ArrayList<>();
+		mockActivities.add(new Activity(1, "Swimming", "Best for summer", 500.0f));
+		mockActivities.add(new Activity(2, "Gaint Wheel", "Enjoy with family", 350.0f));
 
-        TicketBooking mockTicket = new TicketBooking(1, date, 850.0f, mockCustomer, mockActivities);
+		TicketBooking mockTicket = new TicketBooking(1, date, 850.0f, mockCustomer, mockActivities);
 
-        ticketBookingRepository.save(mockTicket);
+		ticketBookingRepository.save(mockTicket);
 
-        Mockito.when(ticketBookingRepository.save(mockTicket)).thenReturn(mockTicket);
+		Mockito.when(ticketBookingRepository.save(mockTicket)).thenReturn(mockTicket);
 
-        TicketBooking realTicket = ticketBookingService
-                .insertTicketBooking(new TicketBooking(1, date, 850.0f, mockCustomer, mockActivities));
+		TicketBooking realTicket = ticketBookingService
+				.insertTicketBooking(new TicketBooking(1, date, 850.0f, mockCustomer, mockActivities));
 
-        assertEquals("Swimming", realTicket.getActivities().get(0).getActivityName());
-        assertEquals("Enjoy with family", realTicket.getActivities().get(1).getDescription());
+		assertEquals("Swimming", realTicket.getActivities().get(0).getActivityName());
+		assertEquals("Enjoy with family", realTicket.getActivities().get(1).getDescription());
 
-    }
+	}
 
 }
