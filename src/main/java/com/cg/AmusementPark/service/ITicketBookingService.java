@@ -18,4 +18,6 @@ public interface ITicketBookingService {
 
 	float calculateBill(int ticketId, Long customerId) throws CustomerNotFoundException, TicketBookingNotFoundException;
 
+	List<TicketBooking> viewAllTickets() throws TicketBookingNotFoundException;
+
 }

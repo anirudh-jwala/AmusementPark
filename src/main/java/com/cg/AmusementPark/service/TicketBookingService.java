@@ -68,6 +68,23 @@ public class TicketBookingService implements ITicketBookingService {
 	}
 
 	@Override
+	public List<TicketBooking> viewAllTickets() throws TicketBookingNotFoundException {
+
+		logger.info("Called viewAllTickets() method of TicketBookingService");
+
+		List<TicketBooking> tickets = ticketBookingRepository.findAll();
+		
+		System.out.println(tickets);
+
+		if (tickets.isEmpty()) {
+			throw new TicketBookingNotFoundException("No tickets are found");
+		}
+
+		return tickets;
+
+	}
+
+	@Override
 	public List<TicketBooking> viewAllTicketsOfCustomer(Long customerId) throws CustomerNotFoundException {
 
 		logger.info("Called viewAllTicketsOfCustomer() method of TicketBookingService");

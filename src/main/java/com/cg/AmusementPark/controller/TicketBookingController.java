@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +40,6 @@ public class TicketBookingController {
 	 * Add a new record of ticket booking to database
 	 */
 	@PostMapping
-	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<TicketBooking> insertTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
 			BindingResult bindingResult) throws InvalidTicketBookingException {
 
@@ -59,7 +57,6 @@ public class TicketBookingController {
 	 * Update an existing record of ticket booking in database
 	 */
 	@PutMapping
-	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<TicketBooking> updateTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
 			BindingResult bindingResult) throws TicketBookingNotFoundException, InvalidTicketBookingException {
 
@@ -77,7 +74,6 @@ public class TicketBookingController {
 	 * Remove an existing record of ticket booking based on ticket booking id
 	 */
 	@DeleteMapping(path = "/{ticketId}")
-	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<TicketBooking> deleteTicketBooking(@PathVariable("ticketId") int ticketId)
 			throws TicketBookingNotFoundException {
 
@@ -88,10 +84,23 @@ public class TicketBookingController {
 	}
 
 	/**
+	 * Get list of all tickets
+	 * 
+	 * @throws TicketBookingNotFoundException
+	 */
+	@GetMapping
+	public ResponseEntity<List<TicketBooking>> viewAllTickets() throws TicketBookingNotFoundException {
+
+		logger.info("Called GET mapping viewAllTickets() method");
+
+		return new ResponseEntity<>(ticketBookingService.viewAllTickets(), HttpStatus.OK);
+
+	}
+
+	/**
 	 * Get list of all tickets for a specified customer id
 	 */
 	@GetMapping(path = "/{customerId}")
-	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<List<TicketBooking>> viewAllTicketsOfCustomer(@PathVariable("customerId") Long customerId)
 			throws CustomerNotFoundException {
 
@@ -106,7 +115,6 @@ public class TicketBookingController {
 	 * ticket id
 	 */
 	@GetMapping(path = "/bill/{ticketId}&{customerId}")
-	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<Float> calculateBill(@PathVariable("ticketId") int ticketId,
 			@PathVariable("customerId") Long customerId)
 			throws CustomerNotFoundException, TicketBookingNotFoundException {

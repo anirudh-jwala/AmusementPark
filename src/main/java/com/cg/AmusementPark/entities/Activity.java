@@ -40,6 +40,10 @@ public class Activity {
 	@Positive(message = "Activity charges should be greater than 0")
 	private float charges;
 
+	private String imageUrl;
+
+	private String chargeDetails;
+
 	@JsonBackReference
 	@ManyToMany(mappedBy = "activities", cascade = CascadeType.ALL)
 	@Fetch(FetchMode.SELECT)
@@ -65,6 +69,17 @@ public class Activity {
 		this.activityName = activityName;
 		this.description = description;
 		this.charges = charges;
+		this.ticketBooking = ticketBooking;
+	}
+
+	public Activity(Integer activityId, String activityName, String description, float charges, String imageUrl,
+			String chargeDetails, List<TicketBooking> ticketBooking) {
+		this.activityId = activityId;
+		this.activityName = activityName;
+		this.description = description;
+		this.charges = charges;
+		this.imageUrl = imageUrl;
+		this.chargeDetails = chargeDetails;
 		this.ticketBooking = ticketBooking;
 	}
 
@@ -101,6 +116,22 @@ public class Activity {
 
 	public void setCharges(float charges) {
 		this.charges = charges;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+
+	public String getChargeDetails() {
+		return chargeDetails;
+	}
+
+	public void setChargeDetails(String chargeDetails) {
+		this.chargeDetails = chargeDetails;
 	}
 
 	public List<TicketBooking> getTicketBooking() {

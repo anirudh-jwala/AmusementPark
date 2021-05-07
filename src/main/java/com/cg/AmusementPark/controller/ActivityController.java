@@ -89,6 +89,13 @@ public class ActivityController {
 
 	}
 
+	@GetMapping
+	public ResponseEntity<List<Activity>> viewAllActivities() throws ActivityNotFoundException {
+		logger.info("Called GET mapping viewAllActivities() method");
+
+		return new ResponseEntity<>(activityService.viewAllActivities(), HttpStatus.OK);
+	}
+
 	/**
 	 * Get list of all activities based on the amount provided
 	 */

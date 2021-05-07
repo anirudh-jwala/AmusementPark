@@ -43,10 +43,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.cors().and().csrf().disable().exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-				.antMatchers("/api/auth/**").permitAll().antMatchers("/api/test/**").permitAll().anyRequest()
-				.authenticated();
+		http.cors()
+			.and()
+			.csrf()
+			.disable()
+			.exceptionHandling()
+			.authenticationEntryPoint(unauthorizedHandler)
+			.and()
+			.sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
+			.antMatchers("/v2/api-docs").permitAll()
+			.antMatchers("/configuration/ui").permitAll()
+			.antMatchers("/swagger-resources/**").permitAll()
+			.antMatchers("/configuration/security").permitAll()
+			.antMatchers("/swagger-ui.html").permitAll()
+			.antMatchers("/webjars/**").permitAll()
+			.antMatchers("/api/auth/**").permitAll()
+			.antMatchers("/api/test/**").permitAll()
+			.antMatchers("/api/activity/**").permitAll()
+			.antMatchers("/api/customer/**").permitAll()
+			.antMatchers("/api/ticket/**").permitAll()
+			.anyRequest().authenticated();
 
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
