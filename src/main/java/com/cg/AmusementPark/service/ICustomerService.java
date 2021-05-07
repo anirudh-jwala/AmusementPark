@@ -12,11 +12,11 @@ public interface ICustomerService {
 
     Customer updateCustomer(Customer customer) throws CustomerNotFoundException;
 
-    Customer deleteCustomer(int customerId) throws CustomerNotFoundException;
+    Customer deleteCustomer(Long customerId) throws CustomerNotFoundException;
 
     List<Customer> viewCustomers() throws CustomerNotFoundException;
 
-    Customer viewCustomer(int customerId) throws CustomerNotFoundException;
+    Customer viewCustomer(Long customerId) throws CustomerNotFoundException;
 
     Customer validateCustomer(String email, String password) throws CustomerNotFoundException;
 

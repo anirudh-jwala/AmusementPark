@@ -14,8 +14,8 @@ public interface ITicketBookingService {
 
 	TicketBooking deleteTicketBooking(int ticketId) throws TicketBookingNotFoundException;
 
-	List<TicketBooking> viewAllTicketsOfCustomer(int customerId) throws CustomerNotFoundException;
+	List<TicketBooking> viewAllTicketsOfCustomer(Long customerId) throws CustomerNotFoundException;
 
-	float calculateBill(int ticketId, int customerId) throws CustomerNotFoundException, TicketBookingNotFoundException;
+	float calculateBill(int ticketId, Long customerId) throws CustomerNotFoundException, TicketBookingNotFoundException;
 
 }

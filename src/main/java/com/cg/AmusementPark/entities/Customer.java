@@ -1,6 +1,8 @@
 package com.cg.AmusementPark.entities;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -8,11 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -26,38 +30,33 @@ public class Customer {
 	@Id
 	@GeneratedValue(generator = "customerSequence")
 	@SequenceGenerator(name = "customerSequence", sequenceName = "CUSTOMER_SEQ", allocationSize = 1)
-	@Column(name = "customer_id")
-	private Integer customerId;
+	private Long customerId;
 
-	@NotBlank(message = "Username is mandatory")
 	@Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long")
 	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Username must be alphanumeric with no spaces")
 	private String username;
 
-	@NotBlank(message = "Email is mandatory")
 	@Column(unique = true)
 	@Email
 	private String email;
 
-	@NotBlank(message = "Password is mandatory")
-	@Size(min = 3, max = 20, message = "Password must be between 3 and 20 characters long")
-	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Password must be alphanumeric with no spaces")
+	@Column(length = 3000)
 	private String password;
 
 	@Size(max = 1000, message = "Address should have maximum of 1000 characters")
 	@Column(nullable = true)
 	private String address;
 
-	@Column(nullable = false)
-	private String userRole;
-
 	@Size(min = 10, max = 10, message = "Can be of 10 number only")
 	@Pattern(regexp = "^[6-9]\\d{9}$", message = "Can be of 10 number only")
-	@Column(name = "mobile_number")
 	private String mobileNumber;
 
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<TicketBooking> tickets;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "customer_roles", joinColumns = @JoinColumn(name = "customer_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
 
 	/**
 	 * Customer constructors
@@ -66,50 +65,60 @@ public class Customer {
 
 	}
 
-	public Customer(Integer customerId,
-			@NotBlank(message = "Username is mandatory") @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Username must be alphanumeric with no spaces") String username,
-			@NotBlank(message = "Email is mandatory") @Email String email,
-			@NotBlank(message = "Password is mandatory") @Size(min = 3, max = 20, message = "Password must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Password must be alphanumeric with no spaces") String password,
-			@Size(max = 1000, message = "Address should have maximum of 1000 characters") String address,
-			String userRole,
-			@Size(min = 10, max = 10, message = "Can be of 10 number only") @Pattern(regexp = "^[6-9]\\d{9}$", message = "Can be of 10 number only") String mobileNumber) {
-		super();
+	public Customer(Long customerId, String username, String email, String password) {
+		this.customerId = customerId;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
+
+	public Customer(String username, String email, String password) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
+
+	public Customer(Long customerId, String username, String email, String password, String address,
+			String mobileNumber) {
 		this.customerId = customerId;
 		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.address = address;
-		this.userRole = userRole;
 		this.mobileNumber = mobileNumber;
 	}
 
-	public Customer(Integer customerId,
-			@NotBlank(message = "Username is mandatory") @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Username must be alphanumeric with no spaces") String username,
-			@NotBlank(message = "Email is mandatory") @Email String email,
-			@NotBlank(message = "Password is mandatory") @Size(min = 3, max = 20, message = "Password must be between 3 and 20 characters long") @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Password must be alphanumeric with no spaces") String password,
-			@Size(max = 1000, message = "Address should have maximum of 1000 characters") String address,
-			String userRole,
-			@Size(min = 10, max = 10, message = "Can be of 10 number only") @Pattern(regexp = "^[6-9]\\d{9}$", message = "Can be of 10 number only") String mobileNumber,
-			List<TicketBooking> tickets) {
-		super();
+	public Customer(Long customerId, String username, String email, String password, String address,
+			String mobileNumber, List<TicketBooking> tickets) {
 		this.customerId = customerId;
 		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.address = address;
-		this.userRole = userRole;
 		this.mobileNumber = mobileNumber;
 		this.tickets = tickets;
+	}
+
+	public Customer(Long customerId, String username, String email, String password, String address,
+			String mobileNumber, List<TicketBooking> tickets, Set<Role> roles) {
+		this.customerId = customerId;
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.address = address;
+		this.mobileNumber = mobileNumber;
+		this.tickets = tickets;
+		this.roles = roles;
 	}
 
 	/**
 	 * Getters and Setters
 	 */
-	public Integer getCustomerId() {
+	public Long getCustomerId() {
 		return customerId;
 	}
 
-	public void setCustomerId(Integer customerId) {
+	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
 	}
 
@@ -145,14 +154,6 @@ public class Customer {
 		this.address = address;
 	}
 
-	public String getUserRole() {
-		return userRole;
-	}
-
-	public void setUserRole(String userRole) {
-		this.userRole = userRole;
-	}
-
 	public String getMobileNumber() {
 		return mobileNumber;
 	}
@@ -167,6 +168,14 @@ public class Customer {
 
 	public void setTickets(List<TicketBooking> tickets) {
 		this.tickets = tickets;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	@Override
@@ -192,15 +201,6 @@ public class Customer {
 		} else if (!customerId.equals(other.customerId))
 			return false;
 		return true;
-	}
-
-	/**
-	 * toString() of Customer
-	 */
-	@Override
-	public String toString() {
-		return "Customer [customerId=" + customerId + ", username=" + username + ", email=" + email + ", password="
-				+ password + ", address=" + address + ", mobileNumber=" + mobileNumber + ", tickets=" + tickets + "]";
 	}
 
 }

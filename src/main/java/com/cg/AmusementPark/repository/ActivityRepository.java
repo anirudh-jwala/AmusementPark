@@ -10,7 +10,7 @@ import com.cg.AmusementPark.entities.Activity;
 /**
  * User defined repository functions for activity repository
  */
-public interface ActivityRepository extends IActivityRepository, JpaRepository<Activity, Integer> {
+public interface ActivityRepository extends JpaRepository<Activity, Integer> {
 
 	/**
 	 * Get a single activity based on activity name

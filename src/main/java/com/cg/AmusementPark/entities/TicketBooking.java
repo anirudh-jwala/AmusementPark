@@ -3,7 +3,6 @@ package com.cg.AmusementPark.entities;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,7 +28,6 @@ public class TicketBooking {
 	@Id
 	@GeneratedValue(generator = "ticketSequence")
 	@SequenceGenerator(name = "ticketSequence", sequenceName = "TICKET_SEQ", allocationSize = 1)
-	@Column(name = "ticket_id")
 	private Integer ticketId;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -37,7 +35,6 @@ public class TicketBooking {
 	private LocalDate date;
 
 	@Positive(message = "Bill amount should be greater than 0")
-	@Column(name = "bill_amount")
 	private float bill;
 
 	@JsonBackReference
@@ -55,24 +52,20 @@ public class TicketBooking {
 
 	}
 
-	public TicketBooking(Integer ticketId, @NotNull(message = "Please provide a date") LocalDate date,
-			@Positive(message = "Bill amount should be greater than 0") float bill) {
+	public TicketBooking(Integer ticketId, LocalDate date, float bill) {
 		this.ticketId = ticketId;
 		this.date = date;
 		this.bill = bill;
 	}
 
-	public TicketBooking(Integer ticketId, @NotNull(message = "Please provide a date") LocalDate date,
-			@Positive(message = "Bill amount should be greater than 0") float bill, Customer customer) {
+	public TicketBooking(Integer ticketId, LocalDate date, float bill, Customer customer) {
 		this.ticketId = ticketId;
 		this.date = date;
 		this.bill = bill;
 		this.customer = customer;
 	}
 
-	public TicketBooking(Integer ticketId, @NotNull(message = "Please provide a date") LocalDate date,
-			@Positive(message = "Bill amount should be greater than 0") float bill, Customer customer,
-			List<Activity> activities) {
+	public TicketBooking(Integer ticketId, LocalDate date, float bill, Customer customer, List<Activity> activities) {
 		this.ticketId = ticketId;
 		this.date = date;
 		this.bill = bill;

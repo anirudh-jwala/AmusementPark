@@ -9,13 +9,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.AmusementPark.entities.TicketBooking;
@@ -25,6 +28,8 @@ import com.cg.AmusementPark.exception.TicketBookingNotFoundException;
 import com.cg.AmusementPark.service.TicketBookingService;
 
 @RestController
+@RequestMapping("/api/ticket")
+@CrossOrigin("*")
 public class TicketBookingController {
 
 	@Autowired
@@ -35,7 +40,8 @@ public class TicketBookingController {
 	/**
 	 * Add a new record of ticket booking to database
 	 */
-	@PostMapping(path = "/ticket")
+	@PostMapping
+	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<TicketBooking> insertTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
 			BindingResult bindingResult) throws InvalidTicketBookingException {
 
@@ -52,7 +58,8 @@ public class TicketBookingController {
 	/**
 	 * Update an existing record of ticket booking in database
 	 */
-	@PutMapping(path = "/ticket")
+	@PutMapping
+	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<TicketBooking> updateTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
 			BindingResult bindingResult) throws TicketBookingNotFoundException, InvalidTicketBookingException {
 
@@ -69,7 +76,8 @@ public class TicketBookingController {
 	/**
 	 * Remove an existing record of ticket booking based on ticket booking id
 	 */
-	@DeleteMapping(path = "/ticket/{ticketId}")
+	@DeleteMapping(path = "/{ticketId}")
+	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<TicketBooking> deleteTicketBooking(@PathVariable("ticketId") int ticketId)
 			throws TicketBookingNotFoundException {
 
@@ -82,8 +90,9 @@ public class TicketBookingController {
 	/**
 	 * Get list of all tickets for a specified customer id
 	 */
-	@GetMapping(path = "/ticket/customer/{customerId}")
-	public ResponseEntity<List<TicketBooking>> viewAllTicketsOfCustomer(@PathVariable("customerId") int customerId)
+	@GetMapping(path = "/{customerId}")
+	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
+	public ResponseEntity<List<TicketBooking>> viewAllTicketsOfCustomer(@PathVariable("customerId") Long customerId)
 			throws CustomerNotFoundException {
 
 		logger.info("Called GET mapping viewAllTicketsOfCustomer() method");
@@ -96,9 +105,10 @@ public class TicketBookingController {
 	 * Calculate the entire bill amount of a ticket booking based on customer id and
 	 * ticket id
 	 */
-	@GetMapping(path = "/ticket/bill/{ticketId}/{customerId}")
+	@GetMapping(path = "/bill/{ticketId}&{customerId}")
+	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<Float> calculateBill(@PathVariable("ticketId") int ticketId,
-			@PathVariable("customerId") int customerId)
+			@PathVariable("customerId") Long customerId)
 			throws CustomerNotFoundException, TicketBookingNotFoundException {
 
 		logger.info("Called GET mapping calculateBill() method");

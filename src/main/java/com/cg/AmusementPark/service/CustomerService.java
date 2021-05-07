@@ -52,7 +52,7 @@ public class CustomerService implements ICustomerService {
 	}
 
 	@Override
-	public Customer deleteCustomer(int customerId) throws CustomerNotFoundException {
+	public Customer deleteCustomer(Long customerId) throws CustomerNotFoundException {
 
 		logger.info("Called deleteCustomer() method of CustomerService");
 
@@ -84,7 +84,7 @@ public class CustomerService implements ICustomerService {
 	}
 
 	@Override
-	public Customer viewCustomer(int customerId) throws CustomerNotFoundException {
+	public Customer viewCustomer(Long customerId) throws CustomerNotFoundException {
 
 		logger.info("Called viewCustomer() method of CustomerService");
 
@@ -113,7 +113,7 @@ public class CustomerService implements ICustomerService {
 
 	}
 
-	public Customer findCustomerById(int customerId) throws CustomerNotFoundException {
+	public Customer findCustomerById(Long customerId) throws CustomerNotFoundException {
 
 		Optional<Customer> foundCustomer = customerRepository.findById(customerId);
 

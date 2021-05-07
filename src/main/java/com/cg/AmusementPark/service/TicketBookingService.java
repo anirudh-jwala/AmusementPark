@@ -68,7 +68,7 @@ public class TicketBookingService implements ITicketBookingService {
 	}
 
 	@Override
-	public List<TicketBooking> viewAllTicketsOfCustomer(int customerId) throws CustomerNotFoundException {
+	public List<TicketBooking> viewAllTicketsOfCustomer(Long customerId) throws CustomerNotFoundException {
 
 		logger.info("Called viewAllTicketsOfCustomer() method of TicketBookingService");
 
@@ -83,7 +83,7 @@ public class TicketBookingService implements ITicketBookingService {
 	}
 
 	@Override
-	public float calculateBill(int ticketId, int customerId)
+	public float calculateBill(int ticketId, Long customerId)
 			throws CustomerNotFoundException, TicketBookingNotFoundException {
 
 		logger.info("Called calculateBill() method of TicketBookingService");

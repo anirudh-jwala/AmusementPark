@@ -31,7 +31,7 @@ class TicketBookingServiceTest {
 	void shouldAddTicketBookings() {
 		LocalDate date = null;
 
-		Customer mockCustomer = new Customer(1, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad", "USER",
+		Customer mockCustomer = new Customer(1L, "anirudh", "anirudh@gmail.com", "anirudh123", "Hyderabad",
 				"7981970397");
 
 		List<Activity> mockActivities = new ArrayList<>();

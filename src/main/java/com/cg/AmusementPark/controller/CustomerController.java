@@ -9,22 +9,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.AmusementPark.entities.Customer;
-import com.cg.AmusementPark.exception.CustomerExistsException;
 import com.cg.AmusementPark.exception.CustomerNotFoundException;
 import com.cg.AmusementPark.exception.InvalidCustomerException;
 import com.cg.AmusementPark.service.CustomerService;
 
 @RestController
+@RequestMapping("/api/customer")
+@CrossOrigin("*")
 public class CustomerController {
 
 	@Autowired
@@ -34,25 +38,30 @@ public class CustomerController {
 
 	/**
 	 * Add a new customer record to database
+	 * 
+	 * @PostMapping public ResponseEntity<Customer>
+	 *              insertCustomer(@Valid @RequestBody Customer customer,
+	 *              BindingResult bindingResult) throws CustomerExistsException,
+	 *              InvalidCustomerException {
+	 * 
+	 *              logger.info("Called POST mapping insertCustomer() method");
+	 * 
+	 *              if (bindingResult.hasErrors()) { throw new
+	 *              InvalidCustomerException("Customer you are trying to add is not
+	 *              give valid details"); }
+	 * 
+	 *              return new
+	 *              ResponseEntity<>(customerService.insertCustomer(customer),
+	 *              HttpStatus.CREATED);
+	 * 
+	 *              }
 	 */
-	@PostMapping(path = "/customer")
-	public ResponseEntity<Customer> insertCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult)
-			throws CustomerExistsException, InvalidCustomerException {
-
-		logger.info("Called POST mapping insertCustomer() method");
-
-		if (bindingResult.hasErrors()) {
-			throw new InvalidCustomerException("Customer you are trying to add is not give valid details");
-		}
-
-		return new ResponseEntity<>(customerService.insertCustomer(customer), HttpStatus.CREATED);
-
-	}
 
 	/**
 	 * Update an existing record of customer in database
 	 */
-	@PutMapping(path = "/customer")
+	@PutMapping
+	@PreAuthorize("hasRole('CUSTOMER')")
 	public ResponseEntity<Customer> updateCustomer(@Valid @RequestBody Customer customer, BindingResult bindingResult)
 			throws CustomerNotFoundException, InvalidCustomerException {
 
@@ -70,8 +79,9 @@ public class CustomerController {
 	 * Delete an existing customer record in database, else throw
 	 * CustomerNotFoundException
 	 */
-	@DeleteMapping(path = "/customer/{customerId}")
-	public ResponseEntity<Customer> deleteCustomer(@PathVariable("customerId") int customerId)
+	@DeleteMapping(path = "/{customerId}")
+	@PreAuthorize("hasRole('ADMIN')")
+	public ResponseEntity<Customer> deleteCustomer(@PathVariable("customerId") Long customerId)
 			throws CustomerNotFoundException {
 
 		logger.info("Called DELETE mapping deleteCustomer() method");
@@ -83,7 +93,8 @@ public class CustomerController {
 	/**
 	 * Get list of all customers available in database
 	 */
-	@GetMapping(path = "/customer")
+	@GetMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<List<Customer>> viewCustomers() throws CustomerNotFoundException {
 
 		logger.info("Called GET mapping viewCustomers() method");
@@ -95,8 +106,9 @@ public class CustomerController {
 	/**
 	 * Get a specific custom based on the provided customer id
 	 */
-	@GetMapping(path = "/customer/{customerId}")
-	public ResponseEntity<Customer> viewCustomer(@PathVariable("customerId") int customerId)
+	@GetMapping(path = "/{customerId}")
+	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
+	public ResponseEntity<Customer> viewCustomer(@PathVariable("customerId") Long customerId)
 			throws CustomerNotFoundException {
 
 		logger.info("Called GET mapping viewCustomer() method");
@@ -108,7 +120,7 @@ public class CustomerController {
 	/**
 	 * Validate the customer record based on email id and password
 	 */
-	@PostMapping(path = "/customer/auth")
+	@PostMapping(path = "/auth")
 	public ResponseEntity<Customer> validateCustomer(@RequestBody Customer customer, BindingResult bindingResult)
 			throws CustomerNotFoundException, InvalidCustomerException {
 

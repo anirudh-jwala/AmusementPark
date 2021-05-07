@@ -3,7 +3,6 @@ package com.cg.AmusementPark.entities;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -28,15 +27,14 @@ public class Activity {
 	@Id
 	@GeneratedValue(generator = "activitySequence")
 	@SequenceGenerator(name = "activitySequence", sequenceName = "ACTIVITY_SEQ", allocationSize = 1)
-	@Column(name = "activity_id")
 	private Integer activityId;
 
+	@NotNull
 	@Size(min = 3, max = 40, message = "Activity name should be min 3 characters")
-	@Column(name = "activity_name", nullable = false)
 	private String activityName;
 
-	@Size(max = 1000, message = "Description should have maximum of 1000 characters")
 	@NotNull
+	@Size(max = 1000, message = "Description should have maximum of 1000 characters")
 	private String description;
 
 	@Positive(message = "Activity charges should be greater than 0")
@@ -54,23 +52,15 @@ public class Activity {
 
 	}
 
-	public Activity(Integer activityId,
-			@Size(min = 3, max = 40, message = "Activity name should be min 3 characters") String activityName,
-			@Size(max = 1000, message = "Description should have maximum of 1000 characters") @NotNull String description,
-			@Positive(message = "Activity charges should be greater than 0") float charges) {
-		super();
+	public Activity(Integer activityId, String activityName, String description, float charges) {
 		this.activityId = activityId;
 		this.activityName = activityName;
 		this.description = description;
 		this.charges = charges;
 	}
 
-	public Activity(Integer activityId,
-			@Size(min = 3, max = 40, message = "Activity name should be min 3 characters") String activityName,
-			@Size(max = 1000, message = "Description should have maximum of 1000 characters") @NotNull String description,
-			@Positive(message = "Activity charges should be greater than 0") float charges,
+	public Activity(Integer activityId, String activityName, String description, float charges,
 			List<TicketBooking> ticketBooking) {
-		super();
 		this.activityId = activityId;
 		this.activityName = activityName;
 		this.description = description;
@@ -144,15 +134,6 @@ public class Activity {
 		} else if (!activityId.equals(other.activityId))
 			return false;
 		return true;
-	}
-
-	/**
-	 * toString() of Activity
-	 */
-	@Override
-	public String toString() {
-		return "Activity [activityId=" + activityId + ", activityName=" + activityName + ", description=" + description
-				+ ", charges=" + charges + "]";
 	}
 
 }

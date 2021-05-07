@@ -9,13 +9,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cg.AmusementPark.entities.Activity;
@@ -25,6 +28,8 @@ import com.cg.AmusementPark.exception.InvalidActivityException;
 import com.cg.AmusementPark.service.ActivityService;
 
 @RestController
+@RequestMapping("/api/activity")
+@CrossOrigin("*")
 public class ActivityController {
 
 	@Autowired
@@ -35,7 +40,8 @@ public class ActivityController {
 	/**
 	 * Inserting an activity to database
 	 */
-	@PostMapping(path = "/activity")
+	@PostMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Activity> insertActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
 			throws ActivityExistsException, InvalidActivityException {
 
@@ -53,7 +59,8 @@ public class ActivityController {
 	 * Update existing record of activity in database, else throw
 	 * ActivityNotFoundException
 	 */
-	@PutMapping(path = "/activity")
+	@PutMapping
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Activity> updateActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
 			throws ActivityNotFoundException, InvalidActivityException {
 
@@ -71,7 +78,8 @@ public class ActivityController {
 	 * Remove an existing activity from database, else throw
 	 * ActivityNotFoundException
 	 */
-	@DeleteMapping(path = "/activity/{activityId}")
+	@DeleteMapping(path = "/{activityId}")
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Activity> deleteActivity(@PathVariable("activityId") int activityId)
 			throws ActivityNotFoundException {
 
@@ -84,7 +92,8 @@ public class ActivityController {
 	/**
 	 * Get list of all activities based on the amount provided
 	 */
-	@GetMapping(path = "/activity/{charges}")
+	@GetMapping(path = "/{charges}")
+	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<List<Activity>> viewActivitiesOfCharges(@PathVariable("charges") float charges)
 			throws ActivityNotFoundException {
 
@@ -97,7 +106,8 @@ public class ActivityController {
 	/**
 	 * Get the total count of activity records available for provided amount
 	 */
-	@GetMapping(path = "/activity/count/{charges}")
+	@GetMapping(path = "/count/{charges}")
+	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<Integer> countActivitiesOfCharges(@PathVariable("charges") float charges)
 			throws ActivityNotFoundException {
 
