@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,7 +40,6 @@ public class ActivityController {
 	 * Inserting an activity to database
 	 */
 	@PostMapping
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Activity> insertActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
 			throws ActivityExistsException, InvalidActivityException {
 
@@ -60,7 +58,6 @@ public class ActivityController {
 	 * ActivityNotFoundException
 	 */
 	@PutMapping
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Activity> updateActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult)
 			throws ActivityNotFoundException, InvalidActivityException {
 
@@ -79,7 +76,6 @@ public class ActivityController {
 	 * ActivityNotFoundException
 	 */
 	@DeleteMapping(path = "/{activityId}")
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<Activity> deleteActivity(@PathVariable("activityId") int activityId)
 			throws ActivityNotFoundException {
 
@@ -100,7 +96,6 @@ public class ActivityController {
 	 * Get list of all activities based on the amount provided
 	 */
 	@GetMapping(path = "/{charges}")
-	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<List<Activity>> viewActivitiesOfCharges(@PathVariable("charges") float charges)
 			throws ActivityNotFoundException {
 
@@ -114,7 +109,6 @@ public class ActivityController {
 	 * Get the total count of activity records available for provided amount
 	 */
 	@GetMapping(path = "/count/{charges}")
-	@PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN')")
 	public ResponseEntity<Integer> countActivitiesOfCharges(@PathVariable("charges") float charges)
 			throws ActivityNotFoundException {
 

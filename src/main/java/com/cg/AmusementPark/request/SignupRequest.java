@@ -17,6 +17,10 @@ public class SignupRequest {
 	@Email
 	private String email;
 
+	private String mobileNumber;
+
+	private String address;
+
 	private Set<String> role;
 
 	@NotBlank
@@ -34,6 +38,18 @@ public class SignupRequest {
 			@NotBlank @Size(min = 6, max = 40) String password, String message) {
 		this.username = username;
 		this.email = email;
+		this.role = role;
+		this.password = password;
+		this.message = message;
+	}
+
+	public SignupRequest(@NotBlank @Size(min = 3, max = 20) String username,
+			@NotBlank @Size(max = 50) @Email String email, String mobileNumber, String address, Set<String> role,
+			@NotBlank @Size(min = 6, max = 40) String password, String message) {
+		this.username = username;
+		this.email = email;
+		this.mobileNumber = mobileNumber;
+		this.address = address;
 		this.role = role;
 		this.password = password;
 		this.message = message;
@@ -77,6 +93,22 @@ public class SignupRequest {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public String getMobileNumber() {
+		return mobileNumber;
+	}
+
+	public void setMobileNumber(String mobileNumber) {
+		this.mobileNumber = mobileNumber;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 }

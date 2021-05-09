@@ -78,6 +78,14 @@ public class Customer {
 		this.password = password;
 	}
 
+	public Customer(String username, String email, String password, String address, String mobileNumber) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+		this.address = address;
+		this.mobileNumber = mobileNumber;
+	}
+
 	public Customer(Long customerId, String username, String email, String password, String address,
 			String mobileNumber) {
 		this.customerId = customerId;
@@ -201,6 +209,13 @@ public class Customer {
 		} else if (!customerId.equals(other.customerId))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Customer [customerId=" + customerId + ", username=" + username + ", email=" + email + ", password="
+				+ password + ", address=" + address + ", mobileNumber=" + mobileNumber + ", tickets=" + tickets
+				+ ", roles=" + roles + "]";
 	}
 
 }
