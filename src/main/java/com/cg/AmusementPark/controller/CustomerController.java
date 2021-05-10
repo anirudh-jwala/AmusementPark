@@ -55,7 +55,7 @@ public class CustomerController {
 	/**
 	 * Delete an existing customer record in database, else throw
 	 * CustomerNotFoundException
-	 */
+	 * 
 	@DeleteMapping(path = "/{customerId}")
 	public ResponseEntity<Customer> deleteCustomer(@PathVariable("customerId") Long customerId)
 			throws CustomerNotFoundException {
@@ -64,7 +64,7 @@ public class CustomerController {
 
 		return new ResponseEntity<>(customerService.deleteCustomer(customerId), HttpStatus.OK);
 
-	}
+	} */
 
 	/**
 	 * Get list of all customers available in database
@@ -93,7 +93,6 @@ public class CustomerController {
 
 	/**
 	 * Validate the customer record based on email id and password
-	 */
 	@PostMapping(path = "/auth")
 	public ResponseEntity<Customer> validateCustomer(@RequestBody Customer customer, BindingResult bindingResult)
 			throws CustomerNotFoundException, InvalidCustomerException {
@@ -103,6 +102,6 @@ public class CustomerController {
 		return new ResponseEntity<>(customerService.validateCustomer(customer.getEmail(), customer.getPassword()),
 				HttpStatus.OK);
 
-	}
+	}  */
 
 }

@@ -27,7 +27,7 @@ public class TicketBooking {
 
 	@Id
 	@GeneratedValue(generator = "ticketSequence")
-	@SequenceGenerator(name = "ticketSequence", sequenceName = "TICKET_SEQ", allocationSize = 1)
+	@SequenceGenerator(name = "ticketSequence", sequenceName = "TICKET_SEQ", allocationSize = 1, initialValue = 1000)
 	private Integer ticketId;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -139,15 +139,6 @@ public class TicketBooking {
 		} else if (!ticketId.equals(other.ticketId))
 			return false;
 		return true;
-	}
-
-	/**
-	 * toString() of Ticket Booking
-	 */
-	@Override
-	public String toString() {
-		return "TicketBooking [ticketId=" + ticketId + ", date=" + date + ", bill=" + bill + ", customer=" + customer
-				+ ", activities=" + activities + "]";
 	}
 
 }

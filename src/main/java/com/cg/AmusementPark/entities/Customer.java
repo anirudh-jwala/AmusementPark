@@ -211,11 +211,4 @@ public class Customer {
 		return true;
 	}
 
-	@Override
-	public String toString() {
-		return "Customer [customerId=" + customerId + ", username=" + username + ", email=" + email + ", password="
-				+ password + ", address=" + address + ", mobileNumber=" + mobileNumber + ", tickets=" + tickets
-				+ ", roles=" + roles + "]";
-	}
-
 }

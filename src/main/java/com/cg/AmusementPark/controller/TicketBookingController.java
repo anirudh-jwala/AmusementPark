@@ -55,7 +55,7 @@ public class TicketBookingController {
 
 	/**
 	 * Update an existing record of ticket booking in database
-	 */
+	 * 
 	@PutMapping
 	public ResponseEntity<TicketBooking> updateTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
 			BindingResult bindingResult) throws TicketBookingNotFoundException, InvalidTicketBookingException {
@@ -68,11 +68,11 @@ public class TicketBookingController {
 
 		return new ResponseEntity<>(ticketBookingService.updateTicketBooking(ticketBooking), HttpStatus.OK);
 
-	}
+	}  */
 
 	/**
 	 * Remove an existing record of ticket booking based on ticket booking id
-	 */
+	 
 	@DeleteMapping(path = "/{ticketId}")
 	public ResponseEntity<TicketBooking> deleteTicketBooking(@PathVariable("ticketId") int ticketId)
 			throws TicketBookingNotFoundException {
@@ -81,7 +81,7 @@ public class TicketBookingController {
 
 		return new ResponseEntity<>(ticketBookingService.deleteTicketBooking(ticketId), HttpStatus.OK);
 
-	}
+	} */
 
 	/**
 	 * Get list of all tickets
