@@ -15,7 +15,7 @@ public interface TicketBookingRepository extends JpaRepository<TicketBooking, In
 	/**
 	 * Get list of all ticket booking for a specific customer id
 	 */
-	@Query("SELECT tb FROM TicketBooking tb WHERE tb.customer.customerId = ?1")
+	@Query("SELECT tb FROM TicketBooking tb WHERE tb.customer.customerId = ?1 order by tb.ticketId desc")
 	List<TicketBooking> viewAllTicketsOfCustomer(Long customerId);
 
 	/**
