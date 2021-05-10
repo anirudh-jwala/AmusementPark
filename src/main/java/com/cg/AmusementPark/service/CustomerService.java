@@ -28,7 +28,7 @@ public class CustomerService implements ICustomerService {
 
 		Customer searchedCustomer = customerRepository.findByCustomerEmail(customer.getEmail());
 
-		if (searchedCustomer != null && customer.getEmail().equals(searchedCustomer.getEmail()) ) {
+		if (searchedCustomer != null && customer.getEmail().equals(searchedCustomer.getEmail())) {
 			throw new CustomerExistsException("Customer you are trying to insert already exists");
 		}
 
@@ -48,23 +48,6 @@ public class CustomerService implements ICustomerService {
 		}
 
 		return customerRepository.save(customer);
-
-	}
-
-	@Override
-	public Customer deleteCustomer(Long customerId) throws CustomerNotFoundException {
-
-		logger.info("Called deleteCustomer() method of CustomerService");
-
-		Optional<Customer> searchedCustomer = customerRepository.findById(customerId);
-
-		if (!searchedCustomer.isPresent()) {
-			throw new CustomerNotFoundException("Customer you are trying to delete is not found or invalid");
-		}
-
-		Customer deleteCustomer = searchedCustomer.get();
-		customerRepository.delete(deleteCustomer);
-		return deleteCustomer;
 
 	}
 
@@ -95,21 +78,6 @@ public class CustomerService implements ICustomerService {
 		} else {
 			throw new CustomerNotFoundException("No customer is available with provided ID");
 		}
-
-	}
-
-	@Override
-	public Customer validateCustomer(String email, String password) throws CustomerNotFoundException {
-
-		logger.info("Called validateCustomer() method of CustomerService");
-
-		Customer customer = customerRepository.validateCustomer(email, password);
-
-		if (customer == null) {
-			throw new CustomerNotFoundException("Customer details mentioned are not valid");
-		}
-
-		return customer;
 
 	}
 

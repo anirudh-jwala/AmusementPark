@@ -52,36 +52,6 @@ public class TicketBookingController {
 	}
 
 	/**
-	 * Update an existing record of ticket booking in database
-	 * 
-	@PutMapping
-	public ResponseEntity<TicketBooking> updateTicketBooking(@Valid @RequestBody TicketBooking ticketBooking,
-			BindingResult bindingResult) throws TicketBookingNotFoundException, InvalidTicketBookingException {
-
-		logger.info("Called PUT mapping updateTicketBooking() method");
-
-		if (bindingResult.hasErrors()) {
-			throw new InvalidTicketBookingException("Ticket booking details are invalid");
-		}
-
-		return new ResponseEntity<>(ticketBookingService.updateTicketBooking(ticketBooking), HttpStatus.OK);
-
-	}  */
-
-	/**
-	 * Remove an existing record of ticket booking based on ticket booking id
-	 
-	@DeleteMapping(path = "/{ticketId}")
-	public ResponseEntity<TicketBooking> deleteTicketBooking(@PathVariable("ticketId") int ticketId)
-			throws TicketBookingNotFoundException {
-
-		logger.info("Called DELETE mapping deleteTicketBooking() method");
-
-		return new ResponseEntity<>(ticketBookingService.deleteTicketBooking(ticketId), HttpStatus.OK);
-
-	} */
-
-	/**
 	 * Get list of all tickets
 	 * 
 	 * @throws TicketBookingNotFoundException

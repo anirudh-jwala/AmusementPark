@@ -10,10 +10,6 @@ public interface ITicketBookingService {
 
 	TicketBooking insertTicketBooking(TicketBooking ticketBooking);
 
-	TicketBooking updateTicketBooking(TicketBooking ticketBooking) throws TicketBookingNotFoundException;
-
-	TicketBooking deleteTicketBooking(int ticketId) throws TicketBookingNotFoundException;
-
 	List<TicketBooking> viewAllTicketsOfCustomer(Long customerId) throws CustomerNotFoundException;
 
 	float calculateBill(int ticketId, Long customerId) throws CustomerNotFoundException, TicketBookingNotFoundException;

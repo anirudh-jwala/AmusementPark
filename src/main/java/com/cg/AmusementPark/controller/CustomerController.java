@@ -51,20 +51,6 @@ public class CustomerController {
 	}
 
 	/**
-	 * Delete an existing customer record in database, else throw
-	 * CustomerNotFoundException
-	 * 
-	@DeleteMapping(path = "/{customerId}")
-	public ResponseEntity<Customer> deleteCustomer(@PathVariable("customerId") Long customerId)
-			throws CustomerNotFoundException {
-
-		logger.info("Called DELETE mapping deleteCustomer() method");
-
-		return new ResponseEntity<>(customerService.deleteCustomer(customerId), HttpStatus.OK);
-
-	} */
-
-	/**
 	 * Get list of all customers available in database
 	 */
 	@GetMapping
@@ -88,18 +74,5 @@ public class CustomerController {
 		return new ResponseEntity<>(customerService.viewCustomer(customerId), HttpStatus.OK);
 
 	}
-
-	/**
-	 * Validate the customer record based on email id and password
-	@PostMapping(path = "/auth")
-	public ResponseEntity<Customer> validateCustomer(@RequestBody Customer customer, BindingResult bindingResult)
-			throws CustomerNotFoundException, InvalidCustomerException {
-
-		logger.info("Called POST mapping validateCustomer() method");
-
-		return new ResponseEntity<>(customerService.validateCustomer(customer.getEmail(), customer.getPassword()),
-				HttpStatus.OK);
-
-	}  */
 
 }

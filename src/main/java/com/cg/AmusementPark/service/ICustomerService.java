@@ -8,16 +8,12 @@ import com.cg.AmusementPark.exception.CustomerNotFoundException;
 
 public interface ICustomerService {
 
-    Customer insertCustomer(Customer customer) throws CustomerExistsException;
+	Customer insertCustomer(Customer customer) throws CustomerExistsException;
 
-    Customer updateCustomer(Customer customer) throws CustomerNotFoundException;
+	Customer updateCustomer(Customer customer) throws CustomerNotFoundException;
 
-    Customer deleteCustomer(Long customerId) throws CustomerNotFoundException;
+	List<Customer> viewCustomers() throws CustomerNotFoundException;
 
-    List<Customer> viewCustomers() throws CustomerNotFoundException;
-
-    Customer viewCustomer(Long customerId) throws CustomerNotFoundException;
-
-    Customer validateCustomer(String email, String password) throws CustomerNotFoundException;
+	Customer viewCustomer(Long customerId) throws CustomerNotFoundException;
 
 }

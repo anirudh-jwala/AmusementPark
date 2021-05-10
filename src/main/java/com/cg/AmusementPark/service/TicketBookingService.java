@@ -36,44 +36,12 @@ public class TicketBookingService implements ITicketBookingService {
 	}
 
 	@Override
-	public TicketBooking updateTicketBooking(TicketBooking ticketBooking) throws TicketBookingNotFoundException {
-
-		logger.info("Called updateTicketBooking() method of TicketBookingService");
-
-		Optional<TicketBooking> searchedTicket = ticketBookingRepository.findById(ticketBooking.getTicketId());
-
-		if (!searchedTicket.isPresent()) {
-			throw new TicketBookingNotFoundException("Ticket Booking you are trying to update is not found or invalid");
-		}
-
-		return ticketBookingRepository.save(ticketBooking);
-
-	}
-
-	@Override
-	public TicketBooking deleteTicketBooking(int ticketId) throws TicketBookingNotFoundException {
-
-		logger.info("Called deleteTicketBooking() method of TicketBookingService");
-
-		Optional<TicketBooking> searchedTicket = ticketBookingRepository.findById(ticketId);
-
-		if (!searchedTicket.isPresent()) {
-			throw new TicketBookingNotFoundException("Ticket Booking you are trying to delete is not found or invalid");
-		}
-
-		TicketBooking ticket = searchedTicket.get();
-		ticketBookingRepository.delete(ticket);
-		return ticket;
-
-	}
-
-	@Override
 	public List<TicketBooking> viewAllTickets() throws TicketBookingNotFoundException {
 
 		logger.info("Called viewAllTickets() method of TicketBookingService");
 
 		List<TicketBooking> tickets = ticketBookingRepository.findAll();
-		
+
 		System.out.println(tickets);
 
 		if (tickets.isEmpty()) {
